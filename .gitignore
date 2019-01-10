@@ -1,0 +1,14 @@
+# dependencies
+node_modules
+
+# environment variables
+*.env
+
+# next build files
+.next
+
+# course notes
+notes.mdx
+
+# vscode settings
+.vscode

@@ -1,0 +1,45 @@
+# import * from './generated/prisma.graphql'
+
+type Query {
+  me: User
+}
+
+type Mutation {
+  signup(email: String!, name: String!, password: String!): Payload
+  signin(email: String!, password: String!): Payload
+  signout: Payload
+  signS3(filename: String!, filetype: String!): S3Payload
+  updateUser(name: String, bio: String, image: String): Payload
+}
+
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  password: String
+  image: String
+  bio: String
+  posts: [Post]
+  createdAt: DateTime!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  subtitle: String!
+  body: String!
+  image: String!
+  published: Boolean!
+  author: User!
+  createdAt: DateTime!
+}
+
+type Payload {
+  success: Boolean!
+  message: String!
+}
+
+type S3Payload {
+  requestUrl: String!
+  imageUrl: String!
+}

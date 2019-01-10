@@ -1,0 +1,21 @@
+type User {
+  id: ID! @unique
+  email: String! @unique
+  name: String!
+  password: String
+  image: String
+  bio: String @default(value: "Blogger")
+  posts: [Post]
+  createdAt: DateTime!
+}
+
+type Post {
+  id: ID! @unique
+  title: String!
+  subtitle: String!
+  body: String!
+  image: String!
+  published: Boolean @default(value: "false")
+  author: User!
+  createdAt: DateTime!
+}
