@@ -14,8 +14,8 @@ import shadows from './styles/shadows'
 const theme = {
   black: '#333333',
   white: '#FFFFFF',
-  primary: '#FF4400',
-  secondary: '#FFC300',
+  primary: '#00FFC4',
+  secondary: '#1F0179',
   tertiary: '#3BFF00',
   borderRadius: '.5rem',
   primaryFont: "'Slabo', Arial, Helvetica, sans-serif",
@@ -51,7 +51,6 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
-    font-family: 'Slabo', Arial, Helvetica, sans-serif;
     font-size: 1.5rem;
     line-height: 2;
   }

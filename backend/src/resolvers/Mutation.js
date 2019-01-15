@@ -89,10 +89,12 @@ module.exports = {
   },
 
   updateUser: async (_, args, ctx, info) => {
+    // 1. Gather properties to update
     const data = {}
     for (let x in args) {
       data[x] = args[x]
     }
+    // 2. Update user based on context
     try {
       await ctx.prisma.updateUser({ where: { id: ctx.userId }, data })
       return { success: true, message: 'User updated.' }
