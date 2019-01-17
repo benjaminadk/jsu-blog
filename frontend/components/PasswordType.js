@@ -5,7 +5,7 @@ import { darken } from 'polished'
 
 const Container = styled.span`
   position: absolute;
-  top: 2rem;
+  top: 1rem;
   right: 0;
   color: ${props => props.theme.grey[8]};
   cursor: pointer;

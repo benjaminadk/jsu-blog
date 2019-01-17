@@ -10,6 +10,15 @@ export const ME_QUERY = gql`
       image
       bio
       createdAt
+      posts {
+        id
+        title
+        subtitle
+        body
+        image
+        published
+        createdAt
+      }
     }
   }
 `

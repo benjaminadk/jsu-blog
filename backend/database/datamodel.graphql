@@ -11,7 +11,7 @@ type User {
 
 type Post {
   id: ID! @unique
-  title: String!
+  title: String! @default(value: "Untitled")
   subtitle: String!
   body: String!
   image: String!

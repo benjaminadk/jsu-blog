@@ -17,7 +17,13 @@ const Form = styled.form.attrs({
     margin-bottom: 1rem;
     color: ${props => props.theme.black};
   }
+  h1 {
+    font-family: 'Roboto Slab Bold';
+  }
   p {
+    padding: 0 2rem;
+    font-size: 1.25rem;
+    font-family: 'Roboto Slab';
     line-height: 1.25;
   }
   fieldset {
@@ -33,12 +39,14 @@ const Form = styled.form.attrs({
       grid-template-rows: 1fr 1fr;
       & > :first-child {
         justify-self: center;
-        color: ${props => props.theme.grey[8]};
-        font-size: 1.25rem;
+        color: ${props => props.theme.grey[5]};
+        font-size: 1.15rem;
+        font-family: 'Roboto Bold';
       }
       input {
         border-bottom: 1px solid ${props => props.theme.grey[2]};
         font-size: 1.5rem;
+        font-family: 'Roboto';
         padding: 0 0.25rem;
         transition: all 0.25s;
         &:focus {
@@ -52,10 +60,13 @@ const Form = styled.form.attrs({
       align-items: center;
       margin-top: 2rem;
       input[type='submit'] {
+        width: 15rem;
+        font-family: 'Roboto Slab';
         border-radius: ${props => props.theme.borderRadius};
         background: ${props => props.theme.black};
         color: ${props => props.theme.white};
         padding: 0.75rem 1.5rem;
+        margin-bottom: 1.5rem;
         cursor: pointer;
         transition: all 0.25s;
         &:hover {
@@ -64,10 +75,16 @@ const Form = styled.form.attrs({
       }
       span {
         font-size: 1.25rem;
+        font-family: 'Roboto';
         & > :first-child {
-          color: ${props => props.theme.primary};
+          font-family: 'Roboto Bold';
+          color: ${props => darken(0.05, props.theme.primary)};
           margin-left: 0.5rem;
           cursor: pointer;
+          transition: all 0.25s;
+          &:hover {
+            color: ${props => darken(0.1, props.theme.primary)};
+          }
         }
       }
     }

@@ -78,6 +78,7 @@ export default class Signup extends React.Component {
                     required
                     autoFocus
                     tabIndex={1}
+                    spellCheck={false}
                   />
                 </label>
 
@@ -90,6 +91,7 @@ export default class Signup extends React.Component {
                     onChange={this.onChange}
                     required
                     tabIndex={2}
+                    spellCheck={false}
                   />
                 </label>
 
@@ -103,6 +105,7 @@ export default class Signup extends React.Component {
                     required
                     minLength={8}
                     tabIndex={3}
+                    spellCheck={false}
                   />
                   <PasswordType type={passwordType} onClick={this.togglePasswordType} />
                 </label>

@@ -10,6 +10,7 @@ type Mutation {
   signout: Payload
   signS3(filename: String!, filetype: String!): S3Payload
   updateUser(name: String, bio: String, image: String): Payload
+  createPost: PostPayload
 }
 
 type User {
@@ -42,4 +43,10 @@ type Payload {
 type S3Payload {
   requestUrl: String!
   imageUrl: String!
+}
+
+type PostPayload {
+  success: Boolean!
+  message: String!
+  id: ID!
 }

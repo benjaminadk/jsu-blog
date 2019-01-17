@@ -53,6 +53,7 @@ type Post {
   subtitle: String!
   body: String!
   image: String!
+  published: Boolean
   author: User!
   createdAt: DateTime!
 }
@@ -64,10 +65,11 @@ type PostConnection {
 }
 
 input PostCreateInput {
-  title: String!
+  title: String
   subtitle: String!
   body: String!
   image: String!
+  published: Boolean
   author: UserCreateOneWithoutPostsInput!
 }
 
@@ -77,10 +79,11 @@ input PostCreateManyWithoutAuthorInput {
 }
 
 input PostCreateWithoutAuthorInput {
-  title: String!
+  title: String
   subtitle: String!
   body: String!
   image: String!
+  published: Boolean
 }
 
 type PostEdge {
@@ -99,6 +102,8 @@ enum PostOrderByInput {
   body_DESC
   image_ASC
   image_DESC
+  published_ASC
+  published_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -111,6 +116,7 @@ type PostPreviousValues {
   subtitle: String!
   body: String!
   image: String!
+  published: Boolean
   createdAt: DateTime!
 }
 
@@ -185,6 +191,8 @@ input PostScalarWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  published: Boolean
+  published_not: Boolean
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -221,6 +229,7 @@ input PostUpdateInput {
   subtitle: String
   body: String
   image: String
+  published: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
 }
 
@@ -229,6 +238,7 @@ input PostUpdateManyDataInput {
   subtitle: String
   body: String
   image: String
+  published: Boolean
 }
 
 input PostUpdateManyMutationInput {
@@ -236,6 +246,7 @@ input PostUpdateManyMutationInput {
   subtitle: String
   body: String
   image: String
+  published: Boolean
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -259,6 +270,7 @@ input PostUpdateWithoutAuthorDataInput {
   subtitle: String
   body: String
   image: String
+  published: Boolean
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -343,6 +355,8 @@ input PostWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  published: Boolean
+  published_not: Boolean
   author: UserWhereInput
   createdAt: DateTime
   createdAt_not: DateTime

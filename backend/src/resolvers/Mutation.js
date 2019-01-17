@@ -101,5 +101,16 @@ module.exports = {
     } catch (error) {
       console.log(error)
     }
+  },
+
+  createPost: async (_, args, ctx, info) => {
+    try {
+      const post = await ctx.prisma.createPost({
+        connect: { user: { id: ctx.userId } }
+      })
+      return { success: true, message: 'Post created.', id: post.id }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
