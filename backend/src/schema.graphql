@@ -20,6 +20,7 @@ type User {
   password: String
   image: String
   bio: String
+  role: Role!
   posts: [Post]
   createdAt: DateTime!
 }
@@ -30,6 +31,7 @@ type Post {
   subtitle: String
   body: String
   image: String
+  tags: [String]
   published: Boolean!
   author: User!
   updatedAt: DateTime!
@@ -50,4 +52,9 @@ type PostPayload {
   success: Boolean!
   message: String!
   id: ID!
+}
+
+enum Role {
+  USER
+  ADMIN
 }

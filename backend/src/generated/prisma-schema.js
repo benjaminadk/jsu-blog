@@ -53,6 +53,7 @@ type Post {
   subtitle: String
   body: String
   image: String
+  tags: [String!]!
   published: Boolean
   author: User!
   updatedAt: DateTime!
@@ -70,6 +71,7 @@ input PostCreateInput {
   subtitle: String
   body: String
   image: String
+  tags: PostCreatetagsInput
   published: Boolean
   author: UserCreateOneWithoutPostsInput!
 }
@@ -79,11 +81,16 @@ input PostCreateManyWithoutAuthorInput {
   connect: [PostWhereUniqueInput!]
 }
 
+input PostCreatetagsInput {
+  set: [String!]
+}
+
 input PostCreateWithoutAuthorInput {
   title: String
   subtitle: String
   body: String
   image: String
+  tags: PostCreatetagsInput
   published: Boolean
 }
 
@@ -117,6 +124,7 @@ type PostPreviousValues {
   subtitle: String
   body: String
   image: String
+  tags: [String!]!
   published: Boolean
   updatedAt: DateTime!
   createdAt: DateTime!
@@ -239,6 +247,7 @@ input PostUpdateInput {
   subtitle: String
   body: String
   image: String
+  tags: PostUpdatetagsInput
   published: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
 }
@@ -248,6 +257,7 @@ input PostUpdateManyDataInput {
   subtitle: String
   body: String
   image: String
+  tags: PostUpdatetagsInput
   published: Boolean
 }
 
@@ -256,6 +266,7 @@ input PostUpdateManyMutationInput {
   subtitle: String
   body: String
   image: String
+  tags: PostUpdatetagsInput
   published: Boolean
 }
 
@@ -275,11 +286,16 @@ input PostUpdateManyWithWhereNestedInput {
   data: PostUpdateManyDataInput!
 }
 
+input PostUpdatetagsInput {
+  set: [String!]
+}
+
 input PostUpdateWithoutAuthorDataInput {
   title: String
   subtitle: String
   body: String
   image: String
+  tags: PostUpdatetagsInput
   published: Boolean
 }
 
@@ -403,6 +419,11 @@ type Query {
   node(id: ID!): Node
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 type Subscription {
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -415,7 +436,9 @@ type User {
   password: String
   image: String
   bio: String
+  role: Role!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  updatedAt: DateTime!
   createdAt: DateTime!
 }
 
@@ -431,6 +454,7 @@ input UserCreateInput {
   password: String
   image: String
   bio: String
+  role: Role
   posts: PostCreateManyWithoutAuthorInput
 }
 
@@ -445,6 +469,7 @@ input UserCreateWithoutPostsInput {
   password: String
   image: String
   bio: String
+  role: Role
 }
 
 type UserEdge {
@@ -465,10 +490,12 @@ enum UserOrderByInput {
   image_DESC
   bio_ASC
   bio_DESC
-  createdAt_ASC
-  createdAt_DESC
+  role_ASC
+  role_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type UserPreviousValues {
@@ -478,6 +505,8 @@ type UserPreviousValues {
   password: String
   image: String
   bio: String
+  role: Role!
+  updatedAt: DateTime!
   createdAt: DateTime!
 }
 
@@ -505,6 +534,7 @@ input UserUpdateInput {
   password: String
   image: String
   bio: String
+  role: Role
   posts: PostUpdateManyWithoutAuthorInput
 }
 
@@ -514,6 +544,7 @@ input UserUpdateManyMutationInput {
   password: String
   image: String
   bio: String
+  role: Role
 }
 
 input UserUpdateOneRequiredWithoutPostsInput {
@@ -529,6 +560,7 @@ input UserUpdateWithoutPostsDataInput {
   password: String
   image: String
   bio: String
+  role: Role
 }
 
 input UserUpsertWithoutPostsInput {
@@ -621,9 +653,21 @@ input UserWhereInput {
   bio_not_starts_with: String
   bio_ends_with: String
   bio_not_ends_with: String
+  role: Role
+  role_not: Role
+  role_in: [Role!]
+  role_not_in: [Role!]
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

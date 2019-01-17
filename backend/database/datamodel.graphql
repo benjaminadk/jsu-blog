@@ -5,7 +5,9 @@ type User {
   password: String
   image: String
   bio: String @default(value: "Blogger")
+  role: Role! @default(value: "USER")
   posts: [Post]
+  updatedAt: DateTime!
   createdAt: DateTime!
 }
 
@@ -15,8 +17,14 @@ type Post {
   subtitle: String
   body: String
   image: String
+  tags: [String]
   published: Boolean @default(value: "false")
   author: User!
   updatedAt: DateTime!
   createdAt: DateTime!
+}
+
+enum Role {
+  USER
+  ADMIN
 }
