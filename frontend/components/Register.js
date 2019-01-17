@@ -11,7 +11,6 @@ const NotRegistered = styled.div`
     color: ${props => props.theme.primary};
     border: 0;
     outline: 0;
-    font-family: ${props => props.theme.primaryFont};
     font-size: 1.35rem;
     cursor: pointer;
     transition: all 0.25s;

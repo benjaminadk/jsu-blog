@@ -56,7 +56,8 @@ const Inner = styled.div`
     }
     .list-item {
       color: ${props => props.theme.grey[12]};
-      font-size: 1.4rem;
+      font-family: 'Roboto Slab';
+      font-size: 1.3rem;
       padding: 1rem 2rem;
       cursor: pointer;
       transition: color 0.25s;

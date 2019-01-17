@@ -4,7 +4,9 @@ import getCaretCoordinates from 'textarea-caret'
 import { lighten } from 'polished'
 import Toolbar1 from './Toolbar1'
 import Toolbar2 from './Toolbar2'
+import Preview from './Preview'
 import getPopupPosition from '../lib/popupPosition'
+import md from '../lib/md'
 
 const Container = styled.div`
   display: grid;
@@ -14,8 +16,9 @@ const Container = styled.div`
   margin-top: 1rem;
   .heading {
     line-height: 1.5;
+    font-family: 'Roboto Slab';
     font-size: 2rem;
-    color: ${props => props.theme.grey[5]};
+    color: ${props => props.theme.grey[2]};
     border-bottom: 1px dashed ${props => props.theme.grey[1]};
   }
   .content {
@@ -25,17 +28,19 @@ const Container = styled.div`
     .subtitle {
       position: relative;
       padding-left: 5rem;
+      font-family: 'Roboto Slab';
       span {
         display: ${props => (props.showTitle ? 'block' : 'none')};
         position: absolute;
         top: 1.5rem;
-        left: -5rem;
-        font-size: 1.3rem;
+        left: -6rem;
+        font-size: 1.1rem;
         color: ${props => props.theme.grey[5]};
       }
       input {
         width: 100%;
         font-size: 4.25rem;
+        font-family: inherit;
       }
     }
     .title {
@@ -54,31 +59,30 @@ const Container = styled.div`
     }
     .body {
       position: relative;
+      display: ${props => (props.preview ? 'none' : 'block')};
     }
   }
 `
 
 const Textarea = styled(TextareaAutosize)`
   width: 100%;
-  font-size: 1.75rem;
-  text-align: justify;
+  font-size: 1.4rem;
+  font-family: 'Roboto';
   padding-left: 5rem;
   margin-top: 5rem;
 `
-
-const lorem =
-  'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure'
 
 export default class Editor extends React.Component {
   state = {
     title: '',
     subtitle: '',
-    body: lorem,
+    body: md,
     expand: false,
     expandTop: 0.01,
     popup: false,
     popupTop: '',
-    popupLeft: ''
+    popupLeft: '',
+    preview: true
   }
 
   componentDidMount() {
@@ -86,58 +90,92 @@ export default class Editor extends React.Component {
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener('mousedown', this.closePopup)
+    document.body.removeEventListener('mousedown', this.onClosePopup)
   }
 
   onChange = e => {
     const { name, value } = e.target
-    if (name === 'body') this.setTop()
+    if (name === 'body') this.setExpanderTop()
     this.setState({ [name]: value })
   }
 
   onFocus = e => {
     const { name } = e.target
-    if (name === 'body') this.setTop()
+    if (name === 'body') this.setExpanderTop()
     else this.setState({ top: null })
   }
 
   onSelect = e => {
-    const { value, selectionStart, selectionEnd } = e.target
-    if (selectionStart === selectionEnd) return
-    document.body.addEventListener('mousedown', this.closePopup)
-    const selection = value.substring(selectionStart, selectionEnd)
+    const { selectionStart, selectionEnd } = e.target
+    if (selectionStart === selectionEnd) {
+      return this.setState({ popup: false })
+    }
+    document.body.addEventListener('mousedown', this.onClosePopup)
     const [popupTop, popupLeft] = getPopupPosition(this.textarea)
     this.setState({ popup: true, popupTop, popupLeft })
   }
 
-  closePopup = e => {
+  onClosePopup = e => {
     const { tagName, className } = e.target
     const ignore = ['svg', 'path']
-    if (className === 'action' || ignore.includes(tagName)) return
-    document.body.removeEventListener('mousedown', this.closePopup)
+    if (className === 'action' || ignore.includes(tagName) || e.target === this.textarea) return
+    document.body.removeEventListener('mousedown', this.onClosePopup)
     this.setState({ popup: false })
   }
 
-  setTop = () => {
+  textDecorator = mode => {
+    const { value, selectionStart: start, selectionEnd: end } = this.textarea
+    const selection = value.substring(start, end)
+    let body, cbMode
+    if (mode === 'bold') {
+      if (!selection.trim()) {
+        cbMode = mode + '.add'
+        body = value.substring(0, start) + ' **bold text** ' + value.substring(end)
+      } else if (
+        value.substring(start - 2, start) === '**' &&
+        value.substring(end, end + 2) === '**'
+      ) {
+        cbMode = mode + '.sub'
+        body = value.substring(0, start - 2) + selection + value.substring(end + 2)
+      } else {
+        cbMode = mode + '.add'
+        body = value.substring(0, start) + `**${selection.trim()}**` + value.substring(end)
+      }
+    }
+    this.setState({ body }, () => this.textDecoratorCallback(cbMode, start, end))
+  }
+
+  textDecoratorCallback = (mode, start, end) => {
+    let offset
+    if (mode === 'bold.add') {
+      offset = 2
+    } else if (mode === 'bold.sub') {
+      offset = -2
+    }
+    this.textarea.setSelectionRange(start + offset, end + offset)
+    this.textarea.focus()
+  }
+
+  setExpanderTop = () => {
     const { top } = getCaretCoordinates(this.textarea, this.textarea.selectionStart)
     this.setState({ expandTop: top })
   }
 
-  toggleExpand = () => this.setState(({ expand }) => ({ expand: !expand }))
+  toggleExpander = () => this.setState(({ expand }) => ({ expand: !expand }))
+
+  togglePreview = () => this.setState(({ preview }) => ({ preview: !preview, expand: false }))
 
   render() {
     const {
-      state: { title, subtitle, body, expand, expandTop, popup, popupTop, popupLeft }
+      state: { title, subtitle, body, expand, expandTop, popup, popupTop, popupLeft, preview }
     } = this
     return (
       <Container
+        preview={preview}
         showTitle={Boolean(title.length)}
         showSubtitle={Boolean(subtitle.length)}
-        popup={popup}
-        popupTop={popupTop}
-        popupLeft={popupLeft}
       >
-        <div className="heading">Editor</div>
+        <div className="heading">{preview ? 'Preview' : 'Editor'}</div>
         <div className="content">
           <div className="title">
             <span>Title</span>
@@ -165,10 +203,15 @@ export default class Editor extends React.Component {
             <Toolbar1
               top={expandTop}
               expand={expand}
-              toggleExpand={this.toggleExpand}
+              toggleExpander={this.toggleExpander}
               togglePreview={this.togglePreview}
             />
-            <Toolbar2 show={popup} top={popupTop} left={popupLeft} />
+            <Toolbar2
+              show={popup}
+              top={popupTop}
+              left={popupLeft}
+              textDecorator={this.textDecorator}
+            />
             <Textarea
               innerRef={el => (this.textarea = el)}
               placeholder={expand ? '' : 'Markdown your story...'}
@@ -181,6 +224,7 @@ export default class Editor extends React.Component {
               maxRows={100}
             />
           </div>
+          <Preview preview={preview} markdown={body} togglePreview={this.togglePreview} />
         </div>
       </Container>
     )

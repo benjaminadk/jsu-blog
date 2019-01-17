@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import Editor from './Editor'
-import PostPreview from './PostPreview'
 import Images from './Images'
 
 const Container = styled.div`
@@ -11,19 +10,20 @@ const Container = styled.div`
 
 class PostNew extends React.Component {
   state = {
-    preview: false
+    image: ''
   }
 
-  togglePreview = () => this.setState(({ preview }) => ({ preview: !preview }))
+  setImage = image => this.setState({ image })
 
   render() {
     const {
-      state: { preview }
+      state: { image },
+      props: { user }
     } = this
     return (
       <Container>
         <Editor />
-        <Images />
+        <Images image={image} user={user} setImage={this.setImage} />
       </Container>
     )
   }

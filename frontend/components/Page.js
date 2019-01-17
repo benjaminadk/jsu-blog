@@ -11,14 +11,13 @@ import User from './User'
 import grey from './styles/grey'
 import shadows from './styles/shadows'
 
-const theme = {
+export const theme = {
   black: '#333333',
   white: '#FFFFFF',
   primary: '#00FFC4',
   secondary: '#1F0179',
   tertiary: '#3BFF00',
-  borderRadius: '.5rem',
-  primaryFont: "'Slabo', Arial, Helvetica, sans-serif",
+  borderRadius: '.4rem',
   grey,
   shadows
 }
@@ -34,8 +33,50 @@ const Inner = styled.div`
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: 'Slabo';
-    src: url('/static/Slabo27px-Regular.ttf') format('opentype');
+    font-family: 'Roboto';
+    src: url('/static/Roboto-Regular.ttf') format('opentype');
+    font-display: auto;
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Roboto Slab';
+    src: url('/static/RobotoSlab-Regular.ttf') format('opentype');
+    font-display: auto;
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Roboto Slab Bold';
+    src: url('/static/RobotoSlab-Bold.ttf') format('opentype');
+    font-display: auto;
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Roboto Bold';
+    src: url('/static/Roboto-Bold.ttf') format('opentype');
+    font-display: auto;
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Roboto Condensed';
+    src: url('/static/RobotoCondensed-Regular.ttf') format('opentype');
+    font-display: auto;
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Roboto Condensed Bold';
+    src: url('/static/RobotoCondensed-Bold.ttf') format('opentype');
+    font-display: auto;
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Roboto Mono';
+    src: url('/static/RobotoMono-Regular.ttf') format('opentype');
     font-display: auto;
     font-weight: normal;
     font-style: normal;
@@ -62,7 +103,6 @@ const GlobalStyle = createGlobalStyle`
   textarea {
     border: 0;
     outline: 0;
-    font-family: ${theme.primaryFont};
     color: ${theme.black};
     resize: none;
   }

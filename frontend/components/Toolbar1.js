@@ -64,9 +64,9 @@ const Eye = styled(Command)`
   }
 `
 
-export default ({ top, expand, toggleExpand, togglePreview }) => (
+export default ({ top, expand, toggleExpander, togglePreview }) => (
   <React.Fragment>
-    <Plus top={top} expand={expand} onClick={toggleExpand}>
+    <Plus top={top} expand={expand} onClick={toggleExpander}>
       <PlusIcon />
     </Plus>
     <Camera top={top} expand={expand}>

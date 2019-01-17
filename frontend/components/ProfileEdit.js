@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import formatFilename from '../lib/formatFilename'
 import { ME_QUERY } from './User'
 
-const SIGN_S3_MUTATION = gql`
+export const SIGN_S3_MUTATION = gql`
   mutation SIGN_S3_MUTATION($filename: String!, $filetype: String!) {
     signS3(filename: $filename, filetype: $filetype) {
       requestUrl
@@ -44,7 +44,6 @@ const Container = styled.div`
         outline: 0;
         border: 0;
         color: ${props => props.theme.black};
-        font-family: ${props => props.theme.primaryFont};
         padding: 0 3rem 0 0;
         resize: none;
       }
@@ -244,6 +243,7 @@ class ProfileEdit extends React.Component {
 
 ProfileEdit.propTypes = {
   user: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     bio: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired
