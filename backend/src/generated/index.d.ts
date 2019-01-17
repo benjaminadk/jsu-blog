@@ -159,10 +159,10 @@ export type PostOrderByInput =
   | "image_DESC"
   | "published_ASC"
   | "published_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC"
   | "updatedAt_ASC"
-  | "updatedAt_DESC";
+  | "updatedAt_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -256,9 +256,9 @@ export interface UserUpdateManyMutationInput {
 
 export interface PostCreateInput {
   title?: String;
-  subtitle: String;
-  body: String;
-  image: String;
+  subtitle?: String;
+  body?: String;
+  image?: String;
   published?: Boolean;
   author: UserCreateOneWithoutPostsInput;
 }
@@ -407,9 +407,9 @@ export interface UserWhereInput {
 
 export interface PostCreateWithoutAuthorInput {
   title?: String;
-  subtitle: String;
-  body: String;
-  image: String;
+  subtitle?: String;
+  body?: String;
+  image?: String;
   published?: Boolean;
 }
 
@@ -508,6 +508,14 @@ export interface PostWhereInput {
   published?: Boolean;
   published_not?: Boolean;
   author?: UserWhereInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
   createdAt?: DateTimeInput;
   createdAt_not?: DateTimeInput;
   createdAt_in?: DateTimeInput[] | DateTimeInput;
@@ -602,6 +610,14 @@ export interface PostScalarWhereInput {
   image_not_ends_with?: String;
   published?: Boolean;
   published_not?: Boolean;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
   createdAt?: DateTimeInput;
   createdAt_not?: DateTimeInput;
   createdAt_in?: DateTimeInput[] | DateTimeInput;
@@ -771,10 +787,11 @@ export interface PostEdgeSubscription
 export interface Post {
   id: ID_Output;
   title: String;
-  subtitle: String;
-  body: String;
-  image: String;
+  subtitle?: String;
+  body?: String;
+  image?: String;
   published?: Boolean;
+  updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
 
@@ -786,6 +803,7 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   image: () => Promise<String>;
   published: () => Promise<Boolean>;
   author: <T = UserPromise>() => T;
+  updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
@@ -799,6 +817,7 @@ export interface PostSubscription
   image: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
   author: <T = UserSubscription>() => T;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -851,10 +870,11 @@ export interface PostSubscriptionPayloadSubscription
 export interface PostPreviousValues {
   id: ID_Output;
   title: String;
-  subtitle: String;
-  body: String;
-  image: String;
+  subtitle?: String;
+  body?: String;
+  image?: String;
   published?: Boolean;
+  updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
 
@@ -867,6 +887,7 @@ export interface PostPreviousValuesPromise
   body: () => Promise<String>;
   image: () => Promise<String>;
   published: () => Promise<Boolean>;
+  updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
 
@@ -879,6 +900,7 @@ export interface PostPreviousValuesSubscription
   body: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 

@@ -50,11 +50,12 @@ type PageInfo {
 type Post {
   id: ID!
   title: String!
-  subtitle: String!
-  body: String!
-  image: String!
+  subtitle: String
+  body: String
+  image: String
   published: Boolean
   author: User!
+  updatedAt: DateTime!
   createdAt: DateTime!
 }
 
@@ -66,9 +67,9 @@ type PostConnection {
 
 input PostCreateInput {
   title: String
-  subtitle: String!
-  body: String!
-  image: String!
+  subtitle: String
+  body: String
+  image: String
   published: Boolean
   author: UserCreateOneWithoutPostsInput!
 }
@@ -80,9 +81,9 @@ input PostCreateManyWithoutAuthorInput {
 
 input PostCreateWithoutAuthorInput {
   title: String
-  subtitle: String!
-  body: String!
-  image: String!
+  subtitle: String
+  body: String
+  image: String
   published: Boolean
 }
 
@@ -104,19 +105,20 @@ enum PostOrderByInput {
   image_DESC
   published_ASC
   published_DESC
-  createdAt_ASC
-  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type PostPreviousValues {
   id: ID!
   title: String!
-  subtitle: String!
-  body: String!
-  image: String!
+  subtitle: String
+  body: String
+  image: String
   published: Boolean
+  updatedAt: DateTime!
   createdAt: DateTime!
 }
 
@@ -193,6 +195,14 @@ input PostScalarWhereInput {
   image_not_ends_with: String
   published: Boolean
   published_not: Boolean
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -358,6 +368,14 @@ input PostWhereInput {
   published: Boolean
   published_not: Boolean
   author: UserWhereInput
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

@@ -13,6 +13,7 @@ module.exports = `
       body
       image
       published
+      updatedAt
       createdAt
     }
   }

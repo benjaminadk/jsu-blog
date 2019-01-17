@@ -1,3 +1,5 @@
+import { withApollo } from 'react-apollo'
+import gql from 'graphql-tag'
 import styled from 'styled-components'
 import TextareaAutosize from 'react-autosize-textarea'
 import getCaretCoordinates from 'textarea-caret'
@@ -7,8 +9,25 @@ import Toolbar2 from './Toolbar2'
 import Preview from './Preview'
 import getPopupPosition from '../lib/popupPosition'
 import md from '../lib/md'
+import Images from './Images'
+
+const CREATE_POST_MUTATION = gql`
+  mutation CREATE_POST_MUTATION {
+    createPost {
+      success
+      message
+      id
+    }
+  }
+`
 
 const Container = styled.div`
+  position: relative;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+`
+
+const Editor = styled.div`
   display: grid;
   grid-template-rows: auto 1fr;
   grid-gap: 1rem;
@@ -72,7 +91,7 @@ const Textarea = styled(TextareaAutosize)`
   margin-top: 5rem;
 `
 
-export default class Editor extends React.Component {
+class PostEditor extends React.Component {
   state = {
     title: '',
     subtitle: '',
@@ -82,10 +101,22 @@ export default class Editor extends React.Component {
     popup: false,
     popupTop: '',
     popupLeft: '',
-    preview: true
+    preview: false,
+    image: ''
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    if (this.props.id === 'new' || !this.props.id) {
+      const res = await this.props.client.mutate({
+        mutation: CREATE_POST_MUTATION
+      })
+      const { success, id } = res.data.createPost
+      if (success) {
+        this.setState({ id })
+      }
+    } else {
+      //lookup post
+    }
     this.textarea && this.textarea.focus()
   }
 
@@ -165,68 +196,87 @@ export default class Editor extends React.Component {
 
   togglePreview = () => this.setState(({ preview }) => ({ preview: !preview, expand: false }))
 
+  setImage = image => this.setState({ image })
+
   render() {
     const {
-      state: { title, subtitle, body, expand, expandTop, popup, popupTop, popupLeft, preview }
+      state: {
+        title,
+        subtitle,
+        body,
+        expand,
+        expandTop,
+        popup,
+        popupTop,
+        popupLeft,
+        preview,
+        image
+      },
+      props: { user }
     } = this
     return (
-      <Container
-        preview={preview}
-        showTitle={Boolean(title.length)}
-        showSubtitle={Boolean(subtitle.length)}
-      >
-        <div className="heading">{preview ? 'Preview' : 'Editor'}</div>
-        <div className="content">
-          <div className="title">
-            <span>Title</span>
-            <input
-              type="text"
-              name="title"
-              placeholder="Title"
-              value={title}
-              onChange={this.onChange}
-              onFocus={this.onFocus}
-            />
+      <Container>
+        <Editor
+          preview={preview}
+          showTitle={Boolean(title.length)}
+          showSubtitle={Boolean(subtitle.length)}
+        >
+          <div className="heading">{preview ? 'Preview' : 'Editor'}</div>
+          <div className="content">
+            <div className="title">
+              <span>Title</span>
+              <input
+                type="text"
+                name="title"
+                placeholder="Title"
+                value={title}
+                onChange={this.onChange}
+                onFocus={this.onFocus}
+              />
+            </div>
+            <div className="subtitle">
+              <span>Subtitle</span>
+              <input
+                type="text"
+                name="subtitle"
+                placeholder="Subtitle"
+                value={subtitle}
+                onChange={this.onChange}
+                onFocus={this.onFocus}
+              />
+            </div>
+            <div className="body">
+              <Toolbar1
+                top={expandTop}
+                expand={expand}
+                toggleExpander={this.toggleExpander}
+                togglePreview={this.togglePreview}
+              />
+              <Toolbar2
+                show={popup}
+                top={popupTop}
+                left={popupLeft}
+                textDecorator={this.textDecorator}
+              />
+              <Textarea
+                innerRef={el => (this.textarea = el)}
+                placeholder={expand ? '' : 'Markdown your story...'}
+                name="body"
+                value={body}
+                onChange={this.onChange}
+                onFocus={this.onFocus}
+                onSelect={this.onSelect}
+                rows={20}
+                maxRows={100}
+              />
+            </div>
+            <Preview preview={preview} markdown={body} togglePreview={this.togglePreview} />
           </div>
-          <div className="subtitle">
-            <span>Subtitle</span>
-            <input
-              type="text"
-              name="subtitle"
-              placeholder="Subtitle"
-              value={subtitle}
-              onChange={this.onChange}
-              onFocus={this.onFocus}
-            />
-          </div>
-          <div className="body">
-            <Toolbar1
-              top={expandTop}
-              expand={expand}
-              toggleExpander={this.toggleExpander}
-              togglePreview={this.togglePreview}
-            />
-            <Toolbar2
-              show={popup}
-              top={popupTop}
-              left={popupLeft}
-              textDecorator={this.textDecorator}
-            />
-            <Textarea
-              innerRef={el => (this.textarea = el)}
-              placeholder={expand ? '' : 'Markdown your story...'}
-              name="body"
-              value={body}
-              onChange={this.onChange}
-              onFocus={this.onFocus}
-              onSelect={this.onSelect}
-              rows={20}
-              maxRows={100}
-            />
-          </div>
-          <Preview preview={preview} markdown={body} togglePreview={this.togglePreview} />
-        </div>
+        </Editor>
+        <Images image={image} user={user} setImage={this.setImage} />
       </Container>
     )
   }
 }
+
+export default withApollo(PostEditor)

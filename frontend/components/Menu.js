@@ -57,7 +57,7 @@ const Inner = styled.div`
     .list-item {
       color: ${props => props.theme.grey[12]};
       font-family: 'Roboto Slab';
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       padding: 1rem 2rem;
       cursor: pointer;
       transition: color 0.25s;
@@ -69,7 +69,8 @@ const Inner = styled.div`
 `
 
 const navigation = [
-  { text: 'New Post', pathname: '/post-new' },
+  { text: 'New Story', pathname: '/post-edit', id: 'new' },
+  { text: 'Stories', pathname: '/my-posts' },
   { text: 'separator' },
   { text: 'Profile', pathname: '/profile' }
 ]
@@ -93,8 +94,14 @@ class Menu extends React.Component {
     }
   }
 
-  onClick = pathname => {
-    Router.push(pathname)
+  onClick = (pathname, id) => {
+    let route
+    if (id) {
+      route = { pathname, query: { id } }
+    } else {
+      route = pathname
+    }
+    Router.push(route)
     this.props.onClose()
   }
 
@@ -113,7 +120,11 @@ class Menu extends React.Component {
                   return <li key={i} className="separator" />
                 } else {
                   return (
-                    <li key={i} className="list-item" onClick={() => this.onClick(nav.pathname)}>
+                    <li
+                      key={i}
+                      className="list-item"
+                      onClick={() => this.onClick(nav.pathname, nav.id)}
+                    >
                       {nav.text}
                     </li>
                   )

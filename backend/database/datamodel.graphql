@@ -12,10 +12,11 @@ type User {
 type Post {
   id: ID! @unique
   title: String! @default(value: "Untitled")
-  subtitle: String!
-  body: String!
-  image: String!
+  subtitle: String
+  body: String
+  image: String
   published: Boolean @default(value: "false")
   author: User!
+  updatedAt: DateTime!
   createdAt: DateTime!
 }

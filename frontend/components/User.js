@@ -17,6 +17,7 @@ export const ME_QUERY = gql`
         body
         image
         published
+        updatedAt
         createdAt
       }
     }
