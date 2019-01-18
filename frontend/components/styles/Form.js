@@ -41,7 +41,7 @@ const Form = styled.form.attrs({
         justify-self: center;
         color: ${props => props.theme.grey[5]};
         font-size: 1.15rem;
-        font-family: 'Roboto Bold';
+        font-family: 'Roboto';
       }
       input {
         border-bottom: 1px solid ${props => props.theme.grey[2]};

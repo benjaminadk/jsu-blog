@@ -27,7 +27,7 @@ const ModalMain = styled.div`
   height: auto;
   top: 50%;
   left: 50%;
-  background: ${props => props.theme.white};
+  background: ${props => (props.transparent ? 'transparent' : props.theme.white)};
   transform: translate(-50%, -50%);
   transform-origin: left center;
   border-radius: ${props => props.theme.borderRadius};
@@ -55,11 +55,11 @@ export default class Modal extends React.Component {
 
   render() {
     const {
-      props: { children, show }
+      props: { children, show, transparent }
     } = this
     return (
       <ModalWindow ref={this.modal} show={show}>
-        <ModalMain>{children}</ModalMain>
+        <ModalMain transparent={transparent}>{children}</ModalMain>
       </ModalWindow>
     )
   }

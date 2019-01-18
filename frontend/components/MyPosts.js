@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { format, formatDistance } from 'date-fns'
 import { ChevronDown } from 'styled-icons/octicons'
-import { ButtonOutline } from './styles/Button'
+import { ButtonOutline, ButtonDelete, ButtonCancel } from './styles/Button'
 import Menu from './Menu'
+import Modal from './Modal'
 
 const Container = styled.div`
   display: grid;
@@ -52,6 +53,14 @@ const Container = styled.div`
       display: grid;
       grid-template-rows: repeat(auto-fit, minmax(7.5rem, 1fr));
     }
+    .empty {
+      width: 100%;
+      margin-top: 5rem;
+      p {
+        font-family: 'Roboto';
+        text-align: center;
+      }
+    }
   }
 `
 
@@ -87,14 +96,37 @@ const Post = styled.div`
   }
 `
 
+const Confirm = styled.div`
+  h1 {
+    font-family: 'Roboto Bold';
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+  p {
+    font-family: 'Roboto Slab';
+    font-size: 1.4rem;
+    margin: 0;
+    margin-bottom: 2rem;
+    padding: 0;
+    color: ${props => props.theme.grey[10]};
+  }
+  button {
+    margin-right: 2rem;
+  }
+`
+
 export default class MyPosts extends React.Component {
   state = {
     tab: 'drafts',
     drafts: [],
     published: [],
-    show: false,
-    menu: null,
-    navigation: []
+    showMenu: false,
+    coordsMenu: null,
+    navigation: [],
+    showModal: false,
+    postId: null
   }
 
   componentDidMount() {
@@ -121,54 +153,74 @@ export default class MyPosts extends React.Component {
     const { tab } = this.state
     const type = tab === 'drafts' ? 'draft' : 'story'
     const navigation = [
-      { type: 'edit', text: `Edit ${type}`, id },
-      { type: 'delete', text: `Delete ${type}`, id }
+      { type: 'link', text: `Edit ${type}`, pathname: '/post-edit', id },
+      { type: 'cb', text: `Delete ${type}`, id, cb: this.onOpenModal }
     ]
     if (tab === 'published') {
-      navigation.push({ type: 'stats', text: 'View stats', id })
+      navigation.push({ type: 'link', text: 'View stats', pathname: '/my-stats', id })
     }
-    this.setState({ show: true, menu: { x: Math.round(x), y: Math.round(y) }, navigation })
+    this.setState({
+      showMenu: true,
+      coordsMenu: { x: Math.round(x), y: Math.round(y) },
+      navigation
+    })
   }
 
-  onCloseMenu = () => this.setState({ show: false, menu: null })
+  onCloseMenu = () => this.setState({ showMenu: false, coordsMenu: null })
+
+  onOpenModal = postId => this.setState({ showModal: true, postId })
+
+  onCloseModal = () => this.setState({ showModal: false, postId: null })
 
   renderPosts = () => {
     const { tab, drafts, published } = this.state
     const posts = tab === 'drafts' ? drafts : published
-    return posts.map((post, i) => (
-      <Post key={post.id}>
-        <h3>{post.title}</h3>
-        {post.subtitle && <h4>{post.subtitle}</h4>}
-        {post.published ? (
-          <p>
-            Created @ {format(new Date(post.createdAt), 'PPP')} &bull; {Math.ceil(post.words / 265)}{' '}
-            min read{' '}
-            <ChevronDown
-              ref={el => (this[`menu-${i}`] = el)}
-              onClick={e => this.onOpenMenu(e, post.id, i)}
-            />
-          </p>
-        ) : (
-          <p>
-            Last edited {formatDistance(new Date(post.updatedAt), new Date())} ago &bull;{' '}
-            {Math.ceil(post.words / 265)} min read ({post.words} words) so far{' '}
-            <ChevronDown
-              ref={el => (this[`menu-${i}`] = el)}
-              onClick={e => this.onOpenMenu(e, post.id, i)}
-            />
-          </p>
-        )}
-      </Post>
-    ))
+    if (!drafts.length || !published.length) {
+      return (
+        <div className="empty">
+          {tab === 'drafts' ? (
+            <p>You have no drafts.</p>
+          ) : (
+            <p>You haven’t published any public stories yet.</p>
+          )}
+        </div>
+      )
+    } else {
+      return posts.map((post, i) => (
+        <Post key={post.id}>
+          <h3>{post.title}</h3>
+          {post.subtitle && <h4>{post.subtitle}</h4>}
+          {post.published ? (
+            <p>
+              Created @ {format(new Date(post.createdAt), 'PPP')} &bull;{' '}
+              {Math.ceil(post.words / 265)} min read{' '}
+              <ChevronDown
+                ref={el => (this[`menu-${i}`] = el)}
+                onClick={e => this.onOpenMenu(e, post.id, i)}
+              />
+            </p>
+          ) : (
+            <p>
+              Last edited {formatDistance(new Date(post.updatedAt), new Date())} ago &bull;{' '}
+              {Math.ceil(post.words / 265)} min read ({post.words} words) so far{' '}
+              <ChevronDown
+                ref={el => (this[`menu-${i}`] = el)}
+                onClick={e => this.onOpenMenu(e, post.id, i)}
+              />
+            </p>
+          )}
+        </Post>
+      ))
+    }
   }
 
   render() {
     const {
-      state: { tab, drafts, published, show, menu, navigation }
+      state: { tab, drafts, published, showMenu, coordsMenu, navigation, showModal }
     } = this
     const menuPosition = {
-      top: show ? `calc(${menu.y}px + 3rem)` : 0,
-      left: show ? `calc(${menu.x}px - 5rem)` : 0
+      top: showMenu ? `calc(${coordsMenu.y}px + 3rem)` : 0,
+      left: showMenu ? `calc(${coordsMenu.x}px - 5rem)` : 0
     }
     return (
       <Container tab={tab}>
@@ -183,16 +235,26 @@ export default class MyPosts extends React.Component {
             <li onClick={() => this.setTab('drafts')}>Drafts {drafts.length}</li>
             <li onClick={() => this.setTab('published')}>Published {published.length}</li>
           </ul>
-          <div className="posts">{this.renderPosts()}</div>
+          {this.renderPosts()}
         </div>
         <Menu
-          show={show}
+          show={showMenu}
           width={12}
           menuPosition={menuPosition}
           arrowPosition="left: 6rem;"
           navigation={navigation}
           onClose={this.onCloseMenu}
         />
+        <Modal show={showModal} transparent={true} onClose={this.onCloseModal}>
+          <Confirm>
+            <h1>Delete</h1>
+            <p>Deleted stories are gone forever. Are you sure?</p>
+            <div>
+              <ButtonDelete>Delete</ButtonDelete>
+              <ButtonCancel onClick={this.onCloseModal}>Cancel</ButtonCancel>
+            </div>
+          </Confirm>
+        </Modal>
       </Container>
     )
   }

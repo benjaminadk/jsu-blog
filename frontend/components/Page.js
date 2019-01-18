@@ -17,6 +17,7 @@ export const theme = {
   primary: '#00FFC4',
   secondary: '#1F0179',
   tertiary: '#3BFF00',
+  error: '#DD0E0E',
   borderRadius: '.4rem',
   grey,
   shadows

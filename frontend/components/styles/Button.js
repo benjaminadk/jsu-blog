@@ -24,3 +24,17 @@ export const ButtonOutline = styled(Button)`
   border-radius: ${props => props.theme.borderRadius};
   padding: 0.75rem 1.5rem;
 `
+
+export const ButtonDelete = styled(ButtonOutline)`
+  color: ${props => props.theme.grey[5]};
+  &:hover {
+    color: ${props => props.theme.error};
+  }
+`
+
+export const ButtonCancel = styled(ButtonOutline)`
+  color: ${props => props.theme.grey[10]};
+  &:hover {
+    color: ${props => props.theme.black};
+  }
+`

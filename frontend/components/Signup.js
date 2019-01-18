@@ -113,7 +113,7 @@ export default class Signup extends React.Component {
                 <ErrorMsg error={error} />
 
                 <div className="signup">
-                  <input type="submit" value={loading ? 'Creating 🔥🔥🔥' : 'Create Account'} />
+                  <input type="submit" value={loading ? '🥚👶👧👩👩‍🦳' : 'Create Account'} />
                   <span>
                     Already have an account?<span onClick={onSwitch}>Sign in.</span>
                   </span>
