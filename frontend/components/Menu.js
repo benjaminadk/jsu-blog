@@ -22,22 +22,21 @@ export default class Menu extends React.Component {
     }
   }
 
-  onClick = (type, pathname, id, cb) => {
-    switch (type) {
-      case 'link': {
-        let route
-        if (id) {
-          route = { pathname, query: { id } }
-        } else {
-          route = pathname
-        }
-        Router.push(route)
+  onClick = nav => {
+    const { type, pathname, id, cb } = nav
+    if (type === 'link') {
+      let route
+      if (id) {
+        route = { pathname, query: { id } }
+      } else {
+        route = pathname
       }
-      case 'cb': {
-        cb()
-      }
+      Router.push(route)
+      return this.props.onClose()
+    } else if (type === 'cb') {
+      cb()
+      return this.props.onClose()
     }
-    this.props.onClose()
   }
 
   render() {
@@ -55,11 +54,7 @@ export default class Menu extends React.Component {
                   return <li key={i} className="separator" />
                 } else {
                   return (
-                    <li
-                      key={i}
-                      className="list-item"
-                      onClick={() => this.onClick(nav.type, nav.pathname, nav.id, nav.cb)}
-                    >
+                    <li key={i} className="list-item" onClick={() => this.onClick(nav)}>
                       {nav.text}
                     </li>
                   )

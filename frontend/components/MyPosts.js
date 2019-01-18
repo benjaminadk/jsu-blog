@@ -1,9 +1,22 @@
 import styled from 'styled-components'
+import gql from 'graphql-tag'
+import { Mutation } from 'react-apollo'
+import Router from 'next/router'
 import { format, formatDistance } from 'date-fns'
+import { ME_QUERY } from './User'
 import { ChevronDown } from 'styled-icons/octicons'
 import { ButtonOutline, ButtonDelete, ButtonCancel } from './styles/Button'
 import Menu from './Menu'
 import Modal from './Modal'
+
+const DELETE_POST_MUTATION = gql`
+  mutation DELETE_POST_MUTATION($id: ID!) {
+    deletePost(id: $id) {
+      success
+      message
+    }
+  }
+`
 
 const Container = styled.div`
   display: grid;
@@ -15,7 +28,7 @@ const Container = styled.div`
       grid-template-columns: 1fr 1fr;
       align-items: center;
       h1 {
-        font-family: 'Roboto Slab Bold';
+        font-family: 'Roboto Bold';
       }
       & > :last-child {
         justify-self: flex-end;
@@ -130,6 +143,16 @@ export default class MyPosts extends React.Component {
   }
 
   componentDidMount() {
+    this.setPosts()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.user.posts.length !== this.props.user.posts.length) {
+      this.setPosts()
+    }
+  }
+
+  setPosts = () => {
     let drafts = []
     let published = []
     this.props.user.posts.forEach(post => {
@@ -162,15 +185,27 @@ export default class MyPosts extends React.Component {
     this.setState({
       showMenu: true,
       coordsMenu: { x: Math.round(x), y: Math.round(y) },
-      navigation
+      navigation,
+      postId: id
     })
   }
 
   onCloseMenu = () => this.setState({ showMenu: false, coordsMenu: null })
 
-  onOpenModal = postId => this.setState({ showModal: true, postId })
+  onOpenModal = () => this.setState({ showModal: true })
 
   onCloseModal = () => this.setState({ showModal: false, postId: null })
+
+  onNewStory = () => Router.push({ pathname: '/post-edit', query: { id: 'new' } })
+
+  onDeletePost = async deletePost => {
+    const res = await deletePost({
+      variables: { id: this.state.postId }
+    })
+    if (res.data.deletePost.success) {
+      this.onCloseModal()
+    }
+  }
 
   renderPosts = () => {
     const { tab, drafts, published } = this.state
@@ -228,7 +263,7 @@ export default class MyPosts extends React.Component {
           <div className="heading">
             <h1>Your Stories</h1>
             <div>
-              <ButtonOutline>Write a story</ButtonOutline>
+              <ButtonOutline onClick={this.onNewStory}>Write a story</ButtonOutline>
             </div>
           </div>
           <ul>
@@ -246,14 +281,20 @@ export default class MyPosts extends React.Component {
           onClose={this.onCloseMenu}
         />
         <Modal show={showModal} transparent={true} onClose={this.onCloseModal}>
-          <Confirm>
-            <h1>Delete</h1>
-            <p>Deleted stories are gone forever. Are you sure?</p>
-            <div>
-              <ButtonDelete>Delete</ButtonDelete>
-              <ButtonCancel onClick={this.onCloseModal}>Cancel</ButtonCancel>
-            </div>
-          </Confirm>
+          <Mutation mutation={DELETE_POST_MUTATION} refetchQueries={[{ query: ME_QUERY }]}>
+            {(deletePost, { loading, error }) => (
+              <Confirm>
+                <h1>Delete</h1>
+                <p>Deleted stories are gone forever. Are you sure?</p>
+                <div>
+                  <ButtonDelete onClick={() => this.onDeletePost(deletePost)}>
+                    {loading ? '💥💥💥' : 'Delete'}
+                  </ButtonDelete>
+                  <ButtonCancel onClick={this.onCloseModal}>Cancel</ButtonCancel>
+                </div>
+              </Confirm>
+            )}
+          </Mutation>
         </Modal>
       </Container>
     )

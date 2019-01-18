@@ -11,6 +11,7 @@ type Mutation {
   signS3(filename: String!, filetype: String!): S3Payload
   updateUser(name: String, bio: String, image: String): Payload
   createPost: PostPayload
+  deletePost(id: ID!): Payload
 }
 
 type User {

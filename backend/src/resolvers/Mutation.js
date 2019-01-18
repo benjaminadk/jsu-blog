@@ -112,5 +112,14 @@ module.exports = {
     } catch (error) {
       console.log(error)
     }
+  },
+
+  deletePost: async (_, args, ctx, info) => {
+    try {
+      await ctx.prisma.deletePost({ id: args.id })
+      return { success: true, message: 'Post deleted.' }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
