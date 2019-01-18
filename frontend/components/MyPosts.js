@@ -1,4 +1,7 @@
 import styled from 'styled-components'
+import { format, formatDistance } from 'date-fns'
+import { ChevronDown } from 'styled-icons/octicons'
+import MenuMyPosts from './MenuMyPosts'
 
 const Container = styled.div`
   display: grid;
@@ -54,8 +57,32 @@ const Container = styled.div`
 const Post = styled.div`
   width: 100%;
   border-bottom: 1px solid ${props => props.theme.grey[5]};
-  h3 {
+  h3,
+  h4 {
     font-family: 'Roboto Slab Bold';
+    margin: 0;
+  }
+  h3 {
+    margin-top: 1.5rem;
+  }
+  h4 {
+    color: ${props => props.theme.grey[10]};
+  }
+  p {
+    font-family: 'Roboto Condensed';
+    font-size: 1.3rem;
+    margin: 0;
+    margin-bottom: 1.5rem;
+    color: ${props => props.theme.grey[10]};
+    svg {
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+      transition: color 0.25s;
+      &:hover {
+        color: ${props => props.theme.black};
+      }
+    }
   }
 `
 
@@ -63,13 +90,18 @@ export default class MyPosts extends React.Component {
   state = {
     tab: 'drafts',
     drafts: [],
-    published: []
+    published: [],
+    show: false,
+    menu: null,
+    navigation: []
   }
 
   componentDidMount() {
     let drafts = []
     let published = []
     this.props.user.posts.forEach(post => {
+      let words = post.body.split(' ').length
+      post.words = words
       if (post.published) {
         published.push(post)
       } else {
@@ -81,19 +113,48 @@ export default class MyPosts extends React.Component {
 
   setTab = tab => this.setState({ tab })
 
+  onOpenMenu = (e, id) => {
+    const { tab } = this.state
+    const { pageX: x, pageY: y } = e.nativeEvent
+    const type = tab === 'drafts' ? 'draft' : 'story'
+    const navigation = [
+      { type: 'edit', text: `Edit ${type}`, id },
+      { type: 'delete', text: `Delete ${type}`, id }
+    ]
+    if (tab === 'published') {
+      navigation.push({ type: 'stats', text: 'View stats', id })
+    }
+    this.setState({ show: true, menu: { x, y }, navigation })
+  }
+
+  onCloseMenu = () => this.setState({ show: false, menu: null })
+
   renderPosts = () => {
     const { tab, drafts, published } = this.state
     const posts = tab === 'drafts' ? drafts : published
     return posts.map(post => (
       <Post key={post.id}>
         <h3>{post.title}</h3>
+        {post.subtitle && <h4>{post.subtitle}</h4>}
+        {post.published ? (
+          <p>
+            Created @ {format(new Date(post.createdAt), 'PPP')} &bull; {Math.ceil(post.words / 265)}{' '}
+            min read <ChevronDown onClick={e => this.onOpenMenu(e, post.id)} />
+          </p>
+        ) : (
+          <p>
+            Last edited {formatDistance(new Date(post.updatedAt), new Date())} ago &bull;{' '}
+            {Math.ceil(post.words / 265)} min read ({post.words} words) so far{' '}
+            <ChevronDown onClick={e => this.onOpenMenu(e, post.id)} />
+          </p>
+        )}
       </Post>
     ))
   }
 
   render() {
     const {
-      state: { tab, drafts, published }
+      state: { tab, drafts, published, show, menu, navigation }
     } = this
     return (
       <Container tab={tab}>
@@ -110,6 +171,7 @@ export default class MyPosts extends React.Component {
           </ul>
           <div className="posts">{this.renderPosts()}</div>
         </div>
+        <MenuMyPosts show={show} menu={menu} navigation={navigation} onClose={this.onCloseMenu} />
       </Container>
     )
   }

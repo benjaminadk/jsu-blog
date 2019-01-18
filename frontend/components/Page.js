@@ -6,7 +6,7 @@ import Meta from './Meta'
 import Header from './Header'
 import Signin from './Signin'
 import Signup from './Signup'
-import Menu from './Menu'
+import MenuMain from './MenuMain'
 import User from './User'
 import grey from './styles/grey'
 import shadows from './styles/shadows'
@@ -170,7 +170,7 @@ export default class Page extends React.Component {
                   </Inner>
                   <Signin show={showSignin} onSwitch={this.onSwitch} onClose={this.onCloseModal} />
                   <Signup show={showSignup} onSwitch={this.onSwitch} onClose={this.onCloseModal} />
-                  <Menu show={showMenu} onSignout={this.onSignout} onClose={this.onCloseMenu} />
+                  <MenuMain show={showMenu} onSignout={this.onSignout} onClose={this.onCloseMenu} />
                 </StyledPage>
               </UserContext.Provider>
             )

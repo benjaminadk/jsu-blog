@@ -1,72 +1,7 @@
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import Router from 'next/router'
+import { MenuOuter, MenuInner, MenuArrow, Backdrop } from './styles/Menu'
 import Signout from './Signout'
-
-const Container = styled.div`
-  visibility: ${props => (props.show ? 'visible' : 'hidden')};
-  position: absolute;
-  top: 6.5rem;
-  right: 5rem;
-  z-index: 100;
-  .arrow {
-    position: absolute;
-    top: -0.6rem;
-    left: 21rem;
-    margin-left: -0.7rem;
-    &::after {
-      content: '';
-      display: block;
-      width: 1.4rem;
-      height: 1.4rem;
-      background: ${props => props.theme.white};
-      transform: rotate(45deg);
-      box-shadow: -1px -1px 1px -1px rgba(0, 0, 0, 0.75);
-    }
-  }
-`
-
-const Backdrop = styled.div`
-  visibility: ${props => (props.show ? 'visible' : 'hidden')};
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99;
-  width: 100vw;
-  height: 100vh;
-  background: transparent;
-`
-
-const Inner = styled.div`
-  width: 23rem;
-  border: 1px solid ${props => props.theme.grey[3]};
-  border-radius: ${props => props.theme.borderRadius};
-  background: ${props => props.theme.white};
-  padding: 0;
-  line-height: 1.4;
-  box-shadow: ${props => props.theme.shadows[1]};
-  ul {
-    padding: 0.75rem 0;
-    margin: 0;
-    list-style: none;
-    list-style-image: none;
-    .separator {
-      border-top: 1px solid ${props => props.theme.grey[3]};
-      margin: 1rem 0;
-    }
-    .list-item {
-      color: ${props => props.theme.grey[12]};
-      font-family: 'Roboto Slab';
-      font-size: 1.25rem;
-      padding: 1rem 2rem;
-      cursor: pointer;
-      transition: color 0.25s;
-      &:hover {
-        color: ${props => props.theme.black};
-      }
-    }
-  }
-`
 
 const navigation = [
   { text: 'New Story', pathname: '/post-edit', id: 'new' },
@@ -75,7 +10,7 @@ const navigation = [
   { text: 'Profile', pathname: '/profile' }
 ]
 
-class Menu extends React.Component {
+class MenuMain extends React.Component {
   backdrop = React.createRef()
 
   componentDidUpdate(prevProps) {
@@ -112,8 +47,8 @@ class Menu extends React.Component {
     return (
       <React.Fragment>
         <Backdrop ref={this.backdrop} show={show} />
-        <Container show={show}>
-          <Inner>
+        <MenuOuter show={show} position={{ top: '6.5rem', right: '5rem' }}>
+          <MenuInner width={23}>
             <ul role="menu">
               {navigation.map((nav, i) => {
                 if (nav.text === 'separator') {
@@ -132,18 +67,18 @@ class Menu extends React.Component {
               })}
               <Signout onClick={onSignout} />
             </ul>
-          </Inner>
-          <div className="arrow" />
-        </Container>
+          </MenuInner>
+          <MenuArrow position="left: 21rem" />
+        </MenuOuter>
       </React.Fragment>
     )
   }
 }
 
-Menu.propTypes = {
+MenuMain.propTypes = {
   show: PropTypes.bool.isRequired,
   onSignout: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 }
 
-export default Menu
+export default MenuMain
