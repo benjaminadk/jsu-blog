@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import { format, formatDistance } from 'date-fns'
 import { ChevronDown } from 'styled-icons/octicons'
-import MenuMyPosts from './MenuMyPosts'
+import { ButtonOutline } from './styles/Button'
+import Menu from './Menu'
 
 const Container = styled.div`
   display: grid;
@@ -113,9 +114,11 @@ export default class MyPosts extends React.Component {
 
   setTab = tab => this.setState({ tab })
 
-  onOpenMenu = (e, id) => {
+  onOpenMenu = (e, id, i) => {
+    // can use event for approximate placement or mucho refs for exact placement
+    // const { pageX: x, pageY: y } = e.nativeEvent
+    const { x, y } = this[`menu-${i}`].getBoundingClientRect()
     const { tab } = this.state
-    const { pageX: x, pageY: y } = e.nativeEvent
     const type = tab === 'drafts' ? 'draft' : 'story'
     const navigation = [
       { type: 'edit', text: `Edit ${type}`, id },
@@ -124,7 +127,7 @@ export default class MyPosts extends React.Component {
     if (tab === 'published') {
       navigation.push({ type: 'stats', text: 'View stats', id })
     }
-    this.setState({ show: true, menu: { x, y }, navigation })
+    this.setState({ show: true, menu: { x: Math.round(x), y: Math.round(y) }, navigation })
   }
 
   onCloseMenu = () => this.setState({ show: false, menu: null })
@@ -132,20 +135,27 @@ export default class MyPosts extends React.Component {
   renderPosts = () => {
     const { tab, drafts, published } = this.state
     const posts = tab === 'drafts' ? drafts : published
-    return posts.map(post => (
+    return posts.map((post, i) => (
       <Post key={post.id}>
         <h3>{post.title}</h3>
         {post.subtitle && <h4>{post.subtitle}</h4>}
         {post.published ? (
           <p>
             Created @ {format(new Date(post.createdAt), 'PPP')} &bull; {Math.ceil(post.words / 265)}{' '}
-            min read <ChevronDown onClick={e => this.onOpenMenu(e, post.id)} />
+            min read{' '}
+            <ChevronDown
+              ref={el => (this[`menu-${i}`] = el)}
+              onClick={e => this.onOpenMenu(e, post.id, i)}
+            />
           </p>
         ) : (
           <p>
             Last edited {formatDistance(new Date(post.updatedAt), new Date())} ago &bull;{' '}
             {Math.ceil(post.words / 265)} min read ({post.words} words) so far{' '}
-            <ChevronDown onClick={e => this.onOpenMenu(e, post.id)} />
+            <ChevronDown
+              ref={el => (this[`menu-${i}`] = el)}
+              onClick={e => this.onOpenMenu(e, post.id, i)}
+            />
           </p>
         )}
       </Post>
@@ -156,13 +166,17 @@ export default class MyPosts extends React.Component {
     const {
       state: { tab, drafts, published, show, menu, navigation }
     } = this
+    const menuPosition = {
+      top: show ? `calc(${menu.y}px + 3rem)` : 0,
+      left: show ? `calc(${menu.x}px - 5rem)` : 0
+    }
     return (
       <Container tab={tab}>
         <div className="content">
           <div className="heading">
             <h1>Your Stories</h1>
             <div>
-              <button>Write a story</button>
+              <ButtonOutline>Write a story</ButtonOutline>
             </div>
           </div>
           <ul>
@@ -171,7 +185,14 @@ export default class MyPosts extends React.Component {
           </ul>
           <div className="posts">{this.renderPosts()}</div>
         </div>
-        <MenuMyPosts show={show} menu={menu} navigation={navigation} onClose={this.onCloseMenu} />
+        <Menu
+          show={show}
+          width={12}
+          menuPosition={menuPosition}
+          arrowPosition="left: 6rem;"
+          navigation={navigation}
+          onClose={this.onCloseMenu}
+        />
       </Container>
     )
   }

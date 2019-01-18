@@ -1,30 +1,11 @@
 import styled from 'styled-components'
-import { darken } from 'polished'
 import { UserContext } from '../lib/user-context'
+import { ButtonText, ButtonOutline } from './styles/Button'
 
 const NotRegistered = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  button {
-    background: transparent;
-    color: ${props => darken(0.05, props.theme.primary)};
-    border: 0;
-    outline: 0;
-    font-size: 1.35rem;
-    font-family: 'Roboto Slab Bold';
-    cursor: pointer;
-    transition: all 0.25s;
-    &:hover {
-      color: ${props => darken(0.1, props.theme.primary)};
-    }
-  }
-  & > :last-child {
-    background: ${props => props.theme.white};
-    border: 2px solid;
-    border-radius: ${props => props.theme.borderRadius};
-    padding: 0.75rem 1.5rem;
-  }
 `
 
 const Registered = styled.div`
@@ -49,8 +30,8 @@ const Register = () => (
       if (!user) {
         return (
           <NotRegistered>
-            <button onClick={onSignin}>Sign in</button>
-            <button onClick={onSignup}>Get started</button>
+            <ButtonText onClick={onSignin}>Sign in</ButtonText>
+            <ButtonOutline onClick={onSignup}>Get started</ButtonOutline>
           </NotRegistered>
         )
       } else {

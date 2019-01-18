@@ -6,7 +6,7 @@ import Meta from './Meta'
 import Header from './Header'
 import Signin from './Signin'
 import Signup from './Signup'
-import MenuMain from './MenuMain'
+import Menu from './Menu'
 import User from './User'
 import grey from './styles/grey'
 import shadows from './styles/shadows'
@@ -108,6 +108,13 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
+const navigation = [
+  { type: 'link', text: 'New Story', pathname: '/post-edit', id: 'new' },
+  { type: 'link', text: 'Stories', pathname: '/my-posts' },
+  { type: 'separator' },
+  { type: 'link', text: 'Profile', pathname: '/profile' }
+]
+
 export default class Page extends React.Component {
   state = {
     showSignin: false,
@@ -170,7 +177,15 @@ export default class Page extends React.Component {
                   </Inner>
                   <Signin show={showSignin} onSwitch={this.onSwitch} onClose={this.onCloseModal} />
                   <Signup show={showSignup} onSwitch={this.onSwitch} onClose={this.onCloseModal} />
-                  <MenuMain show={showMenu} onSignout={this.onSignout} onClose={this.onCloseMenu} />
+                  <Menu
+                    show={showMenu}
+                    width={23}
+                    menuPosition={{ top: '6.5rem', right: '5rem' }}
+                    arrowPosition="left: 21rem"
+                    navigation={navigation}
+                    onSignout={this.onSignout}
+                    onClose={this.onCloseMenu}
+                  />
                 </StyledPage>
               </UserContext.Provider>
             )

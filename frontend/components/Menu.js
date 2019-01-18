@@ -1,16 +1,9 @@
 import PropTypes from 'prop-types'
 import Router from 'next/router'
-import { MenuOuter, MenuInner, MenuArrow, Backdrop } from './styles/Menu'
 import Signout from './Signout'
+import { MenuOuter, MenuInner, MenuArrow, Backdrop } from './styles/MenuStyles'
 
-const navigation = [
-  { text: 'New Story', pathname: '/post-edit', id: 'new' },
-  { text: 'Stories', pathname: '/my-posts' },
-  { text: 'separator' },
-  { text: 'Profile', pathname: '/profile' }
-]
-
-class MenuMain extends React.Component {
+export default class Menu extends React.Component {
   backdrop = React.createRef()
 
   componentDidUpdate(prevProps) {
@@ -29,7 +22,7 @@ class MenuMain extends React.Component {
     }
   }
 
-  onClick = (pathname, id) => {
+  onClick = (type, pathname, id) => {
     let route
     if (id) {
       route = { pathname, query: { id } }
@@ -42,43 +35,52 @@ class MenuMain extends React.Component {
 
   render() {
     const {
-      props: { show, onSignout }
+      props: { show, width, menuPosition, arrowPosition, navigation, onSignout }
     } = this
     return (
       <React.Fragment>
         <Backdrop ref={this.backdrop} show={show} />
-        <MenuOuter show={show} position={{ top: '6.5rem', right: '5rem' }}>
-          <MenuInner width={23}>
+        <MenuOuter show={show} position={menuPosition}>
+          <MenuInner width={width}>
             <ul role="menu">
               {navigation.map((nav, i) => {
-                if (nav.text === 'separator') {
+                if (nav.type === 'separator') {
                   return <li key={i} className="separator" />
                 } else {
                   return (
                     <li
                       key={i}
                       className="list-item"
-                      onClick={() => this.onClick(nav.pathname, nav.id)}
+                      onClick={() => this.onClick(nav.type, nav.pathname, nav.id)}
                     >
                       {nav.text}
                     </li>
                   )
                 }
               })}
-              <Signout onClick={onSignout} />
+              {onSignout && <Signout onClick={onSignout} />}
             </ul>
           </MenuInner>
-          <MenuArrow position="left: 21rem" />
+          <MenuArrow position={arrowPosition} />
         </MenuOuter>
       </React.Fragment>
     )
   }
 }
 
-MenuMain.propTypes = {
+Menu.propTypes = {
   show: PropTypes.bool.isRequired,
-  onSignout: PropTypes.func.isRequired,
+  width: PropTypes.number.isRequired,
+  menuPosition: PropTypes.object.isRequired,
+  arrowPosition: PropTypes.string.isRequired,
+  navigation: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      text: PropTypes.string,
+      pathname: PropTypes.string,
+      id: PropTypes.string
+    })
+  ),
+  onSignout: PropTypes.func,
   onClose: PropTypes.func.isRequired
 }
-
-export default MenuMain
