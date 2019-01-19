@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { Upload, Image } from 'styled-icons/icomoon'
 import PropTypes from 'prop-types'
 import { darken } from 'polished'
+import { Row, SubHeading, IconButton } from '../styles/EditorStyles'
 
 const Container = styled.div`
   padding: 0.5rem;
@@ -20,46 +21,23 @@ const Container = styled.div`
     display: none;
   }
   .icons {
-    display: grid;
-    grid-template-columns: 1fr repeat(2, 5rem);
-    justify-content: flex-end;
-    align-items: center;
-    & > :first-child {
-      font-family: 'Roboto Slab Bold';
-      font-size: 1.5rem;
-      color: ${props => props.theme.grey[10]};
-    }
-    .icon {
-      width: 5rem;
-      display: grid;
-      justify-items: center;
-      align-items: center;
-      color: ${props => props.theme.grey[10]};
-      cursor: pointer;
-      transition: color 0.25s;
-      &:hover {
-        color: ${props => darken(0.1, props.theme.primary)};
-      }
-      svg {
-        width: 2rem;
-        height: 2rem;
-        color: inherit;
-      }
-    }
+    display: flex;
   }
 `
 
 const Uploader = ({ inputRef, copied, imageUrl, onChange, onUploadClick, onCopyClick }) => (
   <Container copied={copied}>
-    <div className="icons">
-      <span>Upload Image</span>
-      <div className="icon" onClick={onUploadClick}>
-        <Upload />
+    <Row>
+      <SubHeading>Upload Image</SubHeading>
+      <div className="icons">
+        <IconButton onClick={onUploadClick}>
+          <Upload />
+        </IconButton>
+        <IconButton onClick={onCopyClick}>
+          <Image />
+        </IconButton>
       </div>
-      <div className="icon" onClick={onCopyClick}>
-        <Image />
-      </div>
-    </div>
+    </Row>
     <input
       type="text"
       value={copied ? 'Copied to clipboard 🌼' : imageUrl}

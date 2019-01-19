@@ -1,6 +1,8 @@
 import styled from 'styled-components'
+import { Trashcan } from 'styled-icons/octicons'
 import { darken, lighten, transparentize } from 'polished'
 import PropTypes from 'prop-types'
+import { Row, SubHeading, IconButton } from '../styles/EditorStyles'
 
 const Container = styled.div`
   justify-self: center;
@@ -48,12 +50,20 @@ const Container = styled.div`
 `
 
 const Featured = ({ inputRef, image, onClick, onChange }) => (
-  <Container image={image} onClick={onClick}>
-    <div className="message">
-      <span>Featured Image</span> <span>Click to +</span>
-    </div>
-    <input ref={inputRef} type="file" accept="image/*" multiple={false} onChange={onChange} />
-  </Container>
+  <React.Fragment>
+    <Row>
+      <SubHeading>Featured Image</SubHeading>
+      <IconButton color="red">
+        <Trashcan />
+      </IconButton>
+    </Row>
+    <Container image={image} onClick={onClick}>
+      <div className="message">
+        <span>Featured Image</span> <span>Click to +</span>
+      </div>
+      <input ref={inputRef} type="file" accept="image/*" multiple={false} onChange={onChange} />
+    </Container>
+  </React.Fragment>
 )
 
 Featured.propTypes = {

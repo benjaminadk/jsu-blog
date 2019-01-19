@@ -20,6 +20,15 @@ const CREATE_POST_MUTATION = gql`
   }
 `
 
+const UPDATE_POST_MUTATION = gql`
+  mutation UPDATE_POST_MUTATION($id: ID!, $data: PostUpdateInput) {
+    updatePost(id: $id, data: $data) {
+      success
+      message
+    }
+  }
+`
+
 const SINGLE_POST_QUERY = gql`
   query SINGLE_POST_QUERY($id: ID!) {
     post(id: $id) {
@@ -43,58 +52,46 @@ const Container = styled.div`
 `
 
 const Editor = styled.div`
-  display: grid;
-  grid-template-rows: auto 1fr;
-  grid-gap: 1rem;
+  justify-self: center;
+  width: 75%;
   padding: 0 1rem;
   margin-top: 1rem;
-  .heading {
-    line-height: 1.5;
+  .title,
+  .subtitle {
+    position: relative;
+    padding-left: 5rem;
     font-family: 'Roboto Slab';
-    font-size: 1.25rem;
-    color: ${props => props.theme.grey[2]};
-    border-bottom: 1px dashed ${props => props.theme.grey[1]};
+    span {
+      display: ${props => (props.showTitle ? 'block' : 'none')};
+      position: absolute;
+      top: 1.5rem;
+      left: -6rem;
+      font-size: 1.1rem;
+      color: ${props => props.theme.grey[5]};
+    }
+    input {
+      width: 100%;
+      font-size: 4.25rem;
+      font-family: inherit;
+    }
   }
-  .content {
-    justify-self: center;
-    width: 75%;
-    .title,
-    .subtitle {
-      position: relative;
-      padding-left: 5rem;
-      font-family: 'Roboto Slab';
-      span {
-        display: ${props => (props.showTitle ? 'block' : 'none')};
-        position: absolute;
-        top: 1.5rem;
-        left: -6rem;
-        font-size: 1.1rem;
-        color: ${props => props.theme.grey[5]};
-      }
-      input {
-        width: 100%;
-        font-size: 4.25rem;
-        font-family: inherit;
-      }
+  .title {
+    border-left: 0.5px solid ${props => (props.showTitle ? props.theme.grey[5] : 'none')};
+  }
+  .subtitle {
+    border-left: 0.5px solid ${props => (props.showSubtitle ? props.theme.grey[5] : 'none')};
+    span {
+      display: ${props => (props.showSubtitle ? 'block' : 'none')};
+      top: 0.5rem;
     }
-    .title {
-      border-left: 0.5px solid ${props => (props.showTitle ? props.theme.grey[5] : 'none')};
+    input {
+      font-size: 2.5rem;
+      color: ${props => props.theme.grey[10]};
     }
-    .subtitle {
-      border-left: 0.5px solid ${props => (props.showSubtitle ? props.theme.grey[5] : 'none')};
-      span {
-        display: ${props => (props.showSubtitle ? 'block' : 'none')};
-        top: 0.5rem;
-      }
-      input {
-        font-size: 2.5rem;
-        color: ${props => props.theme.grey[10]};
-      }
-    }
-    .body {
-      position: relative;
-      display: ${props => (props.preview ? 'none' : 'block')};
-    }
+  }
+  .body {
+    position: relative;
+    display: ${props => (props.preview ? 'none' : 'block')};
   }
 `
 
@@ -113,6 +110,7 @@ class PostEditor extends React.Component {
     subtitle: '',
     body: '',
     image: '',
+    published: false,
     expand: false,
     expandTop: 0.01,
     popup: false,
@@ -137,8 +135,8 @@ class PostEditor extends React.Component {
         query: SINGLE_POST_QUERY,
         variables: { id: this.props.id }
       })
-      const { id, title, subtitle, body, image } = res.data.post
-      this.setState({ id, title, subtitle, body, image })
+      const { id, title, subtitle, body, image, published } = res.data.post
+      this.setState({ id, title, subtitle, body, image, published })
     }
   }
 
@@ -226,13 +224,14 @@ class PostEditor extends React.Component {
         title,
         subtitle,
         body,
+        image,
+        published,
         expand,
         expandTop,
         popup,
         popupTop,
         popupLeft,
-        preview,
-        image
+        preview
       },
       props: { user }
     } = this
@@ -243,59 +242,56 @@ class PostEditor extends React.Component {
           showTitle={Boolean(title.length)}
           showSubtitle={Boolean(subtitle.length)}
         >
-          <div className="heading">{preview ? 'Preview Mode' : 'Editor Mode'}</div>
-          <div className="content">
-            <div className="title">
-              <span>Title</span>
-              <input
-                type="text"
-                name="title"
-                placeholder="Title"
-                value={title}
-                onChange={this.onChange}
-                onFocus={this.onFocus}
-              />
-            </div>
-            <div className="subtitle">
-              <span>Subtitle</span>
-              <input
-                type="text"
-                name="subtitle"
-                placeholder="Subtitle"
-                value={subtitle}
-                onChange={this.onChange}
-                onFocus={this.onFocus}
-              />
-            </div>
-            <div className="body">
-              <Toolbar1
-                top={expandTop}
-                expand={expand}
-                toggleExpander={this.toggleExpander}
-                togglePreview={this.togglePreview}
-              />
-              <Toolbar2
-                show={popup}
-                top={popupTop}
-                left={popupLeft}
-                textDecorator={this.textDecorator}
-              />
-              <Textarea
-                innerRef={el => (this.textarea = el)}
-                placeholder={expand ? '' : 'Markdown your story...'}
-                name="body"
-                value={body}
-                onChange={this.onChange}
-                onFocus={this.onFocus}
-                onSelect={this.onSelect}
-                rows={20}
-                maxRows={100}
-              />
-            </div>
-            <Preview preview={preview} markdown={body} togglePreview={this.togglePreview} />
+          <div className="title">
+            <span>Title</span>
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={title}
+              onChange={this.onChange}
+              onFocus={this.onFocus}
+            />
           </div>
+          <div className="subtitle">
+            <span>Subtitle</span>
+            <input
+              type="text"
+              name="subtitle"
+              placeholder="Subtitle"
+              value={subtitle}
+              onChange={this.onChange}
+              onFocus={this.onFocus}
+            />
+          </div>
+          <div className="body">
+            <Toolbar1
+              top={expandTop}
+              expand={expand}
+              toggleExpander={this.toggleExpander}
+              togglePreview={this.togglePreview}
+            />
+            <Toolbar2
+              show={popup}
+              top={popupTop}
+              left={popupLeft}
+              textDecorator={this.textDecorator}
+            />
+            <Textarea
+              innerRef={el => (this.textarea = el)}
+              placeholder={expand ? '' : 'Markdown your story...'}
+              name="body"
+              value={body}
+              onChange={this.onChange}
+              onFocus={this.onFocus}
+              onSelect={this.onSelect}
+              rows={20}
+              maxRows={100}
+            />
+          </div>
+          <Preview preview={preview} markdown={body} togglePreview={this.togglePreview} />
         </Editor>
-        <PostOptions image={image} user={user} setImage={this.setImage} />
+        <PostOptions image={image} published={published} user={user} setImage={this.setImage} />
       </Container>
     )
   }

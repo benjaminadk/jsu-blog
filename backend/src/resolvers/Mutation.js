@@ -117,6 +117,15 @@ module.exports = {
     }
   },
 
+  updatePost: async (_, args, ctx, info) => {
+    try {
+      await ctx.prisma.updatePost({ where: { id: args.id }, data: { ...args.data } })
+      return { success: true, message: 'Post updated.' }
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
   deletePost: async (_, args, ctx, info) => {
     try {
       await ctx.prisma.deletePost({ id: args.id })
