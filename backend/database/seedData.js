@@ -3,6 +3,7 @@ const axios = require('axios')
 const bcrypt = require('bcryptjs')
 const uuid = require('uuid/v1')
 const md5 = require('md5')
+const md = require('./md')
 
 module.exports = async rows => {
   function createRandomId() {
@@ -42,13 +43,13 @@ module.exports = async rows => {
     createdAt: date
   }
 
-  const postNodes = rows.map(row => {
+  const postNodes = rows.map((row, i) => {
     return {
       _typeName: 'Post',
       id: createRandomId(),
       title: row[0],
       subtitle: row[1],
-      body: row[2],
+      body: i === 0 ? md : row[2],
       image: row[3],
       published: row[4] === 'TRUE' ? true : false,
       updatedAt: date,

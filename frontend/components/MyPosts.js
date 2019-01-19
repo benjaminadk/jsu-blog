@@ -288,7 +288,7 @@ export default class MyPosts extends React.Component {
                 <p>Deleted stories are gone forever. Are you sure?</p>
                 <div>
                   <ButtonDelete onClick={() => this.onDeletePost(deletePost)}>
-                    {loading ? '💥💥💥' : 'Delete'}
+                    {loading ? '💥' : 'Delete'}
                   </ButtonDelete>
                   <ButtonCancel onClick={this.onCloseModal}>Cancel</ButtonCancel>
                 </div>

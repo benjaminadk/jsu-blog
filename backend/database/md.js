@@ -1,16 +1,4 @@
-export default `
-## Features
-
-### Headers
-
-# Header 1
-
-## Header 2
-
-### Header 3
-
-#### Header 4
-
+module.exports = `
 ### Text Decoration
 
 Simple things like **bold text**
@@ -41,8 +29,13 @@ Task List
 - [ ] not completed yet 🙁
 - [x] completed 😎
 
+### Code Highlighting
+
+Inline 
 
 \`inline code\` is supposed to look \`cooler than\` normal text and what happens when thing loop around to a second line and we \`highlight\` code.
+
+Fenced
 
 \`\`\`javascript-dark
 function fakeBreast(size, material) {
@@ -51,7 +44,12 @@ function fakeBreast(size, material) {
 }
 \`\`\`
 
+### Images
+
 ![alt-text](https://jsu-blog.s3.amazonaws.com/images/cjqk28lve8kct0a61tng86ao4/annes-handmade-fb.jpeg "title text-sm")
+
+
+### Blockquotes
 
 > To be or not to be, that is the question.
 

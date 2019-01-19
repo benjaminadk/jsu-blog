@@ -3,13 +3,12 @@ import gql from 'graphql-tag'
 import styled from 'styled-components'
 import TextareaAutosize from 'react-autosize-textarea'
 import getCaretCoordinates from 'textarea-caret'
-import { lighten } from 'polished'
 import Toolbar1 from './Toolbar1'
 import Toolbar2 from './Toolbar2'
 import Preview from './Preview'
 import getPopupPosition from '../lib/popupPosition'
-import md from '../lib/md'
-import Images from './Images'
+import PostOptions from './PostOptions'
+import { ME_QUERY } from './User'
 
 const CREATE_POST_MUTATION = gql`
   mutation CREATE_POST_MUTATION {
@@ -17,6 +16,22 @@ const CREATE_POST_MUTATION = gql`
       success
       message
       id
+    }
+  }
+`
+
+const SINGLE_POST_QUERY = gql`
+  query SINGLE_POST_QUERY($id: ID!) {
+    post(id: $id) {
+      id
+      title
+      subtitle
+      body
+      image
+      tags
+      published
+      updatedAt
+      createdAt
     }
   }
 `
@@ -36,7 +51,7 @@ const Editor = styled.div`
   .heading {
     line-height: 1.5;
     font-family: 'Roboto Slab';
-    font-size: 2rem;
+    font-size: 1.25rem;
     color: ${props => props.theme.grey[2]};
     border-bottom: 1px dashed ${props => props.theme.grey[1]};
   }
@@ -93,31 +108,38 @@ const Textarea = styled(TextareaAutosize)`
 
 class PostEditor extends React.Component {
   state = {
+    id: '',
     title: '',
     subtitle: '',
-    body: md,
+    body: '',
+    image: '',
     expand: false,
     expandTop: 0.01,
     popup: false,
     popupTop: '',
     popupLeft: '',
-    preview: false,
-    image: ''
+    preview: false
   }
 
   async componentDidMount() {
+    let res
     if (this.props.id === 'new' || !this.props.id) {
-      const res = await this.props.client.mutate({
-        mutation: CREATE_POST_MUTATION
+      res = await this.props.client.mutate({
+        mutation: CREATE_POST_MUTATION,
+        refetchQueries: [{ query: ME_QUERY }]
       })
       const { success, id } = res.data.createPost
       if (success) {
         this.setState({ id })
       }
     } else {
-      //lookup post
+      res = await this.props.client.query({
+        query: SINGLE_POST_QUERY,
+        variables: { id: this.props.id }
+      })
+      const { id, title, subtitle, body, image } = res.data.post
+      this.setState({ id, title, subtitle, body, image })
     }
-    this.textarea && this.textarea.focus()
   }
 
   componentWillUnmount() {
@@ -221,7 +243,7 @@ class PostEditor extends React.Component {
           showTitle={Boolean(title.length)}
           showSubtitle={Boolean(subtitle.length)}
         >
-          <div className="heading">{preview ? 'Preview' : 'Editor'}</div>
+          <div className="heading">{preview ? 'Preview Mode' : 'Editor Mode'}</div>
           <div className="content">
             <div className="title">
               <span>Title</span>
@@ -273,7 +295,7 @@ class PostEditor extends React.Component {
             <Preview preview={preview} markdown={body} togglePreview={this.togglePreview} />
           </div>
         </Editor>
-        <Images image={image} user={user} setImage={this.setImage} />
+        <PostOptions image={image} user={user} setImage={this.setImage} />
       </Container>
     )
   }

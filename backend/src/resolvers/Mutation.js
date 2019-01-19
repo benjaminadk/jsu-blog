@@ -106,6 +106,9 @@ module.exports = {
   createPost: async (_, args, ctx, info) => {
     try {
       const post = await ctx.prisma.createPost({
+        subtitle: '',
+        body: '',
+        image: '',
         author: { connect: { id: ctx.userId } }
       })
       return { success: true, message: 'Post created.', id: post.id }

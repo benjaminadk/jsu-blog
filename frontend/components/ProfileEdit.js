@@ -4,11 +4,11 @@ import gql from 'graphql-tag'
 import Router from 'next/router'
 import axios from 'axios'
 import NProgress from 'nprogress'
-import { darken } from 'polished'
 import { Camera } from 'styled-icons/feather'
 import PropTypes from 'prop-types'
 import formatFilename from '../lib/formatFilename'
 import { ME_QUERY } from './User'
+import { ButtonOutline, ButtonCancel } from './styles/Button'
 
 export const SIGN_S3_MUTATION = gql`
   mutation SIGN_S3_MUTATION($filename: String!, $filetype: String!) {
@@ -48,10 +48,13 @@ const Container = styled.div`
         resize: none;
       }
       input {
+        font-family: 'Roboto Bold';
         font-size: 3rem;
       }
       textarea {
-        font-size: 1.65rem;
+        font-family: 'Roboto Slab';
+        font-size: 1.5rem;
+        color: ${props => props.theme.grey[10]};
       }
       span {
         font-size: 1rem;
@@ -61,24 +64,7 @@ const Container = styled.div`
   .actions {
     width: 50%;
     button {
-      background: ${props => props.theme.white};
-      color: ${props => props.theme.primary};
-      border: 1px solid;
-      border-radius: ${props => props.theme.borderRadius};
-      outline: 0;
-      padding: 0.85rem 1.25rem;
       margin-right: 1rem;
-      cursor: pointer;
-      transition: all 0.25s;
-      &:hover {
-        color: ${props => `${darken(0.05, props.theme.primary)}`};
-      }
-    }
-    & > :last-child {
-      color: ${props => props.theme.grey[7]};
-      &:hover {
-        color: ${props => props.theme.grey[10]};
-      }
     }
   }
 `
@@ -231,10 +217,12 @@ class ProfileEdit extends React.Component {
         <div className="actions">
           <Mutation mutation={UPDATE_USER_MUTATION} refetchQueries={[{ query: ME_QUERY }]}>
             {(updateUser, { loading }) => (
-              <button onClick={() => this.onSave(updateUser)}>Sav{loading ? 'ing' : 'e'}</button>
+              <ButtonOutline onClick={() => this.onSave(updateUser)}>
+                Sav{loading ? 'ing' : 'e'}
+              </ButtonOutline>
             )}
           </Mutation>
-          <button onClick={this.onCancel}>Cancel</button>
+          <ButtonCancel onClick={this.onCancel}>Cancel</ButtonCancel>
         </div>
       </Container>
     )
