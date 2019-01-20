@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { ArrowBack } from 'styled-icons/boxicons-regular'
 import Markdown from 'markdown-to-jsx'
 import { lighten, darken } from 'polished'
 import FencedBlock from './FencedBlock'
@@ -13,17 +12,6 @@ const Container = styled.div`
   line-height: normal;
   padding-left: 5rem;
   margin-top: 5rem;
-  .back {
-    position: absolute;
-    top: 0;
-    left: -4rem;
-    cursor: pointer;
-    svg {
-      width: 3rem;
-      height: 3rem;
-      color: inherit;
-    }
-  }
 `
 
 const ATag = styled.a.attrs(props => ({
@@ -243,11 +231,8 @@ const overrides = {
   blockquote: Blockquote
 }
 
-export default ({ preview, markdown, togglePreview }) => (
+export default ({ preview, markdown }) => (
   <Container preview={preview}>
-    <div className="back" onClick={togglePreview}>
-      <ArrowBack />
-    </div>
     <Markdown children={markdown} options={{ overrides }} />
   </Container>
 )

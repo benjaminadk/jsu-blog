@@ -16,6 +16,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
+  padding-top: 1rem;
   padding-bottom: 2rem;
   border-bottom: 1px dashed ${props => props.theme.grey[1]};
   span {

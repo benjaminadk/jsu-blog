@@ -70,6 +70,7 @@ class PostEditor extends React.Component {
     subtitle: '',
     body: '',
     image: '',
+    tags: [],
     published: false,
     clean: true,
     expand: false,
@@ -96,8 +97,8 @@ class PostEditor extends React.Component {
         query: SINGLE_POST_QUERY,
         variables: { id: this.props.id }
       })
-      const { id, title, subtitle, body, image, published } = res.data.post
-      this.setState({ id, title, subtitle, body, image, published })
+      const { id, title, subtitle, body, image, tags, published } = res.data.post
+      this.setState({ id, title, subtitle, body, image, tags, published })
     }
   }
 
@@ -106,7 +107,7 @@ class PostEditor extends React.Component {
   }
 
   onUpdatePost = async updatePost => {
-    const { id, title, subtitle, body, image, published } = this.state
+    const { id, title, subtitle, body, image, tags, published } = this.state
     const data = { title, subtitle, body, image, published }
     const res = await updatePost({
       variables: { id, data },
@@ -198,6 +199,7 @@ class PostEditor extends React.Component {
         subtitle,
         body,
         image,
+        tags,
         published,
         clean,
         expand,
@@ -239,16 +241,19 @@ class PostEditor extends React.Component {
               maxRows={100}
             />
           </div>
-          <Preview preview={preview} markdown={body} togglePreview={this.togglePreview} />
+          <Preview preview={preview} markdown={body} />
         </Editor>
         <PostOptions
+          preview={preview}
           image={image}
           published={published}
+          tags={tags}
           clean={clean}
           user={user}
           setPublished={this.setPublished}
           setImage={this.setImage}
           onUpdatePost={this.onUpdatePost}
+          togglePreview={this.togglePreview}
         />
       </Container>
     )

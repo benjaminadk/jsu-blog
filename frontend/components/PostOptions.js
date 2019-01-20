@@ -6,14 +6,16 @@ import PropTypes from 'prop-types'
 import { SIGN_S3_MUTATION } from './ProfileEdit'
 import formatFilename from '../lib/formatFilename'
 import copyToClipboard from '../lib/copyToClipboard'
+import Mode from './PostEditor/Mode'
 import SaveStatus from './PostEditor/SaveStatus'
 import Published from './PostEditor/Published'
+import Tags from './PostEditor/Tags'
 import Uploader from './PostEditor/Uploader'
 import Featured from './PostEditor/Featured'
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10rem 3rem 3rem 22rem 10rem;
+  grid-template-rows: 7rem 3rem 3rem 3rem 22rem 10rem 1fr;
   grid-gap: 1rem;
   align-items: center;
   padding: 0 1rem;
@@ -68,13 +70,24 @@ export default class PostOptions extends React.Component {
   render() {
     const {
       state: { imageUrl, copied },
-      props: { image, published, clean, setPublished, setImage, onUpdatePost }
+      props: {
+        preview,
+        image,
+        published,
+        tags,
+        clean,
+        setPublished,
+        setImage,
+        onUpdatePost,
+        togglePreview
+      }
     } = this
     return (
       <Mutation mutation={SIGN_S3_MUTATION}>
         {(signS3, { loading, error }) => (
           <Container>
             <SaveStatus clean={clean} onClick={onUpdatePost} />
+            <Mode preview={preview} onClick={togglePreview} />
             <Published published={published} onClick={setPublished} />
             <Featured
               inputRef={this.dropzone1}
@@ -91,6 +104,7 @@ export default class PostOptions extends React.Component {
               onCopyClick={this.onCopyClick}
               onChange={e => this.onFile(e, signS3, false)}
             />
+            <Tags tags={tags} />
           </Container>
         )}
       </Mutation>
@@ -102,6 +116,7 @@ PostOptions.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.string.isRequired
   }),
+  preview: PropTypes.bool.isRequired,
   image: PropTypes.string.isRequired,
   clean: PropTypes.bool.isRequired,
   published: PropTypes.bool.isRequired,
