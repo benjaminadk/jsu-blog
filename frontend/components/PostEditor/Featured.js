@@ -21,12 +21,14 @@ const Container = styled.div`
   border: ${props => (props.image ? 'none' : `2px dashed ${props.theme.grey[5]}`)};
   border-radius: ${props => props.theme.borderRadius};
   box-shadow: ${props => (props.image ? props.theme.shadows[1] : 'none')};
+  color: ${props => props.theme.grey[5]};
   cursor: pointer;
   transition: all 0.25s;
   &:hover {
     border: ${props => (props.image ? 'none' : `2px dashed ${darken(0.1, props.theme.primary)}`)};
     background-color: ${props =>
       props.image ? 'none' : `${transparentize(0.85, lighten(0.2, props.theme.primary))}`};
+    color: ${props => darken(0.1, props.theme.primary)};
   }
   input[type='file'] {
     display: none;
@@ -35,31 +37,27 @@ const Container = styled.div`
     display: ${props => (props.image ? 'none' : 'flex')};
     flex-direction: column;
     align-items: center;
-    font-family: 'Roboto Slab Bold';
+    font-family: 'Roboto Bold';
     font-weight: normal;
     background: transparent;
-    & > :first-child {
-      font-size: 1.5rem;
-      color: ${props => props.theme.grey[10]};
-    }
-    & > :last-child {
-      font-size: 1.25rem;
-      color: ${props => props.theme.grey[5]};
+    color: inherit;
+    span {
+      font-size: 3rem;
     }
   }
 `
 
-const Featured = ({ inputRef, image, onClick, onChange }) => (
+const Featured = ({ inputRef, image, onClick, onChange, onDelete }) => (
   <React.Fragment>
     <Row>
       <SubHeading>Featured Image</SubHeading>
-      <IconButton color="red">
+      <IconButton color="red" onClick={onDelete}>
         <Trashcan />
       </IconButton>
     </Row>
     <Container image={image} onClick={onClick}>
       <div className="message">
-        <span>Featured Image</span> <span>Click to +</span>
+        <span>+</span>
       </div>
       <input ref={inputRef} type="file" accept="image/*" multiple={false} onChange={onChange} />
     </Container>
@@ -67,7 +65,10 @@ const Featured = ({ inputRef, image, onClick, onChange }) => (
 )
 
 Featured.propTypes = {
-  onChange: PropTypes.func.isRequired
+  image: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired
 }
 
 export default Featured

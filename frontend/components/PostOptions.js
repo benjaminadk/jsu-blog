@@ -68,19 +68,20 @@ export default class PostOptions extends React.Component {
   render() {
     const {
       state: { imageUrl, copied },
-      props: { image, published }
+      props: { image, published, clean, setPublished, setImage, onUpdatePost }
     } = this
     return (
       <Mutation mutation={SIGN_S3_MUTATION}>
         {(signS3, { loading, error }) => (
           <Container>
-            <SaveStatus />
-            <Published published={published} />
+            <SaveStatus clean={clean} onClick={onUpdatePost} />
+            <Published published={published} onClick={setPublished} />
             <Featured
               inputRef={this.dropzone1}
               image={image}
               onClick={() => this.dropzone1.current.click()}
               onChange={e => this.onFile(e, signS3, true)}
+              onDelete={() => setImage('')}
             />
             <Uploader
               inputRef={this.dropzone2}
@@ -102,6 +103,9 @@ PostOptions.propTypes = {
     id: PropTypes.string.isRequired
   }),
   image: PropTypes.string.isRequired,
+  clean: PropTypes.bool.isRequired,
   published: PropTypes.bool.isRequired,
-  setImage: PropTypes.func.isRequired
+  setPublished: PropTypes.func.isRequired,
+  setImage: PropTypes.func.isRequired,
+  onUpdatePost: PropTypes.func.isRequired
 }

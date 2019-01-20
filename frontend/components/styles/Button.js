@@ -25,6 +25,10 @@ export const ButtonOutline = styled(Button)`
   padding: 0.75rem 1.5rem;
 `
 
+export const ButtonSave = styled(ButtonOutline)`
+  color: ${props => (props.clean ? props.theme.grey[5] : darken(0.05, props.theme.primary))};
+`
+
 export const ButtonDelete = styled(ButtonOutline)`
   color: ${props => props.theme.grey[5]};
   &:hover {
