@@ -27,6 +27,7 @@ const Container = styled.div`
     font-size: 1rem;
     background: ${props => props.theme.grey[0]};
     border: 1px dashed ${props => props.theme.grey[5]};
+    color: ${props => props.theme.grey[10]};
   }
 `
 

@@ -9,7 +9,7 @@ import copyToClipboard from '../lib/copyToClipboard'
 import Mode from './PostEditor/Mode'
 import SaveStatus from './PostEditor/SaveStatus'
 import Published from './PostEditor/Published'
-import Tags from './PostEditor/Tags'
+import TagManager from './PostEditor/TagManager'
 import Uploader from './PostEditor/Uploader'
 import Featured from './PostEditor/Featured'
 
@@ -78,6 +78,7 @@ export default class PostOptions extends React.Component {
         clean,
         setPublished,
         setImage,
+        setTags,
         onUpdatePost,
         togglePreview
       }
@@ -104,7 +105,7 @@ export default class PostOptions extends React.Component {
               onCopyClick={this.onCopyClick}
               onChange={e => this.onFile(e, signS3, false)}
             />
-            <Tags tags={tags} />
+            <TagManager tags={tags} setTags={setTags} />
           </Container>
         )}
       </Mutation>

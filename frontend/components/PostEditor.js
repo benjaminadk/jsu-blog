@@ -108,8 +108,8 @@ class PostEditor extends React.Component {
 
   onUpdatePost = async updatePost => {
     const { id, title, subtitle, body, image, tags, published } = this.state
-    const data = { title, subtitle, body, image, published }
-    const res = await updatePost({
+    const data = { title, subtitle, body, image, published, tags: { set: tags } }
+    await updatePost({
       variables: { id, data },
       refetchQueries: [{ query: SINGLE_POST_QUERY, variables: { id } }]
     })
@@ -192,6 +192,8 @@ class PostEditor extends React.Component {
 
   setImage = image => this.setState({ image, clean: false })
 
+  setTags = tags => this.setState({ tags, clean: false })
+
   render() {
     const {
       state: {
@@ -252,6 +254,7 @@ class PostEditor extends React.Component {
           user={user}
           setPublished={this.setPublished}
           setImage={this.setImage}
+          setTags={this.setTags}
           onUpdatePost={this.onUpdatePost}
           togglePreview={this.togglePreview}
         />
