@@ -80,7 +80,7 @@ export default class PostOptions extends React.Component {
         setImage,
         setTags,
         onUpdatePost,
-        togglePreview
+        setPreview
       }
     } = this
     return (
@@ -88,7 +88,7 @@ export default class PostOptions extends React.Component {
         {(signS3, { loading, error }) => (
           <Container>
             <SaveStatus clean={clean} onClick={onUpdatePost} />
-            <Mode preview={preview} onClick={togglePreview} />
+            <Mode preview={preview} onClick={setPreview} />
             <Published published={published} onClick={setPublished} />
             <Featured
               inputRef={this.dropzone1}

@@ -20,7 +20,14 @@ function getCursorXY(input, selectionPoint) {
   }
 }
 
-export default function(input) {
+export function getCaretPosition(input) {
+  const { offsetTop, offsetHeight, scrollTop, selectionEnd } = input
+  const { x, y } = getCursorXY(input, selectionEnd)
+  const top = Math.min(y - scrollTop, offsetTop + offsetHeight)
+  return top
+}
+
+export function getSelectionPosition(input) {
   const { selectionStart, selectionEnd, offsetLeft, offsetWidth, scrollLeft, scrollTop } = input
   const { y: startTop, x: startLeft } = getCursorXY(input, selectionStart)
   const { y: endTop, x: endLeft } = getCursorXY(input, selectionEnd)

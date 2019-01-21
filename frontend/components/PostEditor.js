@@ -2,13 +2,12 @@ import { withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import styled from 'styled-components'
 import TextareaAutosize from 'react-autosize-textarea'
-import getCaretCoordinates from 'textarea-caret'
-import getPopupPosition from '../lib/popupPosition'
+import { getSelectionPosition } from '../lib/positionHelpers'
+import formatText from '../lib/formatText'
 import { ME_QUERY } from './User'
 import Title from './PostEditor/Title'
 import Subtitle from './PostEditor/Subtitle'
-import Toolbar1 from './PostEditor/Toolbar1'
-import Toolbar2 from './PostEditor/Toolbar2'
+import Toolbar from './PostEditor/Toolbar'
 import Preview from './Preview'
 import PostOptions from './PostOptions'
 
@@ -65,6 +64,7 @@ const Textarea = styled(TextareaAutosize)`
 
 class PostEditor extends React.Component {
   state = {
+    preview: false,
     id: '',
     title: '',
     subtitle: '',
@@ -73,12 +73,9 @@ class PostEditor extends React.Component {
     tags: [],
     published: false,
     clean: true,
-    expand: false,
-    expandTop: 0.01,
-    popup: false,
-    popupTop: '',
-    popupLeft: '',
-    preview: false
+    show: false,
+    top: '',
+    left: ''
   }
 
   async componentDidMount() {
@@ -118,24 +115,17 @@ class PostEditor extends React.Component {
 
   onChange = e => {
     const { name, value } = e.target
-    if (name === 'body') this.setExpanderTop()
     this.setState({ [name]: value, clean: false })
-  }
-
-  onFocus = e => {
-    const { name } = e.target
-    if (name === 'body') this.setExpanderTop()
-    else this.setState({ top: null })
   }
 
   onSelect = e => {
     const { selectionStart, selectionEnd } = e.target
     if (selectionStart === selectionEnd) {
-      return this.setState({ popup: false })
+      return this.setState({ show: false })
     }
     document.body.addEventListener('mousedown', this.onClosePopup)
-    const [popupTop, popupLeft] = getPopupPosition(this.textarea)
-    this.setState({ popup: true, popupTop, popupLeft })
+    const [top, left] = getSelectionPosition(this.textarea)
+    this.setState({ show: true, top, left })
   }
 
   onClosePopup = e => {
@@ -143,28 +133,11 @@ class PostEditor extends React.Component {
     const ignore = ['svg', 'path']
     if (className === 'action' || ignore.includes(tagName) || e.target === this.textarea) return
     document.body.removeEventListener('mousedown', this.onClosePopup)
-    this.setState({ popup: false })
+    this.setState({ show: false })
   }
 
   textDecorator = mode => {
-    const { value, selectionStart: start, selectionEnd: end } = this.textarea
-    const selection = value.substring(start, end)
-    let body, cbMode
-    if (mode === 'bold') {
-      if (!selection.trim()) {
-        cbMode = mode + '.add'
-        body = value.substring(0, start) + ' **bold text** ' + value.substring(end)
-      } else if (
-        value.substring(start - 2, start) === '**' &&
-        value.substring(end, end + 2) === '**'
-      ) {
-        cbMode = mode + '.sub'
-        body = value.substring(0, start - 2) + selection + value.substring(end + 2)
-      } else {
-        cbMode = mode + '.add'
-        body = value.substring(0, start) + `**${selection.trim()}**` + value.substring(end)
-      }
-    }
+    const [cbMode, body, start, end] = formatText(mode, this.textarea)
     this.setState({ body }, () => this.textDecoratorCallback(cbMode, start, end))
   }
 
@@ -179,14 +152,7 @@ class PostEditor extends React.Component {
     this.textarea.focus()
   }
 
-  setExpanderTop = () => {
-    const { top } = getCaretCoordinates(this.textarea, this.textarea.selectionStart)
-    this.setState({ expandTop: top })
-  }
-
-  toggleExpander = () => this.setState(({ expand }) => ({ expand: !expand }))
-
-  togglePreview = () => this.setState(({ preview }) => ({ preview: !preview, expand: false }))
+  setPreview = () => this.setState(({ preview }) => ({ preview: !preview }))
 
   setPublished = () => this.setState(({ published }) => ({ published: !published, clean: false }))
 
@@ -196,51 +162,26 @@ class PostEditor extends React.Component {
 
   render() {
     const {
-      state: {
-        title,
-        subtitle,
-        body,
-        image,
-        tags,
-        published,
-        clean,
-        expand,
-        expandTop,
-        popup,
-        popupTop,
-        popupLeft,
-        preview
-      },
+      state: { title, subtitle, body, image, tags, published, clean, show, top, left, preview },
       props: { user }
     } = this
     return (
       <Container>
-        <Editor preview={preview} showSubtitle={Boolean(subtitle.length)}>
-          <Title title={title} onChange={this.onChange} onFocus={this.onFocus} />
-          <Subtitle subtitle={subtitle} onChange={this.onChange} onFocus={this.onFocus} />
+        <Editor preview={preview}>
+          <Title title={title} onChange={this.onChange} />
+          <Subtitle subtitle={subtitle} onChange={this.onChange} />
           <div className="body">
-            <Toolbar1
-              top={expandTop}
-              expand={expand}
-              toggleExpander={this.toggleExpander}
-              togglePreview={this.togglePreview}
-            />
-            <Toolbar2
-              show={popup}
-              top={popupTop}
-              left={popupLeft}
-              textDecorator={this.textDecorator}
-            />
+            <Toolbar show={show} top={top} left={left} textDecorator={this.textDecorator} />
             <Textarea
               innerRef={el => (this.textarea = el)}
-              placeholder={expand ? '' : 'Markdown your story...'}
+              placeholder="Markdown your story..."
               name="body"
               value={body}
               onChange={this.onChange}
-              onFocus={this.onFocus}
               onSelect={this.onSelect}
               rows={20}
               maxRows={100}
+              spellCheck={false}
             />
           </div>
           <Preview preview={preview} markdown={body} />
@@ -256,7 +197,7 @@ class PostEditor extends React.Component {
           setImage={this.setImage}
           setTags={this.setTags}
           onUpdatePost={this.onUpdatePost}
-          togglePreview={this.togglePreview}
+          setPreview={this.setPreview}
         />
       </Container>
     )

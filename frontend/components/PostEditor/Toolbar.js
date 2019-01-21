@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { FormatBold, FormatItalic, FormatUnderlined, FormatQuote } from 'styled-icons/material'
+import { FormatBold, FormatItalic, FormatQuote } from 'styled-icons/material'
 import { Link as FormatLink, Heading as FormatHeading } from 'styled-icons/boxicons-regular'
+import { Image as FormatImage } from 'styled-icons/icomoon'
 
 const Container = styled.div.attrs(props => ({
   style: {
@@ -51,7 +52,7 @@ const Container = styled.div.attrs(props => ({
       border-top-right-radius: ${props => props.theme.borderRadius};
       border-bottom-right-radius: ${props => props.theme.borderRadius};
     }
-    &:nth-child(5)::after {
+    &:nth-child(4)::after {
       content: '1';
       position: absolute;
       bottom: 0.65rem;
@@ -60,7 +61,7 @@ const Container = styled.div.attrs(props => ({
       font-size: 0.85rem;
       color: inherit;
     }
-    &:nth-child(6)::after {
+    &:nth-child(5)::after {
       content: '2';
       position: absolute;
       bottom: 0.65rem;
@@ -76,11 +77,11 @@ export default ({ show, top, left, textDecorator }) => {
   const actions = [
     { icon: <FormatBold />, click: () => textDecorator('bold') },
     { icon: <FormatItalic />, click: () => {} },
-    { icon: <FormatUnderlined />, click: () => {} },
     { icon: <FormatLink />, click: () => {} },
     { icon: <FormatHeading />, click: () => {} },
     { icon: <FormatHeading />, click: () => {} },
-    { icon: <FormatQuote />, click: () => {} }
+    { icon: <FormatQuote />, click: () => {} },
+    { icon: <FormatImage />, click: () => {} }
   ]
   return (
     <Container show={show} top={top} left={left}>
