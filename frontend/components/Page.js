@@ -113,6 +113,8 @@ const navigation = [
   { type: 'link', text: 'New Story', pathname: '/post-edit', id: 'new' },
   { type: 'link', text: 'Stories', pathname: '/my-posts' },
   { type: 'separator' },
+  { type: 'link', text: 'Customize your interests', pathname: '/my-interests' },
+  { type: 'separator' },
   { type: 'link', text: 'Profile', pathname: '/profile' }
 ]
 

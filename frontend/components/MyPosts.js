@@ -6,6 +6,7 @@ import { format, formatDistance } from 'date-fns'
 import { ME_QUERY } from './User'
 import { ChevronDown } from 'styled-icons/octicons'
 import { ButtonOutline, ButtonDelete, ButtonCancel } from './styles/Button'
+import Tabs from './styles/Tabs'
 import Menu from './Menu'
 import Modal from './Modal'
 
@@ -33,38 +34,6 @@ const Container = styled.div`
       & > :last-child {
         justify-self: flex-end;
       }
-    }
-    ul {
-      list-style: none;
-      display: flex;
-      padding: 0;
-      margin: 0;
-      border-bottom: 1px solid ${props => props.theme.grey[2]};
-    }
-    li {
-      font-family: 'Roboto Bold';
-      font-size: 1.35rem;
-      margin-right: 3rem;
-      padding-bottom: 0.5rem;
-      cursor: pointer;
-      transition: all 0.25s;
-      &:first-of-type {
-        color: ${props => (props.tab === 'drafts' ? props.theme.black : props.theme.grey[5])};
-        border-bottom: ${props =>
-          props.tab === 'drafts' ? `2px solid ${props.theme.grey[10]}` : '2px solid white'};
-      }
-      &:last-of-type {
-        color: ${props => (props.tab === 'published' ? props.theme.black : props.theme.grey[5])};
-        border-bottom: ${props =>
-          props.tab === 'published' ? `2px solid ${props.theme.grey[10]}` : '2px solid white'};
-      }
-      &:hover {
-        color: ${props => props.theme.black};
-      }
-    }
-    .posts {
-      display: grid;
-      grid-template-rows: repeat(auto-fit, minmax(7.5rem, 1fr));
     }
     .empty {
       width: 100%;
@@ -132,7 +101,7 @@ const Confirm = styled.div`
 
 export default class MyPosts extends React.Component {
   state = {
-    tab: 'drafts',
+    tab: 1,
     drafts: [],
     published: [],
     showMenu: false,
@@ -174,12 +143,12 @@ export default class MyPosts extends React.Component {
     // const { pageX: x, pageY: y } = e.nativeEvent
     const { x, y } = this[`menu-${i}`].getBoundingClientRect()
     const { tab } = this.state
-    const type = tab === 'drafts' ? 'draft' : 'story'
+    const type = tab === 1 ? 'draft' : 'story'
     const navigation = [
       { type: 'link', text: `Edit ${type}`, pathname: '/post-edit', id },
       { type: 'cb', text: `Delete ${type}`, id, cb: this.onOpenModal }
     ]
-    if (tab === 'published') {
+    if (tab === 2) {
       navigation.push({ type: 'link', text: 'View stats', pathname: '/my-stats', id })
     }
     this.setState({
@@ -209,11 +178,11 @@ export default class MyPosts extends React.Component {
 
   renderPosts = () => {
     const { tab, drafts, published } = this.state
-    const posts = tab === 'drafts' ? drafts : published
+    const posts = tab === 1 ? drafts : published
     if (!drafts.length || !published.length) {
       return (
         <div className="empty">
-          {tab === 'drafts' ? (
+          {tab === 1 ? (
             <p>You have no drafts.</p>
           ) : (
             <p>You haven’t published any public stories yet.</p>
@@ -258,7 +227,7 @@ export default class MyPosts extends React.Component {
       left: showMenu ? `calc(${coordsMenu.x}px - 5rem)` : 0
     }
     return (
-      <Container tab={tab}>
+      <Container>
         <div className="content">
           <div className="heading">
             <h1>Your Stories</h1>
@@ -266,10 +235,10 @@ export default class MyPosts extends React.Component {
               <ButtonOutline onClick={this.onNewStory}>Write a story</ButtonOutline>
             </div>
           </div>
-          <ul>
-            <li onClick={() => this.setTab('drafts')}>Drafts {drafts.length}</li>
-            <li onClick={() => this.setTab('published')}>Published {published.length}</li>
-          </ul>
+          <Tabs tab={tab}>
+            <li onClick={() => this.setTab(1)}>Drafts {drafts.length}</li>
+            <li onClick={() => this.setTab(2)}>Published {published.length}</li>
+          </Tabs>
           {this.renderPosts()}
         </div>
         <Menu

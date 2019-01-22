@@ -25,6 +25,7 @@ const SINGLE_POST_QUERY = gql`
   query SINGLE_POST_QUERY($id: ID!) {
     post(id: $id) {
       id
+      category
       title
       subtitle
       body
@@ -65,6 +66,7 @@ const Textarea = styled(TextareaAutosize)`
 class PostEditor extends React.Component {
   state = {
     preview: false,
+    category: '',
     id: '',
     title: '',
     subtitle: '',
@@ -94,8 +96,8 @@ class PostEditor extends React.Component {
         query: SINGLE_POST_QUERY,
         variables: { id: this.props.id }
       })
-      const { id, title, subtitle, body, image, tags, published } = res.data.post
-      this.setState({ id, title, subtitle, body, image, tags, published })
+      const { id, category, title, subtitle, body, image, tags, published } = res.data.post
+      this.setState({ id, category, title, subtitle, body, image, tags, published })
     }
   }
 
@@ -104,8 +106,8 @@ class PostEditor extends React.Component {
   }
 
   onUpdatePost = async updatePost => {
-    const { id, title, subtitle, body, image, tags, published } = this.state
-    const data = { title, subtitle, body, image, published, tags: { set: tags } }
+    const { id, category, title, subtitle, body, image, tags, published } = this.state
+    const data = { category, title, subtitle, body, image, published, tags: { set: tags } }
     await updatePost({
       variables: { id, data },
       refetchQueries: [{ query: SINGLE_POST_QUERY, variables: { id } }]
@@ -162,7 +164,20 @@ class PostEditor extends React.Component {
 
   render() {
     const {
-      state: { title, subtitle, body, image, tags, published, clean, show, top, left, preview },
+      state: {
+        category,
+        title,
+        subtitle,
+        body,
+        image,
+        tags,
+        published,
+        clean,
+        show,
+        top,
+        left,
+        preview
+      },
       props: { user }
     } = this
     return (
@@ -187,12 +202,14 @@ class PostEditor extends React.Component {
           <Preview preview={preview} markdown={body} />
         </Editor>
         <PostOptions
+          category={category}
           preview={preview}
           image={image}
           published={published}
           tags={tags}
           clean={clean}
           user={user}
+          onChange={this.onChange}
           setPublished={this.setPublished}
           setImage={this.setImage}
           setTags={this.setTags}

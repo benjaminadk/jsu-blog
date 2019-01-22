@@ -5,9 +5,11 @@ import { darken } from 'polished'
 import { Row, SubHeading, IconButton } from '../styles/EditorStyles'
 
 const Container = styled.div`
-  padding: 0.5rem;
+  display: grid;
   input[type='text'] {
-    width: 100%;
+    justify-self: center;
+    align-self: center;
+    width: 90%;
     border: 1px dashed ${props => props.theme.grey[5]};
     outline: ${props => (props.copied ? `4px solid ${darken(0.1, props.theme.primary)}` : 'none')};
     background: ${props => props.theme.grey[0]};
@@ -15,6 +17,7 @@ const Container = styled.div`
     font-family: 'Roboto Slab';
     font-size: 1rem;
     text-align: center;
+    margin-top: 0.5rem;
     padding: 0.5rem 0.25rem;
   }
   input[type='file'] {

@@ -27,6 +27,7 @@ const Container = styled.header`
 const Logo = styled.div`
   font-size: 3rem;
   font-family: 'Roboto Slab';
+  cursor: pointer;
 `
 
 export default class Header extends React.Component {

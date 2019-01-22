@@ -10,12 +10,13 @@ import Mode from './PostEditor/Mode'
 import SaveStatus from './PostEditor/SaveStatus'
 import Published from './PostEditor/Published'
 import TagManager from './PostEditor/TagManager'
+import Category from './PostEditor/Category'
 import Uploader from './PostEditor/Uploader'
 import Featured from './PostEditor/Featured'
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 7rem 3rem 3rem 3rem 22rem 10rem 1fr;
+  grid-template-rows: 7rem 3rem 3rem 3rem 22rem 7rem 7rem 1fr;
   grid-gap: 1rem;
   align-items: center;
   padding: 0 1rem;
@@ -72,10 +73,12 @@ export default class PostOptions extends React.Component {
       state: { imageUrl, copied },
       props: {
         preview,
+        category,
         image,
         published,
         tags,
         clean,
+        onChange,
         setPublished,
         setImage,
         setTags,
@@ -105,6 +108,7 @@ export default class PostOptions extends React.Component {
               onCopyClick={this.onCopyClick}
               onChange={e => this.onFile(e, signS3, false)}
             />
+            <Category category={category} onChange={onChange} />
             <TagManager tags={tags} setTags={setTags} />
           </Container>
         )}
