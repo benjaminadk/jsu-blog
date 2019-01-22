@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Categories } from 'styled-icons/boxicons-solid'
 import { Row, SubHeading, IconButton } from '../styles/EditorStyles'
+import topics from '../../constants/topics'
 
 const Container = styled.div`
   display: grid;
@@ -20,9 +21,7 @@ const Container = styled.div`
   }
 `
 
-const categories = ['GENERAL', 'ART', 'MUSIC', 'POLITICS', 'PROGRAMMING', 'SCIENCE', 'SPORTS']
-
-const Category = ({ category, onChange }) => (
+const Topic = ({ topic, onChange }) => (
   <Container>
     <Row>
       <SubHeading>Category</SubHeading>
@@ -30,14 +29,14 @@ const Category = ({ category, onChange }) => (
         <Categories />
       </IconButton>
     </Row>
-    <select name="category" value={category} onChange={onChange}>
-      {categories.map(c => (
-        <option key={c} value={c}>
-          {c}
+    <select name="topic" value={topic} onChange={onChange}>
+      {topics.map(t => (
+        <option key={t} value={t.enum}>
+          {t.name}
         </option>
       ))}
     </select>
   </Container>
 )
 
-export default Category
+export default Topic

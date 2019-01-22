@@ -176,7 +176,7 @@ export default class MyPosts extends React.Component {
     }
   }
 
-  renderPosts = () => {
+  renderTabs = () => {
     const { tab, drafts, published } = this.state
     const posts = tab === 1 ? drafts : published
     if (!drafts.length || !published.length) {
@@ -239,7 +239,7 @@ export default class MyPosts extends React.Component {
             <li onClick={() => this.setTab(1)}>Drafts {drafts.length}</li>
             <li onClick={() => this.setTab(2)}>Published {published.length}</li>
           </Tabs>
-          {this.renderPosts()}
+          {this.renderTabs()}
         </div>
         <Menu
           show={showMenu}

@@ -25,7 +25,7 @@ const SINGLE_POST_QUERY = gql`
   query SINGLE_POST_QUERY($id: ID!) {
     post(id: $id) {
       id
-      category
+      topic
       title
       subtitle
       body
@@ -66,7 +66,7 @@ const Textarea = styled(TextareaAutosize)`
 class PostEditor extends React.Component {
   state = {
     preview: false,
-    category: '',
+    topic: '',
     id: '',
     title: '',
     subtitle: '',
@@ -96,8 +96,8 @@ class PostEditor extends React.Component {
         query: SINGLE_POST_QUERY,
         variables: { id: this.props.id }
       })
-      const { id, category, title, subtitle, body, image, tags, published } = res.data.post
-      this.setState({ id, category, title, subtitle, body, image, tags, published })
+      const { id, topic, title, subtitle, body, image, tags, published } = res.data.post
+      this.setState({ id, topic, title, subtitle, body, image, tags, published })
     }
   }
 
@@ -106,8 +106,8 @@ class PostEditor extends React.Component {
   }
 
   onUpdatePost = async updatePost => {
-    const { id, category, title, subtitle, body, image, tags, published } = this.state
-    const data = { category, title, subtitle, body, image, published, tags: { set: tags } }
+    const { id, topic, title, subtitle, body, image, tags, published } = this.state
+    const data = { topic, title, subtitle, body, image, published, tags: { set: tags } }
     await updatePost({
       variables: { id, data },
       refetchQueries: [{ query: SINGLE_POST_QUERY, variables: { id } }]
@@ -165,7 +165,7 @@ class PostEditor extends React.Component {
   render() {
     const {
       state: {
-        category,
+        topic,
         title,
         subtitle,
         body,
@@ -202,7 +202,7 @@ class PostEditor extends React.Component {
           <Preview preview={preview} markdown={body} />
         </Editor>
         <PostOptions
-          category={category}
+          topic={topic}
           preview={preview}
           image={image}
           published={published}

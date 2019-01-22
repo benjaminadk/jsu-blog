@@ -10,7 +10,7 @@ import Mode from './PostEditor/Mode'
 import SaveStatus from './PostEditor/SaveStatus'
 import Published from './PostEditor/Published'
 import TagManager from './PostEditor/TagManager'
-import Category from './PostEditor/Category'
+import Topic from './PostEditor/Topic'
 import Uploader from './PostEditor/Uploader'
 import Featured from './PostEditor/Featured'
 
@@ -73,7 +73,7 @@ export default class PostOptions extends React.Component {
       state: { imageUrl, copied },
       props: {
         preview,
-        category,
+        topic,
         image,
         published,
         tags,
@@ -108,7 +108,7 @@ export default class PostOptions extends React.Component {
               onCopyClick={this.onCopyClick}
               onChange={e => this.onFile(e, signS3, false)}
             />
-            <Category category={category} onChange={onChange} />
+            <Topic topic={topic} onChange={onChange} />
             <TagManager tags={tags} setTags={setTags} />
           </Container>
         )}

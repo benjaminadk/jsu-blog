@@ -47,7 +47,7 @@ module.exports = async rows => {
     return {
       _typeName: 'Post',
       id: createRandomId(),
-      category: row[0],
+      topic: row[0],
       title: row[1],
       subtitle: row[2],
       body: i === 0 ? md : row[3],

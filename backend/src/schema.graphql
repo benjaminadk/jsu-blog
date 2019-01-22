@@ -30,7 +30,7 @@ type User {
 
 type Post {
   id: ID!
-  category: Category!
+  topic: Topic!
   title: String!
   subtitle: String
   body: String
@@ -63,12 +63,16 @@ enum Role {
   ADMIN
 }
 
-enum Category {
-  GENERAL
-  ART
-  MUSIC
-  POLITICS
+enum Topic {
+  ARTIFICIAL_INTELLIGENCE
+  CYBER_SECURITY
+  DATA_SCIENCE
+  JAVASCRIPT
+  MACHINE_LEARNING
+  MATH
+  NONE
   PROGRAMMING
   SCIENCE
-  SPORTS
+  SPACE
+  TECHNOLOGY
 }
