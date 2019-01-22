@@ -47,11 +47,12 @@ module.exports = async rows => {
     return {
       _typeName: 'Post',
       id: createRandomId(),
-      title: row[0],
-      subtitle: row[1],
-      body: i === 0 ? md : row[2],
-      image: row[3],
-      published: row[4] === 'TRUE' ? true : false,
+      category: row[0],
+      title: row[1],
+      subtitle: row[2],
+      body: i === 0 ? md : row[3],
+      image: row[4],
+      published: row[5] === 'TRUE' ? true : false,
       updatedAt: date,
       createdAt: date
     }
@@ -61,7 +62,7 @@ module.exports = async rows => {
     const list = {
       _typeName: 'Post',
       id: post.id,
-      tags: rows[i][5].split(',')
+      tags: rows[i][6].split(',')
     }
     const r1 = { _typeName: 'Post', id: post.id, fieldName: 'author' }
     const r2 = { _typeName: 'User', id: adminId, fieldName: 'posts' }

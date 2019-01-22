@@ -11,6 +11,16 @@ type BatchPayload {
   count: Long!
 }
 
+enum Category {
+  GENERAL
+  ART
+  MUSIC
+  POLITICS
+  PROGRAMMING
+  SCIENCE
+  SPORTS
+}
+
 scalar DateTime
 
 scalar Long
@@ -49,6 +59,7 @@ type PageInfo {
 
 type Post {
   id: ID!
+  category: Category!
   title: String!
   subtitle: String
   body: String
@@ -67,6 +78,7 @@ type PostConnection {
 }
 
 input PostCreateInput {
+  category: Category
   title: String
   subtitle: String
   body: String
@@ -86,6 +98,7 @@ input PostCreatetagsInput {
 }
 
 input PostCreateWithoutAuthorInput {
+  category: Category
   title: String
   subtitle: String
   body: String
@@ -102,6 +115,8 @@ type PostEdge {
 enum PostOrderByInput {
   id_ASC
   id_DESC
+  category_ASC
+  category_DESC
   title_ASC
   title_DESC
   subtitle_ASC
@@ -120,6 +135,7 @@ enum PostOrderByInput {
 
 type PostPreviousValues {
   id: ID!
+  category: Category!
   title: String!
   subtitle: String
   body: String
@@ -145,6 +161,10 @@ input PostScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  category: Category
+  category_not: Category
+  category_in: [Category!]
+  category_not_in: [Category!]
   title: String
   title_not: String
   title_in: [String!]
@@ -243,6 +263,7 @@ input PostSubscriptionWhereInput {
 }
 
 input PostUpdateInput {
+  category: Category
   title: String
   subtitle: String
   body: String
@@ -253,6 +274,7 @@ input PostUpdateInput {
 }
 
 input PostUpdateManyDataInput {
+  category: Category
   title: String
   subtitle: String
   body: String
@@ -262,6 +284,7 @@ input PostUpdateManyDataInput {
 }
 
 input PostUpdateManyMutationInput {
+  category: Category
   title: String
   subtitle: String
   body: String
@@ -291,6 +314,7 @@ input PostUpdatetagsInput {
 }
 
 input PostUpdateWithoutAuthorDataInput {
+  category: Category
   title: String
   subtitle: String
   body: String
@@ -325,6 +349,10 @@ input PostWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  category: Category
+  category_not: Category
+  category_in: [Category!]
+  category_not_in: [Category!]
   title: String
   title_not: String
   title_in: [String!]

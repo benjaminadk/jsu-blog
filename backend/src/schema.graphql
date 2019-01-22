@@ -30,6 +30,7 @@ type User {
 
 type Post {
   id: ID!
+  category: Category!
   title: String!
   subtitle: String
   body: String
@@ -60,4 +61,14 @@ type PostPayload {
 enum Role {
   USER
   ADMIN
+}
+
+enum Category {
+  GENERAL
+  ART
+  MUSIC
+  POLITICS
+  PROGRAMMING
+  SCIENCE
+  SPORTS
 }

@@ -13,6 +13,7 @@ type User {
 
 type Post {
   id: ID! @unique
+  category: Category! @default(value: "GENERAL")
   title: String! @default(value: "Untitled")
   subtitle: String
   body: String
@@ -27,4 +28,14 @@ type Post {
 enum Role {
   USER
   ADMIN
+}
+
+enum Category {
+  GENERAL
+  ART
+  MUSIC
+  POLITICS
+  PROGRAMMING
+  SCIENCE
+  SPORTS
 }
