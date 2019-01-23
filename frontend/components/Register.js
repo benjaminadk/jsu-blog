@@ -9,7 +9,7 @@ const NotRegistered = styled.div`
 `
 
 const Registered = styled.div`
-  width: 100%;
+  width: 6rem;
   height: 100%;
   display: grid;
   justify-items: center;
