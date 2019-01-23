@@ -43,6 +43,13 @@ module.exports = async rows => {
     createdAt: date
   }
 
+  const topics = {
+    _typeName: 'User',
+    id: adminId,
+    topics: []
+  }
+  lists.push(topics)
+
   const postNodes = rows.map((row, i) => {
     return {
       _typeName: 'Post',

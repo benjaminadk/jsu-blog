@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Tabs from './styles/Tabs'
-import topics from '../constants/topics'
+import Topics from './MyInterests/Topics'
 
 const Container = styled.div`
   display: grid;
@@ -22,19 +22,10 @@ const Container = styled.div`
   }
 `
 
-const TopicCard = styled.div`
-  width: 28rem;
-  height: 28rem;
-  display: flex;
-  flex-direction: column;
-  img {
-    height: 18rem;
-  }
-`
-
 class MyInterests extends React.Component {
   state = {
-    tab: 1
+    tab: 1,
+    myTopics: []
   }
 
   setTab = tab => this.setState({ tab })
@@ -42,16 +33,7 @@ class MyInterests extends React.Component {
   renderTabs = () => {
     const { tab } = this.state
     if (tab === 2) {
-      return (
-        <div>
-          {topics.map(t => (
-            <TopicCard key={t.name}>
-              <div>{t.name}</div>
-              <img src={t.src} alt={t.name} />
-            </TopicCard>
-          ))}
-        </div>
-      )
+      return <Topics />
     } else {
       return null
     }

@@ -25,6 +25,7 @@ type User {
   bio: String
   role: Role!
   posts: [Post]
+  topics: [Topic]!
   createdAt: DateTime!
 }
 

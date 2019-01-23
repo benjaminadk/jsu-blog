@@ -10,6 +10,7 @@ const Subtitle = ({ subtitle, onChange }) => (
       placeholder="Subtitle"
       value={subtitle}
       onChange={onChange}
+      spellCheck={false}
     />
   </SubtitleInput>
 )

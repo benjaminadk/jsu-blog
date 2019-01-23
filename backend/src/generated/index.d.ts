@@ -151,8 +151,8 @@ export type Role = "USER" | "ADMIN";
 export type PostOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "category_ASC"
-  | "category_DESC"
+  | "topic_ASC"
+  | "topic_DESC"
   | "title_ASC"
   | "title_DESC"
   | "subtitle_ASC"
@@ -188,19 +188,23 @@ export type UserOrderByInput =
   | "createdAt_ASC"
   | "createdAt_DESC";
 
-export type Category =
-  | "GENERAL"
-  | "ART"
-  | "MUSIC"
-  | "POLITICS"
+export type Topic =
+  | "ARTIFICIAL_INTELLIGENCE"
+  | "CYBER_SECURITY"
+  | "DATA_SCIENCE"
+  | "JAVASCRIPT"
+  | "MACHINE_LEARNING"
+  | "MATH"
+  | "NONE"
   | "PROGRAMMING"
   | "SCIENCE"
-  | "SPORTS";
+  | "SPACE"
+  | "TECHNOLOGY";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export interface PostUpdateInput {
-  category?: Category;
+  topic?: Topic;
   title?: String;
   subtitle?: String;
   body?: String;
@@ -255,7 +259,7 @@ export interface UserSubscriptionWhereInput {
 }
 
 export interface PostCreateInput {
-  category?: Category;
+  topic?: Topic;
   title?: String;
   subtitle?: String;
   body?: String;
@@ -304,7 +308,7 @@ export interface UserCreateWithoutPostsInput {
 }
 
 export interface PostUpdateWithoutAuthorDataInput {
-  category?: Category;
+  topic?: Topic;
   title?: String;
   subtitle?: String;
   body?: String;
@@ -314,7 +318,7 @@ export interface PostUpdateWithoutAuthorDataInput {
 }
 
 export interface PostCreateWithoutAuthorInput {
-  category?: Category;
+  topic?: Topic;
   title?: String;
   subtitle?: String;
   body?: String;
@@ -377,10 +381,10 @@ export interface PostScalarWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  category?: Category;
-  category_not?: Category;
-  category_in?: Category[] | Category;
-  category_not_in?: Category[] | Category;
+  topic?: Topic;
+  topic_not?: Topic;
+  topic_in?: Topic[] | Topic;
+  topic_not_in?: Topic[] | Topic;
   title?: String;
   title_not?: String;
   title_in?: String[] | String;
@@ -466,7 +470,7 @@ export interface PostCreateManyWithoutAuthorInput {
 }
 
 export interface PostUpdateManyMutationInput {
-  category?: Category;
+  topic?: Topic;
   title?: String;
   subtitle?: String;
   body?: String;
@@ -495,10 +499,10 @@ export interface PostWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
-  category?: Category;
-  category_not?: Category;
-  category_in?: Category[] | Category;
-  category_not_in?: Category[] | Category;
+  topic?: Topic;
+  topic_not?: Topic;
+  topic_in?: Topic[] | Topic;
+  topic_not_in?: Topic[] | Topic;
   title?: String;
   title_not?: String;
   title_in?: String[] | String;
@@ -585,7 +589,7 @@ export type UserWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface PostUpdateManyDataInput {
-  category?: Category;
+  topic?: Topic;
   title?: String;
   subtitle?: String;
   body?: String;
@@ -858,7 +862,7 @@ export interface PostEdgeSubscription
 
 export interface Post {
   id: ID_Output;
-  category: Category;
+  topic: Topic;
   title: String;
   subtitle?: String;
   body?: String;
@@ -871,7 +875,7 @@ export interface Post {
 
 export interface PostPromise extends Promise<Post>, Fragmentable {
   id: () => Promise<ID_Output>;
-  category: () => Promise<Category>;
+  topic: () => Promise<Topic>;
   title: () => Promise<String>;
   subtitle: () => Promise<String>;
   body: () => Promise<String>;
@@ -887,7 +891,7 @@ export interface PostSubscription
   extends Promise<AsyncIterator<Post>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  category: () => Promise<AsyncIterator<Category>>;
+  topic: () => Promise<AsyncIterator<Topic>>;
   title: () => Promise<AsyncIterator<String>>;
   subtitle: () => Promise<AsyncIterator<String>>;
   body: () => Promise<AsyncIterator<String>>;
@@ -947,7 +951,7 @@ export interface PostSubscriptionPayloadSubscription
 
 export interface PostPreviousValues {
   id: ID_Output;
-  category: Category;
+  topic: Topic;
   title: String;
   subtitle?: String;
   body?: String;
@@ -962,7 +966,7 @@ export interface PostPreviousValuesPromise
   extends Promise<PostPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  category: () => Promise<Category>;
+  topic: () => Promise<Topic>;
   title: () => Promise<String>;
   subtitle: () => Promise<String>;
   body: () => Promise<String>;
@@ -977,7 +981,7 @@ export interface PostPreviousValuesSubscription
   extends Promise<AsyncIterator<PostPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  category: () => Promise<AsyncIterator<Category>>;
+  topic: () => Promise<AsyncIterator<Topic>>;
   title: () => Promise<AsyncIterator<String>>;
   subtitle: () => Promise<AsyncIterator<String>>;
   body: () => Promise<AsyncIterator<String>>;
@@ -1138,15 +1142,15 @@ export type Boolean = boolean;
 
 export const models: Model[] = [
   {
-    name: "Category",
-    embedded: false
-  },
-  {
     name: "Post",
     embedded: false
   },
   {
     name: "Role",
+    embedded: false
+  },
+  {
+    name: "Topic",
     embedded: false
   },
   {
