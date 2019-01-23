@@ -7,7 +7,7 @@ type User {
   bio: String @default(value: "Blogger")
   role: Role! @default(value: "USER")
   posts: [Post]
-  topics: [Topic]!
+  topics: [Topic]
   updatedAt: DateTime!
   createdAt: DateTime!
 }

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Tabs from './styles/Tabs'
 import Topics from './MyInterests/Topics'
+import { ME_QUERY } from './User'
 
 const Container = styled.div`
   display: grid;
@@ -24,16 +25,46 @@ const Container = styled.div`
 
 class MyInterests extends React.Component {
   state = {
-    tab: 1,
-    myTopics: []
+    tab: 1
+  }
+
+  onUpdateUser = async (updateUser, selected, topic) => {
+    let { topics } = this.props.user
+    if (selected) {
+      topics = topics.filter(t => t !== topic)
+    } else {
+      topics.push(topic)
+    }
+    await updateUser({
+      variables: { data: { topics: { set: topics } } },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        updateUser: {
+          __typename: 'UserPayload',
+          success: true,
+          message: 'User updated.',
+          user: Object.assign({}, this.props.user, { topics })
+        }
+      },
+      update: (proxy, { data: { updateUser } }) => {
+        const data = proxy.readQuery({ query: ME_QUERY })
+        data.me.topics = updateUser.user.topics
+        proxy.writeQuery({ query: ME_QUERY, data })
+      }
+    })
   }
 
   setTab = tab => this.setState({ tab })
 
   renderTabs = () => {
-    const { tab } = this.state
+    const {
+      state: { tab },
+      props: {
+        user: { topics }
+      }
+    } = this
     if (tab === 2) {
-      return <Topics />
+      return <Topics topics={topics} onUpdateUser={this.onUpdateUser} />
     } else {
       return null
     }

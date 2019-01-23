@@ -10,7 +10,7 @@ type Mutation {
   signin(email: String!, password: String!): Payload
   signout: Payload
   signS3(filename: String!, filetype: String!): S3Payload
-  updateUser(name: String, bio: String, image: String): Payload
+  updateUser(data: UserUpdateInput): UserPayload
   createPost: PostPayload
   updatePost(id: ID!, data: PostUpdateInput): Payload
   deletePost(id: ID!): Payload
@@ -25,7 +25,7 @@ type User {
   bio: String
   role: Role!
   posts: [Post]
-  topics: [Topic]!
+  topics: [Topic]
   createdAt: DateTime!
 }
 
@@ -51,6 +51,12 @@ type Payload {
 type S3Payload {
   requestUrl: String!
   imageUrl: String!
+}
+
+type UserPayload {
+  success: Boolean!
+  message: String!
+  user: User
 }
 
 type PostPayload {

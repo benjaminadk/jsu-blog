@@ -1,6 +1,8 @@
 import styled from 'styled-components'
-import { Add } from 'styled-icons/material'
+import { Add, Check } from 'styled-icons/material'
 import { Checkmark } from 'styled-icons/icomoon'
+import { Mutation } from 'react-apollo'
+import { UPDATE_USER_MUTATION } from '../ProfileEdit'
 import TOPICS from '../../constants/topics'
 
 const Container = styled.div`
@@ -45,18 +47,20 @@ const Card = styled.div`
       cursor: pointer;
     }
     & > :last-child {
-      width: 3rem;
-      height: 3rem;
+      width: 3.5rem;
+      height: 3.5rem;
       display: grid;
       justify-items: center;
       align-items: center;
       border-radius: 50%;
-      border: 1px solid ${props => props.theme.grey[4]};
-      color: ${props => props.theme.grey[4]};
+      border: 1px solid ${props => (props.selected ? props.theme.grey[10] : props.theme.grey[4])};
+      background: ${props => (props.selected ? props.theme.grey[10] : 'transparent')};
+      color: ${props => (props.selected ? props.theme.white : props.theme.grey[4])};
       cursor: pointer;
+      transition: all 0.25s;
       svg {
-        width: 2rem;
-        height: 2rem;
+        width: ${props => (props.selected ? '1.75rem' : '2rem')};
+        height: ${props => (props.selected ? '1.75rem' : '2rem')};
         color: inherit;
       }
     }
@@ -73,25 +77,32 @@ const Card = styled.div`
   }
 `
 
-const Topics = props => (
+const Topics = ({ topics, onUpdateUser }) => (
   <Container>
     {TOPICS.map(x => (
-      <div className="section">
+      <div key={x.title} className="section">
         <Heading>
           <span>{x.title}</span>
         </Heading>
         <Grid>
-          {x.topics.map((y, index) => (
-            <Card image={y.src}>
-              <div className="top">
-                <span>{y.name}</span>
-                <span>
-                  <Add />
-                </span>
-              </div>
-              <div className="bottom" />
-            </Card>
-          ))}
+          {x.topics.map(y => {
+            const selected = topics.includes(y.enum)
+            return (
+              <Card key={y.name} image={y.src} selected={selected}>
+                <div className="top">
+                  <span>{y.name}</span>
+                  <Mutation mutation={UPDATE_USER_MUTATION}>
+                    {(updateUser, { loading, error }) => (
+                      <span onClick={() => onUpdateUser(updateUser, selected, y.enum)}>
+                        {selected ? <Checkmark /> : <Add />}
+                      </span>
+                    )}
+                  </Mutation>
+                </div>
+                <div className="bottom" />
+              </Card>
+            )
+          })}
         </Grid>
       </div>
     ))}

@@ -6,6 +6,7 @@ module.exports = `
     image
     bio
     createdAt
+    topics
     posts {
       id
       title

@@ -9,6 +9,7 @@ export const ME_QUERY = gql`
       email
       image
       bio
+      topics
       createdAt
       posts {
         id

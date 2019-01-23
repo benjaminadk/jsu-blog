@@ -470,6 +470,7 @@ type User {
   bio: String
   role: Role!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  topics: [Topic!]!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -488,11 +489,16 @@ input UserCreateInput {
   bio: String
   role: Role
   posts: PostCreateManyWithoutAuthorInput
+  topics: UserCreatetopicsInput
 }
 
 input UserCreateOneWithoutPostsInput {
   create: UserCreateWithoutPostsInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreatetopicsInput {
+  set: [Topic!]
 }
 
 input UserCreateWithoutPostsInput {
@@ -502,6 +508,7 @@ input UserCreateWithoutPostsInput {
   image: String
   bio: String
   role: Role
+  topics: UserCreatetopicsInput
 }
 
 type UserEdge {
@@ -538,6 +545,7 @@ type UserPreviousValues {
   image: String
   bio: String
   role: Role!
+  topics: [Topic!]!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -568,6 +576,7 @@ input UserUpdateInput {
   bio: String
   role: Role
   posts: PostUpdateManyWithoutAuthorInput
+  topics: UserUpdatetopicsInput
 }
 
 input UserUpdateManyMutationInput {
@@ -577,6 +586,7 @@ input UserUpdateManyMutationInput {
   image: String
   bio: String
   role: Role
+  topics: UserUpdatetopicsInput
 }
 
 input UserUpdateOneRequiredWithoutPostsInput {
@@ -586,6 +596,10 @@ input UserUpdateOneRequiredWithoutPostsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdatetopicsInput {
+  set: [Topic!]
+}
+
 input UserUpdateWithoutPostsDataInput {
   email: String
   name: String
@@ -593,6 +607,7 @@ input UserUpdateWithoutPostsDataInput {
   image: String
   bio: String
   role: Role
+  topics: UserUpdatetopicsInput
 }
 
 input UserUpsertWithoutPostsInput {

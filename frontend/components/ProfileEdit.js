@@ -19,11 +19,14 @@ export const SIGN_S3_MUTATION = gql`
   }
 `
 
-const UPDATE_USER_MUTATION = gql`
-  mutation UPDATE_USER_MUTATION($name: String, $bio: String, $image: String) {
-    updateUser(name: $name, bio: $bio, image: $image) {
+export const UPDATE_USER_MUTATION = gql`
+  mutation UPDATE_USER_MUTATION($data: UserUpdateInput) {
+    updateUser(data: $data) {
       success
       message
+      user {
+        topics
+      }
     }
   }
 `
@@ -142,14 +145,14 @@ class ProfileEdit extends React.Component {
   onSave = async updateUser => {
     const { imageUrl: image, name, bio } = this.state
     const args = { image, name, bio }
-    const variables = {}
+    const data = {}
     for (let x in args) {
       if (args[x]) {
-        variables[x] = args[x]
+        data[x] = args[x]
       }
     }
-    if (!Object.keys(variables).length) return alert('Change something before updating!')
-    const res = await updateUser({ variables })
+    if (!Object.keys(data).length) return alert('Change something before updating!')
+    const res = await updateUser({ variables: { data } })
     if (res.data.updateUser.success) {
       Router.push('/profile')
     }
@@ -196,6 +199,7 @@ class ProfileEdit extends React.Component {
               rows={4}
               tabIndex={2}
               required
+              spellCheck={false}
             />
             {showLimit && <span>{bio.length}/160</span>}
           </div>
