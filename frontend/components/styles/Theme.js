@@ -1,4 +1,22 @@
-export default [
+const grey = [
+  '#FAFAFA',
+  '#F2F2F2',
+  '#E6E5E5',
+  '#D9D8D8',
+  '#CDCCCB',
+  '#C0BFBF',
+  '#B3B2B2',
+  '#A7A5A5',
+  '#9A9898',
+  '#817E7E',
+  '#747272',
+  '#676565',
+  '#5A5858',
+  '#4D4C4C',
+  '#403F3F'
+]
+
+const shadows = [
   'none',
   '0px 1px 3px 0px rgba(0, 0, 0, 0.2),0px 1px 1px 0px rgba(0, 0, 0, 0.14),0px 2px 1px -1px rgba(0, 0, 0, 0.12)',
   '0px 1px 5px 0px rgba(0, 0, 0, 0.2),0px 2px 2px 0px rgba(0, 0, 0, 0.14),0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
@@ -25,3 +43,15 @@ export default [
   '0px 11px 14px -7px rgba(0, 0, 0, 0.2),0px 23px 36px 3px rgba(0, 0, 0, 0.14),0px 9px 44px 8px rgba(0, 0, 0, 0.12)',
   '0px 11px 15px -7px rgba(0, 0, 0, 0.2),0px 24px 38px 3px rgba(0, 0, 0, 0.14),0px 9px 46px 8px rgba(0, 0, 0, 0.12)'
 ]
+
+export default {
+  black: '#333333',
+  white: '#FFFFFF',
+  primary: '#00FFC4',
+  secondary: '#1F0179',
+  tertiary: '#3BFF00',
+  error: '#DD0E0E',
+  borderRadius: '.4rem',
+  grey,
+  shadows
+}

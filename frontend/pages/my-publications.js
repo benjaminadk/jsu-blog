@@ -1,8 +1,8 @@
 import PleaseRegister from '../components/PleaseRegister'
-import PostEdit from '../components/PostEdit'
+import MyPublications from '../components/MyPublications'
 
 export default props => (
   <PleaseRegister {...props}>
-    <PostEdit user={props.user} id={props.query.id} />
+    <MyPublications user={props.user} />
   </PleaseRegister>
 )

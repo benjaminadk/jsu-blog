@@ -16,22 +16,22 @@ const Tabs = styled.ul`
     &:nth-child(1) {
       color: ${props => (props.tab === 1 ? props.theme.black : props.theme.grey[5])};
       border-bottom: ${props =>
-        props.tab === 1 ? `2px solid ${props.theme.grey[10]}` : '2px solid white'};
+        props.tab === 1 ? `2px solid ${props.theme.grey[10]}` : '2px solid transparent'};
     }
     &:nth-child(2) {
       color: ${props => (props.tab === 2 ? props.theme.black : props.theme.grey[5])};
       border-bottom: ${props =>
-        props.tab === 2 ? `2px solid ${props.theme.grey[10]}` : '2px solid white'};
+        props.tab === 2 ? `2px solid ${props.theme.grey[10]}` : '2px solid transparent'};
     }
     &:nth-child(3) {
       color: ${props => (props.tab === 3 ? props.theme.black : props.theme.grey[5])};
       border-bottom: ${props =>
-        props.tab === 3 ? `2px solid ${props.theme.grey[10]}` : '2px solid white'};
+        props.tab === 3 ? `2px solid ${props.theme.grey[10]}` : '2px solid transparent'};
     }
     &:nth-child(4) {
       color: ${props => (props.tab === 4 ? props.theme.black : props.theme.grey[5])};
       border-bottom: ${props =>
-        props.tab === 4 ? `2px solid ${props.theme.grey[10]}` : '2px solid white'};
+        props.tab === 4 ? `2px solid ${props.theme.grey[10]}` : '2px solid transparent'};
     }
     &:hover {
       color: ${props => props.theme.black};

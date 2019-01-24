@@ -17,5 +17,13 @@ module.exports = `
       updatedAt
       createdAt
     }
+    pubsOwner {
+      id
+      name
+      description
+      avatar
+      logo
+      createdAt
+    }
   }
 `

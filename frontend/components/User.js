@@ -21,6 +21,14 @@ export const ME_QUERY = gql`
         updatedAt
         createdAt
       }
+      pubsOwner {
+        id
+        name
+        description
+        avatar
+        logo
+        createdAt
+      }
     }
   }
 `

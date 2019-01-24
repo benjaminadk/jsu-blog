@@ -8,20 +8,7 @@ import Signin from './Signin'
 import Signup from './Signup'
 import Menu from './Menu'
 import User from './User'
-import grey from './styles/grey'
-import shadows from './styles/shadows'
-
-export const theme = {
-  black: '#333333',
-  white: '#FFFFFF',
-  primary: '#00FFC4',
-  secondary: '#1F0179',
-  tertiary: '#3BFF00',
-  error: '#DD0E0E',
-  borderRadius: '.4rem',
-  grey,
-  shadows
-}
+import theme from './styles/Theme'
 
 const StyledPage = styled.div`
   background: ${props => props.theme.white};
@@ -113,6 +100,7 @@ const navigation = [
   { type: 'link', text: 'New Story', pathname: '/post-edit', id: 'new' },
   { type: 'link', text: 'Stories', pathname: '/my-posts' },
   { type: 'separator' },
+  { type: 'link', text: 'Publications', pathname: '/my-publications' },
   { type: 'link', text: 'Customize your interests', pathname: '/my-interests' },
   { type: 'separator' },
   { type: 'link', text: 'Profile', pathname: '/profile' }

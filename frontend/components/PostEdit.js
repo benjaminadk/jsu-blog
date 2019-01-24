@@ -63,7 +63,7 @@ const Textarea = styled(TextareaAutosize)`
   margin-top: 5rem;
 `
 
-class PostEditor extends React.Component {
+class PostEdit extends React.Component {
   state = {
     preview: false,
     topic: '',
@@ -221,4 +221,4 @@ class PostEditor extends React.Component {
   }
 }
 
-export default withApollo(PostEditor)
+export default withApollo(PostEdit)

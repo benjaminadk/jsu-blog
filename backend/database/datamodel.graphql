@@ -21,6 +21,10 @@ type Publication {
   description: String!
   avatar: String!
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: [String]
   owner: User @relation(name: "PublicationsWhereUserIsOwner")
   editors: [User] @relation(name: "PublicationsWhereUserIsEditor")
   writers: [User] @relation(name: "PublicationWhereUserIsWriter")

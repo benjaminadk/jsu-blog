@@ -30,6 +30,7 @@ const Container = styled.div`
       align-items: center;
       h1 {
         font-family: 'Roboto Bold';
+        font-size: 4.5rem;
       }
       & > :last-child {
         justify-self: flex-end;
@@ -230,7 +231,7 @@ export default class MyPosts extends React.Component {
       <Container>
         <div className="content">
           <div className="heading">
-            <h1>Your Stories</h1>
+            <h1>Your stories</h1>
             <div>
               <ButtonOutline onClick={this.onNewStory}>Write a story</ButtonOutline>
             </div>

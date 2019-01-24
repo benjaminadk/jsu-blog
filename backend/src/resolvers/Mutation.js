@@ -130,5 +130,17 @@ module.exports = {
     } catch (error) {
       console.log(error)
     }
+  },
+
+  createPublication: async (_, args, ctx, info) => {
+    try {
+      const publication = await ctx.prisma.createPublication({
+        ...args.data,
+        owner: { connect: { id: ctx.userId } }
+      })
+      return { success: true, message: 'Publication created.', id: publication.id }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

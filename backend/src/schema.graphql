@@ -3,6 +3,7 @@
 type Query {
   me: User
   post(id: ID!): Post
+  publication(id: ID!): Publication
 }
 
 type Mutation {
@@ -14,6 +15,7 @@ type Mutation {
   createPost: PostPayload
   updatePost(id: ID!, data: PostUpdateInput): Payload
   deletePost(id: ID!): Payload
+  createPublication(data: PublicationCreateInput): PublicationPayload
 }
 
 type User {
@@ -38,6 +40,10 @@ type Publication {
   description: String!
   avatar: String!
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: [String]
   owner: User
   editors: [User]
   writers: [User]
@@ -75,6 +81,12 @@ type UserPayload {
   success: Boolean!
   message: String!
   user: User
+}
+
+type PublicationPayload {
+  success: Boolean!
+  message: String!
+  id: ID!
 }
 
 type PostPayload {
