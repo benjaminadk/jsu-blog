@@ -7,7 +7,24 @@ type User {
   bio: String @default(value: "Blogger")
   role: Role! @default(value: "USER")
   posts: [Post]
+  pubsOwner: [Publication] @relation(name: "PublicationsWhereUserIsOwner")
+  pubsEditor: [Publication] @relation(name: "PublicationsWhereUserIsEditor")
+  pubsWriter: [Publication] @relation(name: "PublicationWhereUserIsWriter")
   topics: [Topic]
+  updatedAt: DateTime!
+  createdAt: DateTime!
+}
+
+type Publication {
+  id: ID! @unique
+  name: String!
+  description: String!
+  avatar: String!
+  logo: String
+  owner: User @relation(name: "PublicationsWhereUserIsOwner")
+  editors: [User] @relation(name: "PublicationsWhereUserIsEditor")
+  writers: [User] @relation(name: "PublicationWhereUserIsWriter")
+  posts: [Post]
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -22,6 +39,7 @@ type Post {
   tags: [String]
   published: Boolean @default(value: "false")
   author: User!
+  publication: Publication
   updatedAt: DateTime!
   createdAt: DateTime!
 }
