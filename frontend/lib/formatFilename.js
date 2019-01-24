@@ -5,4 +5,4 @@ function clean(str) {
     .replace(/\s/g, '-')
 }
 
-export default (folder, id, filename) => `${folder}/${clean(id)}/${clean(filename)}`
+export default (folder, id, type, filename) => `${folder}/${clean(id)}/${type}/${clean(filename)}`

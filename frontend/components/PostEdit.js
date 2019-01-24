@@ -5,11 +5,11 @@ import TextareaAutosize from 'react-autosize-textarea'
 import { getSelectionPosition } from '../lib/positionHelpers'
 import formatText from '../lib/formatText'
 import { ME_QUERY } from './User'
-import Title from './PostEditor/Title'
-import Subtitle from './PostEditor/Subtitle'
-import Toolbar from './PostEditor/Toolbar'
+import Title from './PostEdit/Title'
+import Subtitle from './PostEdit/Subtitle'
+import Toolbar from './PostEdit/Toolbar'
 import Preview from './Preview'
-import PostOptions from './PostOptions'
+import PostOptions from './PostEdit/PostOptions'
 
 const CREATE_POST_MUTATION = gql`
   mutation CREATE_POST_MUTATION {

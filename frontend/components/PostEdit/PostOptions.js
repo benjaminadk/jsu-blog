@@ -3,16 +3,16 @@ import axios from 'axios'
 import { Mutation } from 'react-apollo'
 import NProgress from 'nprogress'
 import PropTypes from 'prop-types'
-import { SIGN_S3_MUTATION } from './ProfileEdit'
-import formatFilename from '../lib/formatFilename'
-import copyToClipboard from '../lib/copyToClipboard'
-import Mode from './PostEditor/Mode'
-import SaveStatus from './PostEditor/SaveStatus'
-import Published from './PostEditor/Published'
-import TagManager from './PostEditor/TagManager'
-import Topic from './PostEditor/Topic'
-import Uploader from './PostEditor/Uploader'
-import Featured from './PostEditor/Featured'
+import { SIGN_S3_MUTATION } from '../ProfileEdit'
+import formatFilename from '../../lib/formatFilename'
+import copyToClipboard from '../../lib/copyToClipboard'
+import Mode from './Mode'
+import SaveStatus from './SaveStatus'
+import Published from './Published'
+import TagManager from './TagManager'
+import Topic from './Topic'
+import Uploader from './Uploader'
+import Featured from './Featured'
 
 const Container = styled.div`
   display: grid;
@@ -37,7 +37,7 @@ export default class PostOptions extends React.Component {
     if (!file) return
     NProgress.start()
     const { id } = this.props.user
-    const filename = formatFilename('images', id, file.name)
+    const filename = formatFilename('user', id, 'post', file.name)
     const filetype = file.type
     const res = await signS3({ variables: { filename, filetype } })
     const { requestUrl, imageUrl } = res.data.signS3

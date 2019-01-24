@@ -121,7 +121,7 @@ class ProfileEdit extends React.Component {
     NProgress.start()
     const { id } = this.props.user
     const file = e.target.files[0]
-    const filename = formatFilename('avatars', id, file.name)
+    const filename = formatFilename('user', id, 'avatar', file.name)
     const filetype = file.type
     const res = await signS3({ variables: { filename, filetype } })
     const { requestUrl, imageUrl } = res.data.signS3
