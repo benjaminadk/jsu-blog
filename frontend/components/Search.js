@@ -9,6 +9,8 @@ const Container = styled.div`
   input[type='text'] {
     width: ${props => (props.show ? '100%' : '0%')};
     background: ${props => props.theme.grey[0]};
+    font-family: 'Roboto Slab';
+    font-size: 1.35rem;
     transition: width 0.5s;
   }
   span {

@@ -5,13 +5,15 @@ const uuid = require('uuid/v1')
 const md5 = require('md5')
 const md = require('./md')
 
-module.exports = async rows => {
+module.exports = async (posts, users) => {
+  // generates sequencial ids based on date
   function createRandomId() {
     return uuid()
       .replace(/-/g, '')
       .slice(0, 10)
   }
 
+  // helper function to send data to prisma db
   async function sendData(data) {
     await axios({
       method: 'POST',
@@ -26,15 +28,17 @@ module.exports = async rows => {
 
   const lists = []
   const relations = []
+  const password = await bcrypt.hash('password', 10)
   const date = new Date().toISOString()
+
+  // create a user with ADMIN role for myself
   const adminId = createRandomId()
   const adminEmail = 'benjaminadk@gmail.com'
-
   const admin = {
     _typeName: 'User',
     id: adminId,
     name: 'benjaminadk',
-    password: await bcrypt.hash('password', 10),
+    password,
     email: adminEmail,
     image: `https://www.gravatar.com/avatar/${md5(adminEmail)}?d=mp`,
     bio: 'JavaScript developer and site admin.',
@@ -42,15 +46,15 @@ module.exports = async rows => {
     updatedAt: date,
     createdAt: date
   }
-
-  const topics = {
+  let topics = {
     _typeName: 'User',
     id: adminId,
     topics: []
   }
   lists.push(topics)
 
-  const postNodes = rows.map((row, i) => {
+  // create post nodes based on sheet data
+  const postNodes = posts.map((row, i) => {
     return {
       _typeName: 'Post',
       id: createRandomId(),
@@ -69,7 +73,7 @@ module.exports = async rows => {
     const list = {
       _typeName: 'Post',
       id: post.id,
-      tags: rows[i][6].split(',')
+      tags: posts[i][6].split(',')
     }
     const r1 = { _typeName: 'Post', id: post.id, fieldName: 'author' }
     const r2 = { _typeName: 'User', id: adminId, fieldName: 'posts' }
@@ -78,7 +82,31 @@ module.exports = async rows => {
     lists.push(list)
   })
 
-  const nodes = [admin, ...postNodes]
+  const userNodes = users.map(row => {
+    return {
+      _typeName: 'User',
+      id: createRandomId(),
+      email: row[0],
+      name: row[1],
+      password,
+      bio: row[2],
+      image: `https://www.gravatar.com/avatar/${md5(row[0])}?d=mp`,
+      role: 'USER',
+      updatedAt: date,
+      createdAt: date
+    }
+  })
+
+  userNodes.forEach((u, i) => {
+    let topics = {
+      _typeName: 'User',
+      id: u.id,
+      topics: []
+    }
+    lists.push(topics)
+  })
+
+  const nodes = [admin, ...postNodes, ...userNodes]
   const NODES = { valueType: 'nodes', values: nodes }
   const LISTS = { valueType: 'lists', values: lists }
   const RELATIONS = { valueType: 'relations', values: relations }

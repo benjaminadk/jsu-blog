@@ -33,14 +33,15 @@ async function authorize(callback) {
 
 async function getSpreadSheet(auth) {
   const sheets = google.sheets({ version: 'v4', auth })
-  const getSheet = promisify(sheets.spreadsheets.values.get)
+  const getSheets = promisify(sheets.spreadsheets.values.batchGet)
   try {
-    const response = await getSheet({
+    const response = await getSheets({
       spreadsheetId: process.env.GOOGLE_SHEET,
-      range: 'Sheet1'
+      ranges: ['Sheet1', 'Sheet2']
     })
     if (response) {
-      seedData(response.data.values.slice(1))
+      const [posts, users] = response.data.valueRanges.map(vr => vr.values.slice(1))
+      seedData(posts, users)
     }
   } catch (error) {
     console.log('The API returned an error: ' + error)
