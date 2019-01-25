@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { TitleInput } from '../styles/EditorStyles'
+import { TitleInput } from '../styles/PostEditStyles'
 
 const Title = ({ title, onChange }) => (
   <TitleInput show={Boolean(title)}>

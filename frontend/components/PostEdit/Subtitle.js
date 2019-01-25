@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { SubtitleInput } from '../styles/EditorStyles'
+import { SubtitleInput } from '../styles/PostEditStyles'
 
 const Subtitle = ({ subtitle, onChange }) => (
   <SubtitleInput show={Boolean(subtitle)}>

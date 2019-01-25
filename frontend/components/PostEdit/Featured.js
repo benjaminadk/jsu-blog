@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Trashcan } from 'styled-icons/octicons'
 import { darken, lighten, transparentize } from 'polished'
 import PropTypes from 'prop-types'
-import { Row, SubHeading, IconButton } from '../styles/EditorStyles'
+import { Row, SubHeading, IconButton } from '../styles/PostEditStyles'
 
 const Container = styled.div`
   justify-self: center;

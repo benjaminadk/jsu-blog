@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components'
 import { lighten, darken } from 'polished'
 import { Hashtag } from 'styled-icons/fa-solid'
 import { Close } from 'styled-icons/material'
-import { Row, SubHeading, IconButton } from '../styles/EditorStyles'
+import { Row, SubHeading, IconButton } from '../styles/PostEditStyles'
 
 const grow = keyframes`
   from {

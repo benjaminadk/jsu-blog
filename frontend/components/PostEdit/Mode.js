@@ -1,4 +1,4 @@
-import { Row, SubHeading, IconButton } from '../styles/EditorStyles'
+import { Row, SubHeading, IconButton } from '../styles/PostEditStyles'
 import { Pen } from 'styled-icons/boxicons-solid'
 import { BookOpen } from 'styled-icons/fa-solid'
 

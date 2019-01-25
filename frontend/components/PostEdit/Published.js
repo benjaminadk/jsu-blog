@@ -1,5 +1,5 @@
 import { Checkmark } from 'styled-icons/icomoon'
-import { Row, SubHeading, PublishIconButton } from '../styles/EditorStyles'
+import { Row, SubHeading, PublishIconButton } from '../styles/PostEditStyles'
 
 const Published = ({ published, onClick }) => (
   <Row>

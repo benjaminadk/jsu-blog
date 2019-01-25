@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Upload, Image } from 'styled-icons/icomoon'
 import PropTypes from 'prop-types'
 import { darken } from 'polished'
-import { Row, SubHeading, IconButton } from '../styles/EditorStyles'
+import { Row, SubHeading, IconButton } from '../styles/PostEditStyles'
 
 const Container = styled.div`
   display: grid;
