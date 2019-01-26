@@ -57,6 +57,7 @@ const Post = styled.div`
   }
   h3 {
     margin-top: 1.5rem;
+    cursor: pointer;
   }
   h4 {
     color: ${props => props.theme.grey[10]};
@@ -160,6 +161,11 @@ export default class MyPosts extends React.Component {
     })
   }
 
+  onPostClick = (id, published) => {
+    if (!published) return
+    Router.push({ pathname: '/post', query: { id } })
+  }
+
   onCloseMenu = () => this.setState({ showMenu: false, coordsMenu: null })
 
   onOpenModal = () => this.setState({ showModal: true })
@@ -193,7 +199,7 @@ export default class MyPosts extends React.Component {
     } else {
       return posts.map((post, i) => (
         <Post key={post.id}>
-          <h3>{post.title}</h3>
+          <h3 onClick={() => this.onPostClick(post.id, post.published)}>{post.title}</h3>
           {post.subtitle && <h4>{post.subtitle}</h4>}
           {post.published ? (
             <p>

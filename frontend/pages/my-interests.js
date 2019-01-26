@@ -3,6 +3,6 @@ import MyInterests from '../components/MyInterests'
 
 export default props => (
   <PleaseRegister {...props}>
-    <MyInterests user={props.user} />
+    <MyInterests {...props} />
   </PleaseRegister>
 )

@@ -110,7 +110,8 @@ export default class Page extends React.Component {
   state = {
     showSignin: false,
     showSignup: false,
-    showMenu: false
+    showMenu: false,
+    topic: ''
   }
 
   onSignin = () => this.setState({ showSignin: true })
@@ -137,9 +138,11 @@ export default class Page extends React.Component {
     }
   }
 
+  setTopic = topic => this.setState({ topic })
+
   render() {
     const {
-      state: { showSignin, showSignup, showMenu }
+      state: { showSignin, showSignup, showMenu, topic }
     } = this
     return (
       <ThemeProvider theme={theme}>
@@ -158,11 +161,12 @@ export default class Page extends React.Component {
                 <StyledPage>
                   <Meta />
                   <GlobalStyle />
-                  <Header />
+                  <Header topic={topic} />
                   <Inner>
                     {React.Children.map(this.props.children, child =>
                       React.cloneElement(child, {
-                        user: data.me
+                        user: data.me,
+                        setTopic: this.setTopic
                       })
                     )}
                   </Inner>

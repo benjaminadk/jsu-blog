@@ -9,6 +9,7 @@ class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx)
     }
+    pageProps.pathname = ctx.pathname
     pageProps.query = ctx.query
     return { pageProps }
   }
@@ -18,7 +19,7 @@ class MyApp extends App {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <Page>
+          <Page {...pageProps}>
             <Component {...pageProps} />
           </Page>
         </ApolloProvider>

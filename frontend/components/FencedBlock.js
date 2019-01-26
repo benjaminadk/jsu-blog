@@ -2,7 +2,7 @@ import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import jsx from 'react-syntax-highlighter/dist/languages/prism/jsx'
 import js from 'react-syntax-highlighter/dist/languages/prism/javascript'
 import { prism, tomorrow } from 'react-syntax-highlighter/dist/styles/prism'
-import { theme } from './Page'
+import theme from './styles/Theme'
 
 SyntaxHighlighter.registerLanguage('javascript', js)
 SyntaxHighlighter.registerLanguage('jsx', jsx)

@@ -21,7 +21,7 @@ const CREATE_POST_MUTATION = gql`
   }
 `
 
-const SINGLE_POST_QUERY = gql`
+export const SINGLE_POST_QUERY = gql`
   query SINGLE_POST_QUERY($id: ID!) {
     post(id: $id) {
       id
