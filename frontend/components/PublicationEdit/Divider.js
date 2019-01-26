@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 const Container = styled.div`
-  margin-bottom: 2rem;
+  margin-top: ${props => (props.size === 'md' ? '5rem' : 0)};
+  margin-bottom: 4rem;
   border-bottom: 1px solid ${props => props.theme.grey[2]};
   .sm {
     font-family: 'Roboto Slab';
@@ -15,7 +16,7 @@ const Container = styled.div`
   }
 `
 const Divider = ({ size, text }) => (
-  <Container>
+  <Container size={size}>
     <span className={size}>{text}</span>
   </Container>
 )

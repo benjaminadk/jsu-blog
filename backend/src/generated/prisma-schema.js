@@ -498,6 +498,10 @@ type Publication {
   description: String!
   avatar: String!
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: [String!]!
   owner: User
   editors(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   writers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
@@ -517,6 +521,10 @@ input PublicationCreateInput {
   description: String!
   avatar: String!
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationCreatetagsInput
   owner: UserCreateOneWithoutPubsOwnerInput
   editors: UserCreateManyWithoutPubsEditorInput
   writers: UserCreateManyWithoutPubsWriterInput
@@ -543,11 +551,19 @@ input PublicationCreateOneWithoutPostsInput {
   connect: PublicationWhereUniqueInput
 }
 
+input PublicationCreatetagsInput {
+  set: [String!]
+}
+
 input PublicationCreateWithoutEditorsInput {
   name: String!
   description: String!
   avatar: String!
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationCreatetagsInput
   owner: UserCreateOneWithoutPubsOwnerInput
   writers: UserCreateManyWithoutPubsWriterInput
   posts: PostCreateManyWithoutPublicationInput
@@ -558,6 +574,10 @@ input PublicationCreateWithoutOwnerInput {
   description: String!
   avatar: String!
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationCreatetagsInput
   editors: UserCreateManyWithoutPubsEditorInput
   writers: UserCreateManyWithoutPubsWriterInput
   posts: PostCreateManyWithoutPublicationInput
@@ -568,6 +588,10 @@ input PublicationCreateWithoutPostsInput {
   description: String!
   avatar: String!
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationCreatetagsInput
   owner: UserCreateOneWithoutPubsOwnerInput
   editors: UserCreateManyWithoutPubsEditorInput
   writers: UserCreateManyWithoutPubsWriterInput
@@ -578,6 +602,10 @@ input PublicationCreateWithoutWritersInput {
   description: String!
   avatar: String!
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationCreatetagsInput
   owner: UserCreateOneWithoutPubsOwnerInput
   editors: UserCreateManyWithoutPubsEditorInput
   posts: PostCreateManyWithoutPublicationInput
@@ -599,6 +627,12 @@ enum PublicationOrderByInput {
   avatar_DESC
   logo_ASC
   logo_DESC
+  email_ASC
+  email_DESC
+  twitter_ASC
+  twitter_DESC
+  facebook_ASC
+  facebook_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -611,6 +645,10 @@ type PublicationPreviousValues {
   description: String!
   avatar: String!
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: [String!]!
   updatedAt: DateTime!
   createdAt: DateTime!
 }
@@ -686,6 +724,48 @@ input PublicationScalarWhereInput {
   logo_not_starts_with: String
   logo_ends_with: String
   logo_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  twitter: String
+  twitter_not: String
+  twitter_in: [String!]
+  twitter_not_in: [String!]
+  twitter_lt: String
+  twitter_lte: String
+  twitter_gt: String
+  twitter_gte: String
+  twitter_contains: String
+  twitter_not_contains: String
+  twitter_starts_with: String
+  twitter_not_starts_with: String
+  twitter_ends_with: String
+  twitter_not_ends_with: String
+  facebook: String
+  facebook_not: String
+  facebook_in: [String!]
+  facebook_not_in: [String!]
+  facebook_lt: String
+  facebook_lte: String
+  facebook_gt: String
+  facebook_gte: String
+  facebook_contains: String
+  facebook_not_contains: String
+  facebook_starts_with: String
+  facebook_not_starts_with: String
+  facebook_ends_with: String
+  facebook_not_ends_with: String
   updatedAt: DateTime
   updatedAt_not: DateTime
   updatedAt_in: [DateTime!]
@@ -730,6 +810,10 @@ input PublicationUpdateInput {
   description: String
   avatar: String
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationUpdatetagsInput
   owner: UserUpdateOneWithoutPubsOwnerInput
   editors: UserUpdateManyWithoutPubsEditorInput
   writers: UserUpdateManyWithoutPubsWriterInput
@@ -741,6 +825,10 @@ input PublicationUpdateManyDataInput {
   description: String
   avatar: String
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationUpdatetagsInput
 }
 
 input PublicationUpdateManyMutationInput {
@@ -748,6 +836,10 @@ input PublicationUpdateManyMutationInput {
   description: String
   avatar: String
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationUpdatetagsInput
 }
 
 input PublicationUpdateManyWithoutEditorsInput {
@@ -797,11 +889,19 @@ input PublicationUpdateOneWithoutPostsInput {
   connect: PublicationWhereUniqueInput
 }
 
+input PublicationUpdatetagsInput {
+  set: [String!]
+}
+
 input PublicationUpdateWithoutEditorsDataInput {
   name: String
   description: String
   avatar: String
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationUpdatetagsInput
   owner: UserUpdateOneWithoutPubsOwnerInput
   writers: UserUpdateManyWithoutPubsWriterInput
   posts: PostUpdateManyWithoutPublicationInput
@@ -812,6 +912,10 @@ input PublicationUpdateWithoutOwnerDataInput {
   description: String
   avatar: String
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationUpdatetagsInput
   editors: UserUpdateManyWithoutPubsEditorInput
   writers: UserUpdateManyWithoutPubsWriterInput
   posts: PostUpdateManyWithoutPublicationInput
@@ -822,6 +926,10 @@ input PublicationUpdateWithoutPostsDataInput {
   description: String
   avatar: String
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationUpdatetagsInput
   owner: UserUpdateOneWithoutPubsOwnerInput
   editors: UserUpdateManyWithoutPubsEditorInput
   writers: UserUpdateManyWithoutPubsWriterInput
@@ -832,6 +940,10 @@ input PublicationUpdateWithoutWritersDataInput {
   description: String
   avatar: String
   logo: String
+  email: String
+  twitter: String
+  facebook: String
+  tags: PublicationUpdatetagsInput
   owner: UserUpdateOneWithoutPubsOwnerInput
   editors: UserUpdateManyWithoutPubsEditorInput
   posts: PostUpdateManyWithoutPublicationInput
@@ -946,6 +1058,48 @@ input PublicationWhereInput {
   logo_not_starts_with: String
   logo_ends_with: String
   logo_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  twitter: String
+  twitter_not: String
+  twitter_in: [String!]
+  twitter_not_in: [String!]
+  twitter_lt: String
+  twitter_lte: String
+  twitter_gt: String
+  twitter_gte: String
+  twitter_contains: String
+  twitter_not_contains: String
+  twitter_starts_with: String
+  twitter_not_starts_with: String
+  twitter_ends_with: String
+  twitter_not_ends_with: String
+  facebook: String
+  facebook_not: String
+  facebook_in: [String!]
+  facebook_not_in: [String!]
+  facebook_lt: String
+  facebook_lte: String
+  facebook_gt: String
+  facebook_gte: String
+  facebook_contains: String
+  facebook_not_contains: String
+  facebook_starts_with: String
+  facebook_not_starts_with: String
+  facebook_ends_with: String
+  facebook_not_ends_with: String
   owner: UserWhereInput
   editors_every: UserWhereInput
   editors_some: UserWhereInput
@@ -979,6 +1133,7 @@ input PublicationWhereInput {
 
 input PublicationWhereUniqueInput {
   id: ID
+  name: String
 }
 
 type Query {

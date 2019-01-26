@@ -141,6 +141,7 @@ module.exports = {
       return { success: true, message: 'Publication created.', id: publication.id }
     } catch (error) {
       console.log(error)
+      return { success: false, message: 'Error creating Publication.' }
     }
   }
 }

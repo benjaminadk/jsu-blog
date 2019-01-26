@@ -227,6 +227,12 @@ export type PublicationOrderByInput =
   | "avatar_DESC"
   | "logo_ASC"
   | "logo_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "twitter_ASC"
+  | "twitter_DESC"
+  | "facebook_ASC"
+  | "facebook_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC"
   | "createdAt_ASC"
@@ -267,32 +273,29 @@ export type Topic =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserUpdateManyWithoutPubsEditorInput {
-  create?:
-    | UserCreateWithoutPubsEditorInput[]
-    | UserCreateWithoutPubsEditorInput;
-  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-  update?:
-    | UserUpdateWithWhereUniqueWithoutPubsEditorInput[]
-    | UserUpdateWithWhereUniqueWithoutPubsEditorInput;
-  upsert?:
-    | UserUpsertWithWhereUniqueWithoutPubsEditorInput[]
-    | UserUpsertWithWhereUniqueWithoutPubsEditorInput;
-  deleteMany?: UserScalarWhereInput[] | UserScalarWhereInput;
-  updateMany?:
-    | UserUpdateManyWithWhereNestedInput[]
-    | UserUpdateManyWithWhereNestedInput;
+export interface PublicationUpdatetagsInput {
+  set?: String[] | String;
 }
 
 export type PostWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput;
-  data: PostUpdateWithoutAuthorDataInput;
+export interface PostUpdateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
+  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  update?:
+    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
+    | PostUpdateWithWhereUniqueWithoutAuthorInput;
+  upsert?:
+    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
+    | PostUpsertWithWhereUniqueWithoutAuthorInput;
+  deleteMany?: PostScalarWhereInput[] | PostScalarWhereInput;
+  updateMany?:
+    | PostUpdateManyWithWhereNestedInput[]
+    | PostUpdateManyWithWhereNestedInput;
 }
 
 export interface PostWhereInput {
@@ -395,15 +398,9 @@ export interface PostWhereInput {
   NOT?: PostWhereInput[] | PostWhereInput;
 }
 
-export interface PostUpdateWithoutAuthorDataInput {
-  topic?: Topic;
-  title?: String;
-  subtitle?: String;
-  body?: String;
-  image?: String;
-  tags?: PostUpdatetagsInput;
-  published?: Boolean;
-  publication?: PublicationUpdateOneWithoutPostsInput;
+export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput;
+  data: PostUpdateWithoutAuthorDataInput;
 }
 
 export interface PublicationWhereInput {
@@ -477,6 +474,48 @@ export interface PublicationWhereInput {
   logo_not_starts_with?: String;
   logo_ends_with?: String;
   logo_not_ends_with?: String;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  twitter?: String;
+  twitter_not?: String;
+  twitter_in?: String[] | String;
+  twitter_not_in?: String[] | String;
+  twitter_lt?: String;
+  twitter_lte?: String;
+  twitter_gt?: String;
+  twitter_gte?: String;
+  twitter_contains?: String;
+  twitter_not_contains?: String;
+  twitter_starts_with?: String;
+  twitter_not_starts_with?: String;
+  twitter_ends_with?: String;
+  twitter_not_ends_with?: String;
+  facebook?: String;
+  facebook_not?: String;
+  facebook_in?: String[] | String;
+  facebook_not_in?: String[] | String;
+  facebook_lt?: String;
+  facebook_lte?: String;
+  facebook_gt?: String;
+  facebook_gte?: String;
+  facebook_contains?: String;
+  facebook_not_contains?: String;
+  facebook_starts_with?: String;
+  facebook_not_starts_with?: String;
+  facebook_ends_with?: String;
+  facebook_not_ends_with?: String;
   owner?: UserWhereInput;
   editors_every?: UserWhereInput;
   editors_some?: UserWhereInput;
@@ -525,13 +564,15 @@ export interface UserUpdateOneRequiredWithoutPostsInput {
   connect?: UserWhereUniqueInput;
 }
 
-export interface PublicationUpdateOneWithoutPostsInput {
-  create?: PublicationCreateWithoutPostsInput;
-  update?: PublicationUpdateWithoutPostsDataInput;
-  upsert?: PublicationUpsertWithoutPostsInput;
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: PublicationWhereUniqueInput;
+export interface PostUpdateWithoutAuthorDataInput {
+  topic?: Topic;
+  title?: String;
+  subtitle?: String;
+  body?: String;
+  image?: String;
+  tags?: PostUpdatetagsInput;
+  published?: Boolean;
+  publication?: PublicationUpdateOneWithoutPostsInput;
 }
 
 export interface UserUpdateWithoutPostsDataInput {
@@ -611,6 +652,10 @@ export interface PublicationUpdateWithoutOwnerDataInput {
   description?: String;
   avatar?: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationUpdatetagsInput;
   editors?: UserUpdateManyWithoutPubsEditorInput;
   writers?: UserUpdateManyWithoutPubsWriterInput;
   posts?: PostUpdateManyWithoutPublicationInput;
@@ -618,6 +663,7 @@ export interface PublicationUpdateWithoutOwnerDataInput {
 
 export type PublicationWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  name?: String;
 }>;
 
 export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -631,21 +677,50 @@ export interface PublicationCreateInput {
   description: String;
   avatar: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationCreatetagsInput;
   owner?: UserCreateOneWithoutPubsOwnerInput;
   editors?: UserCreateManyWithoutPubsEditorInput;
   writers?: UserCreateManyWithoutPubsWriterInput;
   posts?: PostCreateManyWithoutPublicationInput;
 }
 
-export interface UserUpdateWithWhereUniqueWithoutPubsEditorInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutPubsEditorDataInput;
+export interface UserUpdateManyWithoutPubsEditorInput {
+  create?:
+    | UserCreateWithoutPubsEditorInput[]
+    | UserCreateWithoutPubsEditorInput;
+  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+  update?:
+    | UserUpdateWithWhereUniqueWithoutPubsEditorInput[]
+    | UserUpdateWithWhereUniqueWithoutPubsEditorInput;
+  upsert?:
+    | UserUpsertWithWhereUniqueWithoutPubsEditorInput[]
+    | UserUpsertWithWhereUniqueWithoutPubsEditorInput;
+  deleteMany?: UserScalarWhereInput[] | UserScalarWhereInput;
+  updateMany?:
+    | UserUpdateManyWithWhereNestedInput[]
+    | UserUpdateManyWithWhereNestedInput;
 }
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
   email?: String;
 }>;
+
+export interface UserUpdateWithWhereUniqueWithoutPubsEditorInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutPubsEditorDataInput;
+}
+
+export interface PublicationUpsertWithWhereUniqueWithoutOwnerInput {
+  where: PublicationWhereUniqueInput;
+  update: PublicationUpdateWithoutOwnerDataInput;
+  create: PublicationCreateWithoutOwnerInput;
+}
 
 export interface UserUpdateWithoutPubsEditorDataInput {
   email?: String;
@@ -658,29 +733,6 @@ export interface UserUpdateWithoutPubsEditorDataInput {
   pubsOwner?: PublicationUpdateManyWithoutOwnerInput;
   pubsWriter?: PublicationUpdateManyWithoutWritersInput;
   topics?: UserUpdatetopicsInput;
-}
-
-export interface PublicationUpsertWithWhereUniqueWithoutOwnerInput {
-  where: PublicationWhereUniqueInput;
-  update: PublicationUpdateWithoutOwnerDataInput;
-  create: PublicationCreateWithoutOwnerInput;
-}
-
-export interface PostUpdateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  update?:
-    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    | PostUpdateWithWhereUniqueWithoutAuthorInput;
-  upsert?:
-    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    | PostUpsertWithWhereUniqueWithoutAuthorInput;
-  deleteMany?: PostScalarWhereInput[] | PostScalarWhereInput;
-  updateMany?:
-    | PostUpdateManyWithWhereNestedInput[]
-    | PostUpdateManyWithWhereNestedInput;
 }
 
 export interface PostCreatetagsInput {
@@ -832,6 +884,10 @@ export interface PublicationCreateWithoutOwnerInput {
   description: String;
   avatar: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationCreatetagsInput;
   editors?: UserCreateManyWithoutPubsEditorInput;
   writers?: UserCreateManyWithoutPubsWriterInput;
   posts?: PostCreateManyWithoutPublicationInput;
@@ -842,17 +898,25 @@ export interface UserUpsertWithoutPubsOwnerInput {
   create: UserCreateWithoutPubsOwnerInput;
 }
 
-export interface UserCreateWithoutPubsEditorInput {
-  email: String;
-  name: String;
-  password?: String;
-  image?: String;
-  bio?: String;
-  role?: Role;
-  posts?: PostCreateManyWithoutAuthorInput;
-  pubsOwner?: PublicationCreateManyWithoutOwnerInput;
-  pubsWriter?: PublicationCreateManyWithoutWritersInput;
-  topics?: UserCreatetopicsInput;
+export interface UserCreateManyWithoutPubsEditorInput {
+  create?:
+    | UserCreateWithoutPubsEditorInput[]
+    | UserCreateWithoutPubsEditorInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+}
+
+export interface PublicationUpdateOneWithoutPostsInput {
+  create?: PublicationCreateWithoutPostsInput;
+  update?: PublicationUpdateWithoutPostsDataInput;
+  upsert?: PublicationUpsertWithoutPostsInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: PublicationWhereUniqueInput;
+}
+
+export interface PostCreateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
 }
 
 export interface PublicationUpdateWithoutPostsDataInput {
@@ -860,20 +924,18 @@ export interface PublicationUpdateWithoutPostsDataInput {
   description?: String;
   avatar?: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationUpdatetagsInput;
   owner?: UserUpdateOneWithoutPubsOwnerInput;
   editors?: UserUpdateManyWithoutPubsEditorInput;
   writers?: UserUpdateManyWithoutPubsWriterInput;
 }
 
-export interface PostCreateWithoutAuthorInput {
-  topic?: Topic;
-  title?: String;
-  subtitle?: String;
-  body?: String;
-  image?: String;
-  tags?: PostCreatetagsInput;
-  published?: Boolean;
-  publication?: PublicationCreateOneWithoutPostsInput;
+export interface PublicationCreateOneWithoutPostsInput {
+  create?: PublicationCreateWithoutPostsInput;
+  connect?: PublicationWhereUniqueInput;
 }
 
 export interface UserUpdateOneWithoutPubsOwnerInput {
@@ -885,14 +947,9 @@ export interface UserUpdateOneWithoutPubsOwnerInput {
   connect?: UserWhereUniqueInput;
 }
 
-export interface PublicationCreateWithoutPostsInput {
-  name: String;
-  description: String;
-  avatar: String;
-  logo?: String;
-  owner?: UserCreateOneWithoutPubsOwnerInput;
-  editors?: UserCreateManyWithoutPubsEditorInput;
-  writers?: UserCreateManyWithoutPubsWriterInput;
+export interface UserCreateOneWithoutPubsOwnerInput {
+  create?: UserCreateWithoutPubsOwnerInput;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface UserUpdateWithoutPubsOwnerDataInput {
@@ -908,17 +965,11 @@ export interface UserUpdateWithoutPubsOwnerDataInput {
   topics?: UserUpdatetopicsInput;
 }
 
-export interface UserCreateWithoutPubsOwnerInput {
-  email: String;
-  name: String;
-  password?: String;
-  image?: String;
-  bio?: String;
-  role?: Role;
-  posts?: PostCreateManyWithoutAuthorInput;
-  pubsEditor?: PublicationCreateManyWithoutEditorsInput;
-  pubsWriter?: PublicationCreateManyWithoutWritersInput;
-  topics?: UserCreatetopicsInput;
+export interface PublicationCreateManyWithoutEditorsInput {
+  create?:
+    | PublicationCreateWithoutEditorsInput[]
+    | PublicationCreateWithoutEditorsInput;
+  connect?: PublicationWhereUniqueInput[] | PublicationWhereUniqueInput;
 }
 
 export interface PublicationUpdateManyWithoutEditorsInput {
@@ -940,14 +991,11 @@ export interface PublicationUpdateManyWithoutEditorsInput {
     | PublicationUpdateManyWithWhereNestedInput;
 }
 
-export interface PublicationCreateWithoutEditorsInput {
-  name: String;
-  description: String;
-  avatar: String;
-  logo?: String;
-  owner?: UserCreateOneWithoutPubsOwnerInput;
-  writers?: UserCreateManyWithoutPubsWriterInput;
-  posts?: PostCreateManyWithoutPublicationInput;
+export interface UserCreateManyWithoutPubsWriterInput {
+  create?:
+    | UserCreateWithoutPubsWriterInput[]
+    | UserCreateWithoutPubsWriterInput;
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
 }
 
 export interface PublicationUpdateWithWhereUniqueWithoutEditorsInput {
@@ -955,17 +1003,8 @@ export interface PublicationUpdateWithWhereUniqueWithoutEditorsInput {
   data: PublicationUpdateWithoutEditorsDataInput;
 }
 
-export interface UserCreateWithoutPubsWriterInput {
-  email: String;
-  name: String;
-  password?: String;
-  image?: String;
-  bio?: String;
-  role?: Role;
-  posts?: PostCreateManyWithoutAuthorInput;
-  pubsOwner?: PublicationCreateManyWithoutOwnerInput;
-  pubsEditor?: PublicationCreateManyWithoutEditorsInput;
-  topics?: UserCreatetopicsInput;
+export interface UserCreatetopicsInput {
+  set?: Topic[] | Topic;
 }
 
 export interface PublicationUpdateWithoutEditorsDataInput {
@@ -973,16 +1012,24 @@ export interface PublicationUpdateWithoutEditorsDataInput {
   description?: String;
   avatar?: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationUpdatetagsInput;
   owner?: UserUpdateOneWithoutPubsOwnerInput;
   writers?: UserUpdateManyWithoutPubsWriterInput;
   posts?: PostUpdateManyWithoutPublicationInput;
 }
 
-export interface PostCreateManyWithoutPublicationInput {
-  create?:
-    | PostCreateWithoutPublicationInput[]
-    | PostCreateWithoutPublicationInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+export interface PostCreateWithoutPublicationInput {
+  topic?: Topic;
+  title?: String;
+  subtitle?: String;
+  body?: String;
+  image?: String;
+  tags?: PostCreatetagsInput;
+  published?: Boolean;
+  author: UserCreateOneWithoutPostsInput;
 }
 
 export interface UserUpdateManyWithoutPubsWriterInput {
@@ -1004,11 +1051,18 @@ export interface UserUpdateManyWithoutPubsWriterInput {
     | UserUpdateManyWithWhereNestedInput;
 }
 
-export interface PublicationCreateManyWithoutWritersInput {
-  create?:
-    | PublicationCreateWithoutWritersInput[]
-    | PublicationCreateWithoutWritersInput;
-  connect?: PublicationWhereUniqueInput[] | PublicationWhereUniqueInput;
+export interface PublicationCreateWithoutWritersInput {
+  name: String;
+  description: String;
+  avatar: String;
+  logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationCreatetagsInput;
+  owner?: UserCreateOneWithoutPubsOwnerInput;
+  editors?: UserCreateManyWithoutPubsEditorInput;
+  posts?: PostCreateManyWithoutPublicationInput;
 }
 
 export interface UserUpdateWithWhereUniqueWithoutPubsWriterInput {
@@ -1016,16 +1070,15 @@ export interface UserUpdateWithWhereUniqueWithoutPubsWriterInput {
   data: UserUpdateWithoutPubsWriterDataInput;
 }
 
-export interface PostUpdateInput {
-  topic?: Topic;
-  title?: String;
-  subtitle?: String;
-  body?: String;
-  image?: String;
-  tags?: PostUpdatetagsInput;
-  published?: Boolean;
-  author?: UserUpdateOneRequiredWithoutPostsInput;
-  publication?: PublicationUpdateOneWithoutPostsInput;
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
 export interface UserUpdateWithoutPubsWriterDataInput {
@@ -1041,26 +1094,37 @@ export interface UserUpdateWithoutPubsWriterDataInput {
   topics?: UserUpdatetopicsInput;
 }
 
-export interface PostSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PostWhereInput;
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+export interface UserUpdateInput {
+  email?: String;
+  name?: String;
+  password?: String;
+  image?: String;
+  bio?: String;
+  role?: Role;
+  posts?: PostUpdateManyWithoutAuthorInput;
+  pubsOwner?: PublicationUpdateManyWithoutOwnerInput;
+  pubsEditor?: PublicationUpdateManyWithoutEditorsInput;
+  pubsWriter?: PublicationUpdateManyWithoutWritersInput;
+  topics?: UserUpdatetopicsInput;
 }
 
 export interface UserUpdatetopicsInput {
   set?: Topic[] | Topic;
 }
 
-export interface PublicationUpdateManyMutationInput {
+export interface PublicationUpdateInput {
   name?: String;
   description?: String;
   avatar?: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationUpdatetagsInput;
+  owner?: UserUpdateOneWithoutPubsOwnerInput;
+  editors?: UserUpdateManyWithoutPubsEditorInput;
+  writers?: UserUpdateManyWithoutPubsWriterInput;
+  posts?: PostUpdateManyWithoutPublicationInput;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutPubsWriterInput {
@@ -1069,14 +1133,9 @@ export interface UserUpsertWithWhereUniqueWithoutPubsWriterInput {
   create: UserCreateWithoutPubsWriterInput;
 }
 
-export interface PostUpdateManyMutationInput {
-  topic?: Topic;
-  title?: String;
-  subtitle?: String;
-  body?: String;
-  image?: String;
-  tags?: PostUpdatetagsInput;
-  published?: Boolean;
+export interface UserUpsertWithoutPostsInput {
+  update: UserUpdateWithoutPostsDataInput;
+  create: UserCreateWithoutPostsInput;
 }
 
 export interface UserScalarWhereInput {
@@ -1189,10 +1248,16 @@ export interface UserScalarWhereInput {
   NOT?: UserScalarWhereInput[] | UserScalarWhereInput;
 }
 
-export interface UserUpsertWithWhereUniqueWithoutPubsEditorInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutPubsEditorDataInput;
-  create: UserCreateWithoutPubsEditorInput;
+export interface PostCreateInput {
+  topic?: Topic;
+  title?: String;
+  subtitle?: String;
+  body?: String;
+  image?: String;
+  tags?: PostCreatetagsInput;
+  published?: Boolean;
+  author: UserCreateOneWithoutPostsInput;
+  publication?: PublicationCreateOneWithoutPostsInput;
 }
 
 export interface UserUpdateManyWithWhereNestedInput {
@@ -1200,9 +1265,11 @@ export interface UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput;
 }
 
-export interface UserCreateOneWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput;
-  connect?: UserWhereUniqueInput;
+export interface PublicationCreateManyWithoutOwnerInput {
+  create?:
+    | PublicationCreateWithoutOwnerInput[]
+    | PublicationCreateWithoutOwnerInput;
+  connect?: PublicationWhereUniqueInput[] | PublicationWhereUniqueInput;
 }
 
 export interface UserUpdateManyDataInput {
@@ -1215,11 +1282,17 @@ export interface UserUpdateManyDataInput {
   topics?: UserUpdatetopicsInput;
 }
 
-export interface UserCreateManyWithoutPubsEditorInput {
-  create?:
-    | UserCreateWithoutPubsEditorInput[]
-    | UserCreateWithoutPubsEditorInput;
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
+export interface UserCreateWithoutPubsEditorInput {
+  email: String;
+  name: String;
+  password?: String;
+  image?: String;
+  bio?: String;
+  role?: Role;
+  posts?: PostCreateManyWithoutAuthorInput;
+  pubsOwner?: PublicationCreateManyWithoutOwnerInput;
+  pubsWriter?: PublicationCreateManyWithoutWritersInput;
+  topics?: UserCreatetopicsInput;
 }
 
 export interface PostUpdateManyWithoutPublicationInput {
@@ -1241,9 +1314,18 @@ export interface PostUpdateManyWithoutPublicationInput {
     | PostUpdateManyWithWhereNestedInput;
 }
 
-export interface PublicationCreateOneWithoutPostsInput {
-  create?: PublicationCreateWithoutPostsInput;
-  connect?: PublicationWhereUniqueInput;
+export interface PublicationCreateWithoutPostsInput {
+  name: String;
+  description: String;
+  avatar: String;
+  logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationCreatetagsInput;
+  owner?: UserCreateOneWithoutPubsOwnerInput;
+  editors?: UserCreateManyWithoutPubsEditorInput;
+  writers?: UserCreateManyWithoutPubsWriterInput;
 }
 
 export interface PostUpdateWithWhereUniqueWithoutPublicationInput {
@@ -1251,11 +1333,18 @@ export interface PostUpdateWithWhereUniqueWithoutPublicationInput {
   data: PostUpdateWithoutPublicationDataInput;
 }
 
-export interface PublicationCreateManyWithoutEditorsInput {
-  create?:
-    | PublicationCreateWithoutEditorsInput[]
-    | PublicationCreateWithoutEditorsInput;
-  connect?: PublicationWhereUniqueInput[] | PublicationWhereUniqueInput;
+export interface PublicationCreateWithoutEditorsInput {
+  name: String;
+  description: String;
+  avatar: String;
+  logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationCreatetagsInput;
+  owner?: UserCreateOneWithoutPubsOwnerInput;
+  writers?: UserCreateManyWithoutPubsWriterInput;
+  posts?: PostCreateManyWithoutPublicationInput;
 }
 
 export interface PostUpdateWithoutPublicationDataInput {
@@ -1269,8 +1358,11 @@ export interface PostUpdateWithoutPublicationDataInput {
   author?: UserUpdateOneRequiredWithoutPostsInput;
 }
 
-export interface UserCreatetopicsInput {
-  set?: Topic[] | Topic;
+export interface PostCreateManyWithoutPublicationInput {
+  create?:
+    | PostCreateWithoutPublicationInput[]
+    | PostCreateWithoutPublicationInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
 }
 
 export interface PostUpsertWithWhereUniqueWithoutPublicationInput {
@@ -1279,14 +1371,16 @@ export interface PostUpsertWithWhereUniqueWithoutPublicationInput {
   create: PostCreateWithoutPublicationInput;
 }
 
-export interface PublicationCreateWithoutWritersInput {
-  name: String;
-  description: String;
-  avatar: String;
-  logo?: String;
-  owner?: UserCreateOneWithoutPubsOwnerInput;
-  editors?: UserCreateManyWithoutPubsEditorInput;
-  posts?: PostCreateManyWithoutPublicationInput;
+export interface PostUpdateInput {
+  topic?: Topic;
+  title?: String;
+  subtitle?: String;
+  body?: String;
+  image?: String;
+  tags?: PostUpdatetagsInput;
+  published?: Boolean;
+  author?: UserUpdateOneRequiredWithoutPostsInput;
+  publication?: PublicationUpdateOneWithoutPostsInput;
 }
 
 export interface PostScalarWhereInput {
@@ -1387,18 +1481,15 @@ export interface PostScalarWhereInput {
   NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
 }
 
-export interface UserUpdateInput {
-  email?: String;
+export interface PublicationUpdateManyMutationInput {
   name?: String;
-  password?: String;
-  image?: String;
-  bio?: String;
-  role?: Role;
-  posts?: PostUpdateManyWithoutAuthorInput;
-  pubsOwner?: PublicationUpdateManyWithoutOwnerInput;
-  pubsEditor?: PublicationUpdateManyWithoutEditorsInput;
-  pubsWriter?: PublicationUpdateManyWithoutWritersInput;
-  topics?: UserUpdatetopicsInput;
+  description?: String;
+  avatar?: String;
+  logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationUpdatetagsInput;
 }
 
 export interface PostUpdateManyWithWhereNestedInput {
@@ -1406,9 +1497,10 @@ export interface PostUpdateManyWithWhereNestedInput {
   data: PostUpdateManyDataInput;
 }
 
-export interface UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput;
-  create: UserCreateWithoutPostsInput;
+export interface UserUpsertWithWhereUniqueWithoutPubsEditorInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutPubsEditorDataInput;
+  create: UserCreateWithoutPubsEditorInput;
 }
 
 export interface PostUpdateManyDataInput {
@@ -1421,11 +1513,8 @@ export interface PostUpdateManyDataInput {
   published?: Boolean;
 }
 
-export interface PublicationCreateManyWithoutOwnerInput {
-  create?:
-    | PublicationCreateWithoutOwnerInput[]
-    | PublicationCreateWithoutOwnerInput;
-  connect?: PublicationWhereUniqueInput[] | PublicationWhereUniqueInput;
+export interface PublicationCreatetagsInput {
+  set?: String[] | String;
 }
 
 export interface PublicationUpsertWithWhereUniqueWithoutEditorsInput {
@@ -1434,9 +1523,17 @@ export interface PublicationUpsertWithWhereUniqueWithoutEditorsInput {
   create: PublicationCreateWithoutEditorsInput;
 }
 
-export interface UserCreateOneWithoutPubsOwnerInput {
-  create?: UserCreateWithoutPubsOwnerInput;
-  connect?: UserWhereUniqueInput;
+export interface UserCreateWithoutPubsOwnerInput {
+  email: String;
+  name: String;
+  password?: String;
+  image?: String;
+  bio?: String;
+  role?: Role;
+  posts?: PostCreateManyWithoutAuthorInput;
+  pubsEditor?: PublicationCreateManyWithoutEditorsInput;
+  pubsWriter?: PublicationCreateManyWithoutWritersInput;
+  topics?: UserCreatetopicsInput;
 }
 
 export interface PublicationScalarWhereInput {
@@ -1510,6 +1607,48 @@ export interface PublicationScalarWhereInput {
   logo_not_starts_with?: String;
   logo_ends_with?: String;
   logo_not_ends_with?: String;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  twitter?: String;
+  twitter_not?: String;
+  twitter_in?: String[] | String;
+  twitter_not_in?: String[] | String;
+  twitter_lt?: String;
+  twitter_lte?: String;
+  twitter_gt?: String;
+  twitter_gte?: String;
+  twitter_contains?: String;
+  twitter_not_contains?: String;
+  twitter_starts_with?: String;
+  twitter_not_starts_with?: String;
+  twitter_ends_with?: String;
+  twitter_not_ends_with?: String;
+  facebook?: String;
+  facebook_not?: String;
+  facebook_in?: String[] | String;
+  facebook_not_in?: String[] | String;
+  facebook_lt?: String;
+  facebook_lte?: String;
+  facebook_gt?: String;
+  facebook_gte?: String;
+  facebook_contains?: String;
+  facebook_not_contains?: String;
+  facebook_starts_with?: String;
+  facebook_not_starts_with?: String;
+  facebook_ends_with?: String;
+  facebook_not_ends_with?: String;
   updatedAt?: DateTimeInput;
   updatedAt_not?: DateTimeInput;
   updatedAt_in?: DateTimeInput[] | DateTimeInput;
@@ -1531,15 +1670,11 @@ export interface PublicationScalarWhereInput {
   NOT?: PublicationScalarWhereInput[] | PublicationScalarWhereInput;
 }
 
-export interface PostCreateWithoutPublicationInput {
-  topic?: Topic;
-  title?: String;
-  subtitle?: String;
-  body?: String;
-  image?: String;
-  tags?: PostCreatetagsInput;
-  published?: Boolean;
-  author: UserCreateOneWithoutPostsInput;
+export interface PublicationCreateManyWithoutWritersInput {
+  create?:
+    | PublicationCreateWithoutWritersInput[]
+    | PublicationCreateWithoutWritersInput;
+  connect?: PublicationWhereUniqueInput[] | PublicationWhereUniqueInput;
 }
 
 export interface PublicationUpdateManyWithWhereNestedInput {
@@ -1547,15 +1682,14 @@ export interface PublicationUpdateManyWithWhereNestedInput {
   data: PublicationUpdateManyDataInput;
 }
 
-export interface PublicationUpdateInput {
-  name?: String;
-  description?: String;
-  avatar?: String;
-  logo?: String;
-  owner?: UserUpdateOneWithoutPubsOwnerInput;
-  editors?: UserUpdateManyWithoutPubsEditorInput;
-  writers?: UserUpdateManyWithoutPubsWriterInput;
-  posts?: PostUpdateManyWithoutPublicationInput;
+export interface PostUpdateManyMutationInput {
+  topic?: Topic;
+  title?: String;
+  subtitle?: String;
+  body?: String;
+  image?: String;
+  tags?: PostUpdatetagsInput;
+  published?: Boolean;
 }
 
 export interface PublicationUpdateWithoutWritersDataInput {
@@ -1563,6 +1697,10 @@ export interface PublicationUpdateWithoutWritersDataInput {
   description?: String;
   avatar?: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationUpdatetagsInput;
   owner?: UserUpdateOneWithoutPubsOwnerInput;
   editors?: UserUpdateManyWithoutPubsEditorInput;
   posts?: PostUpdateManyWithoutPublicationInput;
@@ -1597,9 +1735,42 @@ export interface PublicationUpdateManyDataInput {
   description?: String;
   avatar?: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags?: PublicationUpdatetagsInput;
 }
 
-export interface PostCreateInput {
+export interface UserCreateOneWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface PostSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: PostWhereInput;
+  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+}
+
+export interface UserCreateWithoutPubsWriterInput {
+  email: String;
+  name: String;
+  password?: String;
+  image?: String;
+  bio?: String;
+  role?: Role;
+  posts?: PostCreateManyWithoutAuthorInput;
+  pubsOwner?: PublicationCreateManyWithoutOwnerInput;
+  pubsEditor?: PublicationCreateManyWithoutEditorsInput;
+  topics?: UserCreatetopicsInput;
+}
+
+export interface PostCreateWithoutAuthorInput {
   topic?: Topic;
   title?: String;
   subtitle?: String;
@@ -1607,31 +1778,7 @@ export interface PostCreateInput {
   image?: String;
   tags?: PostCreatetagsInput;
   published?: Boolean;
-  author: UserCreateOneWithoutPostsInput;
   publication?: PublicationCreateOneWithoutPostsInput;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-}
-
-export interface UserCreateManyWithoutPubsWriterInput {
-  create?:
-    | UserCreateWithoutPubsWriterInput[]
-    | UserCreateWithoutPubsWriterInput;
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput;
-}
-
-export interface PostCreateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
 }
 
 export interface NodeNode {
@@ -1849,6 +1996,10 @@ export interface Publication {
   description: String;
   avatar: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags: String[];
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
@@ -1859,6 +2010,10 @@ export interface PublicationPromise extends Promise<Publication>, Fragmentable {
   description: () => Promise<String>;
   avatar: () => Promise<String>;
   logo: () => Promise<String>;
+  email: () => Promise<String>;
+  twitter: () => Promise<String>;
+  facebook: () => Promise<String>;
+  tags: () => Promise<String[]>;
   owner: <T = UserPromise>() => T;
   editors: <T = FragmentableArray<User>>(
     args?: {
@@ -1905,6 +2060,10 @@ export interface PublicationSubscription
   description: () => Promise<AsyncIterator<String>>;
   avatar: () => Promise<AsyncIterator<String>>;
   logo: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  twitter: () => Promise<AsyncIterator<String>>;
+  facebook: () => Promise<AsyncIterator<String>>;
+  tags: () => Promise<AsyncIterator<String[]>>;
   owner: <T = UserSubscription>() => T;
   editors: <T = Promise<AsyncIterator<UserSubscription>>>(
     args?: {
@@ -1949,6 +2108,10 @@ export interface PublicationPreviousValues {
   description: String;
   avatar: String;
   logo?: String;
+  email?: String;
+  twitter?: String;
+  facebook?: String;
+  tags: String[];
   updatedAt: DateTimeOutput;
   createdAt: DateTimeOutput;
 }
@@ -1961,6 +2124,10 @@ export interface PublicationPreviousValuesPromise
   description: () => Promise<String>;
   avatar: () => Promise<String>;
   logo: () => Promise<String>;
+  email: () => Promise<String>;
+  twitter: () => Promise<String>;
+  facebook: () => Promise<String>;
+  tags: () => Promise<String[]>;
   updatedAt: () => Promise<DateTimeOutput>;
   createdAt: () => Promise<DateTimeOutput>;
 }
@@ -1973,6 +2140,10 @@ export interface PublicationPreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
   avatar: () => Promise<AsyncIterator<String>>;
   logo: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  twitter: () => Promise<AsyncIterator<String>>;
+  facebook: () => Promise<AsyncIterator<String>>;
+  tags: () => Promise<AsyncIterator<String[]>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }

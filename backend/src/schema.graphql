@@ -86,13 +86,13 @@ type UserPayload {
 type PublicationPayload {
   success: Boolean!
   message: String!
-  id: ID!
+  id: ID
 }
 
 type PostPayload {
   success: Boolean!
   message: String!
-  id: ID!
+  id: ID
 }
 
 enum Role {

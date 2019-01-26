@@ -1,12 +1,9 @@
 import { withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Mutation } from 'react-apollo'
 import styled from 'styled-components'
-import { Camera } from 'styled-icons/feather'
 import NProgress from 'nprogress'
 import axios from 'axios'
 import formatFilename from '../lib/formatFilename'
-import { SIGN_S3_MUTATION } from './ProfileEdit'
 import Save from './PublicationEdit/Save'
 import Name from './PublicationEdit/Name'
 import Description from './PublicationEdit/Description'
@@ -14,6 +11,9 @@ import Avatar from './PublicationEdit/Avatar'
 import Divider from './PublicationEdit/Divider'
 import Logo from './PublicationEdit/Logo'
 import Social from './PublicationEdit/Social'
+import Tags from './PublicationEdit/Tags'
+import Editors from './PublicationEdit/Editors'
+import Writers from './PublicationEdit/Writers'
 
 const CREATE_PUBLICATION_MUTATION = gql`
   mutation CREATE_PUBLICATION_MUTATION($data: PublicationCreateInput) {
@@ -40,6 +40,7 @@ const Container = styled.div`
   .content {
     width: 75%;
     margin-top: 2rem;
+    margin-bottom: 5rem;
   }
 `
 
@@ -54,7 +55,8 @@ class PublicationEdit extends React.Component {
     logo: '',
     email: '',
     twitter: '',
-    facebook: ''
+    facebook: '',
+    tags: []
   }
 
   file1 = React.createRef()
@@ -69,17 +71,17 @@ class PublicationEdit extends React.Component {
   }
 
   onSaveOrCreate = async () => {
+    const { clean, id, name, description, avatar } = this.state
+    if (!name || !description || !avatar) {
+      return alert('Name, description, and avatar are required.')
+    }
+    if (clean) return
     NProgress.start()
     let res
-    const { clean, id } = this.state
     const data = { ...this.state }
     delete data.clean
     delete data.title
     delete data.id
-    if (clean) return
-    if (!name || !description || !avatar) {
-      return alert('Name, description, and avatar are required.')
-    }
     if (id) {
       //update
     } else {
@@ -87,9 +89,11 @@ class PublicationEdit extends React.Component {
         mutation: CREATE_PUBLICATION_MUTATION,
         variables: { data }
       })
+      NProgress.done()
       if (res.data.createPublication.success) {
-        NProgress.done()
-        this.setState({ id: res.data.createPublication.id, clean: true })
+        this.setState({ id: res.data.createPublication.id, title: name, clean: true })
+      } else {
+        alert(res.data.createPublication.message)
       }
     }
   }
@@ -127,9 +131,11 @@ class PublicationEdit extends React.Component {
 
   onDelete = () => this.setState({ logo: '', clean: false })
 
+  setTags = tags => this.setState({ tags })
+
   render() {
     const {
-      state: { clean, title, id, name, description, avatar, logo, email, twitter, facebook }
+      state: { clean, title, id, name, description, avatar, logo, email, twitter, facebook, tags }
     } = this
     return (
       <Container>
@@ -154,6 +160,10 @@ class PublicationEdit extends React.Component {
             />
             <Divider size="md" text="Social and tags" />
             <Social email={email} twitter={twitter} facebook={facebook} onChange={this.onChange} />
+            <Tags tags={tags} setTags={this.setTags} />
+            <Divider size="md" text="People" />
+            <Editors />
+            <Writers />
           </div>
         </div>
       </Container>
