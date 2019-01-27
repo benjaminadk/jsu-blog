@@ -2,13 +2,14 @@ import styled from 'styled-components'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 import Router from 'next/router'
-import { format, formatDistance } from 'date-fns'
 import { ME_QUERY } from './User'
 import { ChevronDown } from 'styled-icons/octicons'
 import { ButtonOutline, ButtonDelete, ButtonCancel } from './styles/Button'
 import Tabs from './styles/Tabs'
 import Menu from './Menu'
 import Modal from './Modal'
+import { formatDate, formatDateFromNow } from '../lib/formatDate'
+import formatReadTime from '../lib/formatReadTime'
 
 const DELETE_POST_MUTATION = gql`
   mutation DELETE_POST_MUTATION($id: ID!) {
@@ -203,8 +204,7 @@ export default class MyPosts extends React.Component {
           {post.subtitle && <h4>{post.subtitle}</h4>}
           {post.published ? (
             <p>
-              Created @ {format(new Date(post.createdAt), 'PPP')} &bull;{' '}
-              {Math.ceil(post.words / 265)} min read{' '}
+              Created @ {formatDate(post.createdAt)} &bull; {formatReadTime(post.words, true)}
               <ChevronDown
                 ref={el => (this[`menu-${i}`] = el)}
                 onClick={e => this.onOpenMenu(e, post.id, i)}
@@ -212,8 +212,8 @@ export default class MyPosts extends React.Component {
             </p>
           ) : (
             <p>
-              Last edited {formatDistance(new Date(post.updatedAt), new Date())} ago &bull;{' '}
-              {Math.ceil(post.words / 265)} min read ({post.words} words) so far{' '}
+              Last edited {formatDateFromNow(post.updatedAt)} ago &bull;{' '}
+              {formatReadTime(post.words, false)}
               <ChevronDown
                 ref={el => (this[`menu-${i}`] = el)}
                 onClick={e => this.onOpenMenu(e, post.id, i)}

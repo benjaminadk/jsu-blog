@@ -34,6 +34,12 @@ export const SINGLE_POST_QUERY = gql`
       published
       updatedAt
       createdAt
+      author {
+        id
+        name
+        bio
+        image
+      }
     }
   }
 `

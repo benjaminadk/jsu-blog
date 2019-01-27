@@ -7,6 +7,7 @@ const Button = styled.button`
   outline: 0;
   font-size: 1.35rem;
   font-family: 'Roboto Slab Bold';
+  font-weight: normal;
   cursor: pointer;
   transition: all 0.25s;
   &:hover {
@@ -41,4 +42,9 @@ export const ButtonCancel = styled(ButtonOutline)`
   &:hover {
     color: ${props => props.theme.black};
   }
+`
+
+export const ButtonSmall = styled(ButtonCancel)`
+  font-size: 1.25rem;
+  padding: 0.5rem 1rem;
 `
