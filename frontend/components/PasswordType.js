@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { Eye, EyeClosed } from 'styled-icons/octicons'
+import { Eye } from 'styled-icons/octicons/Eye'
+import { EyeClosed } from 'styled-icons/octicons/EyeClosed'
 import PropTypes from 'prop-types'
 import { darken } from 'polished'
 

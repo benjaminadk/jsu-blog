@@ -1,5 +1,5 @@
 import { Mutation } from 'react-apollo'
-import { Camera } from 'styled-icons/feather'
+import { Camera } from 'styled-icons/feather/Camera'
 import { Row, Label, ImageInput, AvatarImage } from '../styles/PublicationEditStyles'
 import { SIGN_S3_MUTATION } from '../ProfileEdit'
 

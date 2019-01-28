@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Search as SearchIcon } from 'styled-icons/material'
+import { Search as SearchIcon } from 'styled-icons/material/Search'
 
 const Container = styled.div`
   width: 22rem;

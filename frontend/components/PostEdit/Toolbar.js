@@ -1,7 +1,10 @@
 import styled from 'styled-components'
-import { FormatBold, FormatItalic, FormatQuote } from 'styled-icons/material'
-import { Link as FormatLink, Heading as FormatHeading } from 'styled-icons/boxicons-regular'
-import { Image as FormatImage } from 'styled-icons/icomoon'
+import { FormatBold } from 'styled-icons/material/FormatBold'
+import { FormatItalic } from 'styled-icons/material/FormatItalic'
+import { FormatQuote } from 'styled-icons/material/FormatQuote'
+import { Link as FormatLink } from 'styled-icons/boxicons-regular/Link'
+import { Heading as FormatHeading } from 'styled-icons/boxicons-regular/Heading'
+import { Image as FormatImage } from 'styled-icons/icomoon/Image'
 
 const Container = styled.div.attrs(props => ({
   style: {

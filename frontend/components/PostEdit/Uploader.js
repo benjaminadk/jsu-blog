@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { Upload, Image } from 'styled-icons/icomoon'
+import { Upload } from 'styled-icons/icomoon/Upload'
+import { Image } from 'styled-icons/icomoon/Image'
 import PropTypes from 'prop-types'
 import { darken } from 'polished'
 import { Row, SubHeading, IconButton } from '../styles/PostEditStyles'

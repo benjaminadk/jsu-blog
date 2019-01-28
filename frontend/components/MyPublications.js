@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Router from 'next/router'
-import { ChevronDown } from 'styled-icons/octicons'
+import { ChevronDown } from 'styled-icons/octicons/ChevronDown'
 import { ButtonOutline } from './styles/Button'
 
 const Container = styled.div`

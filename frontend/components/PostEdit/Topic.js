@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Categories } from 'styled-icons/boxicons-solid'
+import { Categories } from 'styled-icons/boxicons-solid/Categories'
 import { Row, SubHeading, IconButton } from '../styles/PostEditStyles'
 import TOPICS from '../../constants/topics'
 

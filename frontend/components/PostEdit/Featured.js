@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Trashcan } from 'styled-icons/octicons'
+import { Trashcan } from 'styled-icons/octicons/Trashcan'
 import { darken, lighten, transparentize } from 'polished'
 import PropTypes from 'prop-types'
 import { Row, SubHeading, IconButton } from '../styles/PostEditStyles'

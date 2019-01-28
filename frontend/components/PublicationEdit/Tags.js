@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Close } from 'styled-icons/material'
+import { Close } from 'styled-icons/material/Close'
 import { Row, Label } from '../styles/PublicationEditStyles'
 
 const Container = styled.div`

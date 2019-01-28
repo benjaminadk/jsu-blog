@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Add, Check } from 'styled-icons/material'
-import { Checkmark } from 'styled-icons/icomoon'
+import { Add } from 'styled-icons/material/Add'
+import { Checkmark } from 'styled-icons/icomoon/Checkmark'
 import { Mutation } from 'react-apollo'
 import { UPDATE_USER_MUTATION } from '../ProfileEdit'
 import TOPICS from '../../constants/topics'

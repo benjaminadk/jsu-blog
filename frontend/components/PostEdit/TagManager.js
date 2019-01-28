@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components'
 import { lighten, darken } from 'polished'
-import { Hashtag } from 'styled-icons/fa-solid'
-import { Close } from 'styled-icons/material'
+import { Hashtag } from 'styled-icons/fa-solid/Hashtag'
+import { Close } from 'styled-icons/material/Close'
 import { Row, SubHeading, IconButton } from '../styles/PostEditStyles'
 
 const grow = keyframes`

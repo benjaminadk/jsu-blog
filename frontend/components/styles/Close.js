@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Close as CloseIcon } from 'styled-icons/material'
+import { Close as CloseIcon } from 'styled-icons/material/Close'
 
 export const Container = styled.span`
   position: absolute;

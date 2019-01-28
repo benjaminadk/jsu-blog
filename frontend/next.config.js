@@ -13,4 +13,4 @@ const nextConfig = {
   }
 }
 
-module.exports = withPlugins([withStyledIcons], nextConfig)
+module.exports = withStyledIcons()

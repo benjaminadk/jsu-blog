@@ -1,5 +1,6 @@
-import { Email } from 'styled-icons/material'
-import { Twitter, FacebookSquare } from 'styled-icons/boxicons-logos'
+import { Email } from 'styled-icons/material/Email'
+import { Twitter } from 'styled-icons/boxicons-logos/Twitter'
+import { FacebookSquare } from 'styled-icons/boxicons-logos/FacebookSquare'
 import { Row, Label, SocialInputs, TextInput } from '../styles/PublicationEditStyles'
 
 const Social = ({ email, twitter, facebook, onChange }) => (

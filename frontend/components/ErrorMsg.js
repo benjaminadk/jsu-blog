@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Error as ErrorIcon } from 'styled-icons/boxicons-solid'
+import { Error as ErrorIcon } from 'styled-icons/boxicons-solid/Error'
 
 const Container = styled.div`
   background: #fff3f3;
