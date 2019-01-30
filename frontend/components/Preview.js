@@ -5,7 +5,6 @@ import overrides from './styles/Overrides'
 const Container = styled.div`
   align-self: center;
   position: relative;
-  display: ${props => (props.preview ? 'block' : 'none')};
   width: 100%;
   text-align: justify;
   line-height: normal;
@@ -13,8 +12,8 @@ const Container = styled.div`
   margin-top: 5rem;
 `
 
-export default ({ preview, markdown }) => (
-  <Container preview={preview}>
+export default ({ markdown }) => (
+  <Container>
     <Markdown children={markdown} options={{ overrides }} />
   </Container>
 )

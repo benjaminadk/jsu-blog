@@ -7,6 +7,7 @@ import { ButtonSmall } from './styles/Button'
 import { formatDate } from '../lib/formatDate'
 import formatReadTime from '../lib/formatReadTime'
 import overrides from './styles/Overrides'
+import Reading from './Reading'
 
 const Container = styled.div`
   display: grid;
@@ -100,7 +101,8 @@ class Post extends React.Component {
     if (loading) return null
     const { title, subtitle, body, image, author, createdAt } = this.state.post
     return (
-      <Container>
+      <Container ref={el => (this.targetEl = el)}>
+        <Reading targetEl={this.targetEl} />
         <div className="content">
           <div className="heading">
             <div className="title">{title}</div>

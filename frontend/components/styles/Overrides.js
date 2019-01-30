@@ -1,14 +1,18 @@
 import styled from 'styled-components'
-import { lighten, darken } from 'polished'
+import { lighten, darken, transparentize } from 'polished'
 import FencedBlock from '../FencedBlock'
 
-const ATag = styled.a.attrs(props => ({
+const AExternal = styled.a.attrs(props => ({
   href: props.href,
-  title: props.title,
-  target: 'blank'
+  title: props.title
 }))`
-  color: ${props => props.theme.secondary};
+  color: ${props => darken(0.1, props.theme.primary)};
   text-decoration: underline;
+`
+
+const AReference = styled(AExternal)`
+  display: block;
+  text-decoration: none;
 `
 
 const PTag = styled.p`
@@ -23,6 +27,8 @@ const H1Tag = styled.h1`
   font-size: 3rem;
   font-weight: normal;
   color: ${props => lighten(0.3, props.theme.black)};
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 `
 
 const H2Tag = styled(H1Tag)`
@@ -36,6 +42,16 @@ const H3Tag = styled(H1Tag)`
 
 const H4Tag = styled(H1Tag)`
   font-size: 1.75rem;
+  color: ${props => props.theme.black};
+`
+
+const H5Tag = styled(H1Tag)`
+  font-size: 1.5rem;
+  color: ${props => props.theme.black};
+`
+
+const H6Tag = styled(H1Tag)`
+  font-size: 1.25rem;
   color: ${props => props.theme.black};
 `
 
@@ -155,7 +171,41 @@ const BlockquoteTag = styled.blockquote`
   }
 `
 
-const A = ({ children, ...props }) => <ATag {...props}>{children}</ATag>
+const TableTag = styled.table`
+  border: 1px solid ${props => props.theme.grey[1]};
+  border-collapse: collapse;
+`
+
+const THeadTag = styled.thead`
+  background-color: ${props => props.theme.grey[0]};
+`
+
+const TrTag = styled.tr`
+  &:nth-child(even) {
+    background-color: ${props => props.theme.grey[0]};
+  }
+`
+
+const ThTag = styled.th`
+  font-family: 'Roboto Bold';
+  font-weight: normal;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+`
+
+const TdTag = styled.td`
+  font-family: 'Roboto Condensed';
+  padding: 0.75rem 1.5rem;
+  border: 0;
+`
+
+const A = ({ children, ...props }) => {
+  if (props.href[0] === '#') {
+    return <AReference {...props}>{children}</AReference>
+  } else {
+    return <AExternal {...props}>{children}</AExternal>
+  }
+}
 
 const P = ({ children, ...props }) => <PTag {...props}>{children}</PTag>
 
@@ -166,6 +216,10 @@ const H2 = ({ children, ...props }) => <H2Tag {...props}>{children}</H2Tag>
 const H3 = ({ children, ...props }) => <H3Tag {...props}>{children}</H3Tag>
 
 const H4 = ({ children, ...props }) => <H4Tag {...props}>{children}</H4Tag>
+
+const H5 = ({ children, ...props }) => <H5Tag {...props}>{children}</H5Tag>
+
+const H6 = ({ children, ...props }) => <H6Tag {...props}>{children}</H6Tag>
 
 const Strong = ({ children, ...props }) => <StrongTag {...props}>{children}</StrongTag>
 
@@ -180,7 +234,7 @@ const Ol = ({ children, ...props }) => (
 )
 
 const Li = ({ children, ...props }) => {
-  if (children.length > 1) {
+  if (typeof children[0] === 'object') {
     return <TaskTag {...props}>{children}</TaskTag>
   } else {
     return <LiTag {...props}>{children}</LiTag>
@@ -202,6 +256,16 @@ const Img = ({ src, alt, ...props }) => {
 
 const Blockquote = ({ children, props }) => <BlockquoteTag {...props}>{children}</BlockquoteTag>
 
+const Table = ({ children, ...props }) => <TableTag {...props}>{children}</TableTag>
+
+const THead = ({ children, ...props }) => <THeadTag {...props}>{children}</THeadTag>
+
+const Tr = ({ children, ...props }) => <TrTag {...props}>{children}</TrTag>
+
+const Th = ({ children, ...props }) => <ThTag {...props}>{children}</ThTag>
+
+const Td = ({ children, ...props }) => <TdTag {...props}>{children}</TdTag>
+
 export default {
   a: A,
   p: P,
@@ -209,6 +273,8 @@ export default {
   h2: H2,
   h3: H3,
   h4: H4,
+  h5: H5,
+  h6: H6,
   strong: Strong,
   ul: Ul,
   ol: Ol,
@@ -216,5 +282,10 @@ export default {
   pre: Pre,
   code: Code,
   img: Img,
-  blockquote: Blockquote
+  blockquote: Blockquote,
+  table: Table,
+  thead: THead,
+  tr: Tr,
+  th: Th,
+  td: Td
 }

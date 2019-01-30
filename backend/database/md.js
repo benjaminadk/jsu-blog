@@ -1,30 +1,62 @@
 module.exports = `
-# Blog.io 
+# Header 1
 
-Blog.io is a clone of the popular blogging site Medium.
+## Header 2
 
-## Contents
+### Header 3
 
-\`\`\`javascript-dark
-import Title from './title'
+#### Header 4
 
-class App extends React.Component {
-  state = {
-    name: 'Blog.io'
-  }
+##### Header 5
 
-  render() {
-    return (
-      <Title>{this.state.name} is AWESOME!!!</Title>
-    )
-  }
-}
-\`\`\`
+###### Header 6
 
+## Horizontal Rules
 
-### Blockquotes
+---
+
+***
+
+## Emphasis
+
+**This is bold text**
+
+*This is italic text*
+
+***This is bold and italic text***
+
+~~This is strikethrough text~~
+
+## Block Quotes
 
 > Visual primitives for the component age.
 
 > Styled Components
+
+## Lists
+
+** Unordered**
+
+- Unordered lists can be created with \`-\`,  \`*\`, or \`+\`
+- a sub-list is created by indenting two spaces
+  * sub-list item appears indented
+  + custom list style instead of traditional bullets
+
+**Ordered**
+
+1. Ordered lists are easy to make with numbers
+2. Again, custom formatting is used 
+3. Easy peasy
+
+**Tasks**
+
+- [ ] Task lists just like on Github
+- [ ] This is an unfinished task. Just leave the brackets empty
+- [x] Just put an \`x\` inside the brackets to mark a task as done
+
+## Tables
+
+|Package|Purpose|Link|
+|:------------:|:------------:|:-----:|
+|React|A JavaScript library for building user interfaces|[Docs](https://reactjs.org/)|
 `

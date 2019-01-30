@@ -55,6 +55,7 @@ const Editor = styled.div`
   width: 75%;
   padding: 0 1rem;
   margin-top: 1rem;
+  margin-bottom: 5rem;
   .body {
     position: relative;
     display: ${props => (props.preview ? 'none' : 'block')};
@@ -168,6 +169,9 @@ class PostEdit extends React.Component {
 
   setTags = tags => this.setState({ tags, clean: false })
 
+  alignTextarea = () =>
+    this.scroll.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' })
+
   render() {
     const {
       state: {
@@ -200,12 +204,11 @@ class PostEdit extends React.Component {
               value={body}
               onChange={this.onChange}
               onSelect={this.onSelect}
-              rows={20}
-              maxRows={100}
+              rows={200}
               spellCheck={false}
             />
           </div>
-          <Preview preview={preview} markdown={body} />
+          {preview && <Preview markdown={body} />}
         </Editor>
         <PostOptions
           topic={topic}
